@@ -4,29 +4,17 @@ const User = require('../models/user');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
+function generateTemporaryToken(payload) {
+    return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '7d'});
+}
 
 router.get('/register', (req, res) => {
-
-    const isGuest = req.body.isGuest;
-    const username = isGuest ? null : req.body.username;
-    const password = isGuest ? null : req.body.password;
+    const username = req.body.username;
+    const password = req.body.password;
 
     // Guests don't have usernames and passwords.
 
-    if (isGuest) {
-
-        const guest = new User({
-            isGuest: true
-        });
-
-        guest.save(saveError => {
-            if (saveError) return res.json('error in saving guest:', saveError);
-            
-            const accessToken = jwt.sign({isGuest: true}, process.env.ACCESS_TOKEN_SECRET);
-            res.json({accessToken: accessToken});
-        });
-
-    } else if (username && password) {
+    if (username && password) {
 
         bcrypt.hash(password, Number(process.env.SALT_ROUNDS), (hashError, hash) => {
             if (hashError) return res.json('error hashing password:', hashError);
@@ -40,14 +28,12 @@ router.get('/register', (req, res) => {
             newUser.save(saveError => {
                 if (saveError) return res.json('error in saving user.', saveError);
                 
-                const accessToken = jwt.sign({_id: newUser._id, isGuest: newUser.isGuest}, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '7d'});
+                const accessToken = generateTemporaryToken({_id: newUser._id, isGuest: newUser.isGuest});
                 res.json({accessToken: accessToken});
             });
-
         });
-
     } else {
-        res.json('non-guest users require usernames and passwords');
+        res.json('users require usernames and passwords');
     }
 });
 
@@ -62,7 +48,7 @@ router.get('/login', (req, res) => {
             if (passwordError) return res.json(401);
 
             if (passwordCorrect) {
-                const accessToken = jwt.sign({_id: user._id, isGuest: user.isGuest}, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '7d'});
+                const accessToken = generateTemporaryToken({_id: user._id, isGuest: user.isGuest});
                 res.json({accessToken: accessToken});
             }
         });
@@ -87,7 +73,9 @@ const verify = (req, res, next) => {
 }
 
 router.get('/verify', verify, (req, res) => {
-    res.sendStatus(200)
+    // refreshing user access:
+    const accessToken = generateTemporaryToken({_id: req.user._id, isGuest: isGuest})
+    res.json({accessToken: accessToken});
 });
 
 
