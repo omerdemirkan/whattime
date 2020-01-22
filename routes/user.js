@@ -53,17 +53,30 @@ router.get('/surveys', (req, res) => {
 
 router.get('/surveys/:id', (req, res) => {
     const userId = req.user._id;
+    const surveyId = req.params.id
+
+    Survey.findById(surveyId, (findSurveyError, survey) => {
+        if (findSurveyError) return res.status(400).json('Error in finding survey');
+
+        if (survey == null) {
+            return res.status(400).json('No survey with this id found');
+        }
+
+        res.json(survey);
+    });
 });
 
 router.post('/surveys', (req, res) => {
     const event = req.body.event;
+    const date = req.body.date;
 
-    if (event == null) {
-        return res.status(400).json('No event found in request body.'); 
+    if (event == null || date == null) {
+        return res.status(400).json('Event and date are required in the body of the request.'); 
     }
 
     const newSurvey = new Survey({
         event: event,
+        date: date,
         creatorID: req.user._id,
         submitions: []
     });
