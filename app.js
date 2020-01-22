@@ -8,7 +8,7 @@ const mongoose = require('mongoose');
 
 // Routes
 const userRouter = require('./routes/user');
-const surveyRouter = require('./routes/survey');
+const surveyRouter = require('./routes/submit');
 const authRouter = require('./routes/auth');
 
 app.use(cors());
@@ -18,7 +18,7 @@ app.use(express.json());
 app.set('trust proxy', 1);
 
 app.use('/api/user', userRouter);
-app.use('/api/survey', surveyRouter);
+app.use('/api/submit', surveyRouter);
 app.use('/api/auth', authRouter);
 
 mongoose.connect(process.env.LOCAL_URI, {useNewUrlParser: true, useUnifiedTopology: true})
