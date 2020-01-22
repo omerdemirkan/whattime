@@ -17,20 +17,21 @@ const verify = (req, res, next) => {
     });
 };
 
-router.get('/', verify, (req, res) => {
-    const userId = req.user._id;
+router.use(verify);
 
-    User.findById(userId, (findUserError, user) => {
-        if (findUserError || !user) return res.sendStatus(400);
+// router.get('/', (req, res) => {
+//     const userId = req.user._id;
 
-        res.json({
-            username: user.username,
-            surveys: user.surveys
-        });
-    });
-});
+//     User.findById(userId, (findUserError, user) => {
+//         if (findUserError || !user) return res.sendStatus(400);
 
-router.get('/username', verify, (req, res) => {
+//         res.json({
+//             username: user.username
+//         });
+//     });
+// });
+
+router.get('/username', (req, res) => {
     const userId = req.user._id;
 
     User.findById(userId, (findUserError, user) => {
@@ -40,26 +41,38 @@ router.get('/username', verify, (req, res) => {
     });
 });
 
-router.get('/surveys', verify, (req, res) => {
+router.get('/surveys', (req, res) => {
     const userId = req.user._id;
 
-    User.findById(userId, (findUserError, user) => {
-        if (findUserError || !user) return res.sendStatus(400);
+    Survey.find({creatorID: userId}, (findSurveysError, surveys) => {
+        if (findSurveysError) return res.json('Error in finding surveys');
 
-        res.json(user.surveys);
+        res.json(surveys);
     });
 });
 
-router.post('/surveys', verify, (req, res) => {
+router.get('/surveys/:id', (req, res) => {
     const userId = req.user._id;
+});
 
+router.post('/surveys', (req, res) => {
     const event = req.body.event;
 
-    if (!event) {
-        return res.status(400).json('No event name found in the request body.');
+    if (event == null) {
+        return res.status(400).json('No event found in request body.'); 
     }
 
-    
+    const newSurvey = new Survey({
+        event: event,
+        creatorID: req.user._id,
+        submitions: []
+    });
+
+    newSurvey.save(saveError => {
+        if (saveError) return res.status(400).json('Error in saving survey.');
+
+        res.json('Survey created!');
+    });
 })
 
 module.exports = router;
