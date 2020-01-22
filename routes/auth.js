@@ -19,7 +19,7 @@ const limiter = rateLimit({
 });
 
 function generateTemporaryToken(payload) {
-    return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '60s'});
+    return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '3d'});
 }
 
 router.get('/register', registerLimiter, async (req, res) => {
@@ -28,9 +28,10 @@ router.get('/register', registerLimiter, async (req, res) => {
         return res.sendStatus(400);
     };
 
-    // Usernames all lowercase and without spaces
-    const username = req.body.username.toLowerCase().replace(/\s/g, '');;
-    const password = req.body.password;
+    // Usernames all lowercase and both usernames and passwords are without spaces.
+    // Note that this validation is as a last resort, these are handled in the front-end, but just for extra security.
+    const username = req.body.username.toLowerCase().replace(/\s/g, '');
+    const password = req.body.password.replace(/\s/g, '');
 
     let errors = [];
 

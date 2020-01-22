@@ -17,8 +17,8 @@ app.use(express.json());
 // For express rate limiter:
 app.set('trust proxy', 1);
 
-app.use('/api/users', userRouter);
-app.use('/api/surveys', surveyRouter);
+app.use('/api/user', userRouter);
+app.use('/api/survey', surveyRouter);
 app.use('/api/auth', authRouter);
 
 mongoose.connect(process.env.LOCAL_URI, {useNewUrlParser: true, useUnifiedTopology: true})
