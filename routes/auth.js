@@ -4,17 +4,32 @@ const User = require('../models/user');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
+const rateLimit = require("express-rate-limit");
+ 
+// Maximum of 2 users registered in an hour per IP
+const registerLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000, 
+  max: 2 
+});
+
+// Maximum of 10 /login and /verify requests in 15 mins per IP
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 10
+});
+
 function generateTemporaryToken(payload) {
     return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '60s'});
 }
 
-router.get('/register', async (req, res) => {
+router.get('/register', registerLimiter, async (req, res) => {
 
-    if (!req.body.username || ! req.body.password) {
+    if (! req.body || !req.body.username || ! req.body.password) {
         return res.sendStatus(400);
     };
 
-    const username = req.body.username.toLowerCase();
+    // Usernames all lowercase and without spaces
+    const username = req.body.username.toLowerCase().replace(/\s/g, '');;
     const password = req.body.password;
 
     let errors = [];
@@ -62,7 +77,7 @@ router.get('/register', async (req, res) => {
     
 });
 
-router.get('/login', (req, res) => {
+router.get('/login', limiter, (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
 
@@ -96,7 +111,7 @@ const verify = (req, res, next) => {
     });
 }
 
-router.get('/verify', verify, (req, res) => {
+router.get('/verify', limiter, verify, (req, res) => {
     // refreshing user access:
     const accessToken = generateTemporaryToken({_id: req.user._id})
     res.json({accessToken: accessToken});
