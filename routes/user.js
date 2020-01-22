@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const User = require('../models/user');
+const Survey = require('../models/survey');
 const jwt = require('jsonwebtoken');
 
 const verify = (req, res, next) => {
@@ -22,7 +23,20 @@ router.get('/', verify, (req, res) => {
     User.findById(userId, (findUserError, user) => {
         if (findUserError || !user) return res.sendStatus(400);
 
-        res.json(user);
+        res.json({
+            username: user.username,
+            surveys: user.surveys
+        });
+    });
+});
+
+router.get('/username', verify, (req, res) => {
+    const userId = req.user._id;
+
+    User.findById(userId, (findUserError, user) => {
+        if (findUserError || !user) return res.sendStatus(400);
+
+        res.json(user.username);
     });
 });
 
@@ -32,8 +46,20 @@ router.get('/surveys', verify, (req, res) => {
     User.findById(userId, (findUserError, user) => {
         if (findUserError || !user) return res.sendStatus(400);
 
-        res.json(user);
+        res.json(user.surveys);
     });
 });
+
+router.post('/surveys', verify, (req, res) => {
+    const userId = req.user._id;
+
+    const event = req.body.event;
+
+    if (!event) {
+        return res.status(400).json('No event name found in the request body.');
+    }
+
+    
+})
 
 module.exports = router;

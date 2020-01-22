@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const submitionSchema = require('./submition');
 
 module.exports = new mongoose.Schema({
-    format: String,
+    event: String,
+    creatorID: String,
     submitions: [submitionSchema]
-});
+}, {timestamps: true});

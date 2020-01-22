@@ -11,9 +11,5 @@ module.exports = new Schema({
     hash: {
         type: String,
         required: true
-    },
-    surveys: {
-        type: [surveySchema],
-        default: []
     }
-});
+}, {timestamps: true});
