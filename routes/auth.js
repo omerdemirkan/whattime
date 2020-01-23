@@ -115,9 +115,10 @@ const verify = (req, res, next) => {
 // Generates new authToken, setting a new expiration date.
 // Sends username stored in token
 router.get('/verify', limiter, verify, (req, res) => {
-    // refreshing user access:
-    const accessToken = generateTemporaryToken({_id: req.user._id, username: req.user.username})
-    res.json({accessToken: accessToken, username: req.user.username});
+    const username = req.user.username;
+    const userId = req.user._id;
+    const accessToken = generateTemporaryToken({_id: userId, username: username})
+    res.json({accessToken: accessToken, username: username});
 });
 
 
