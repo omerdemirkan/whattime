@@ -56,12 +56,8 @@ router.get('/surveys/:id', (req, res) => {
     const surveyId = req.params.id
 
     Survey.findById(surveyId, (findSurveyError, survey) => {
-        if (findSurveyError) return res.status(400).json('Error in finding survey');
-
-        if (survey == null) {
-            return res.status(400).json('No survey with this id found');
-        }
-
+        if (findSurveyError) return res.status(400).json('No survey with this id found');
+        
         res.json(survey);
     });
 });

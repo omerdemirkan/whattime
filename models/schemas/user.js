@@ -4,6 +4,7 @@ const surveySchema = require('./survey');
 module.exports = new Schema({
     username: {
         type: String,
+        unique: true,
         required: true,
         minlength: 4,
         maxlength: 20

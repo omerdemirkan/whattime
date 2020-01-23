@@ -71,7 +71,7 @@ router.get('/register', registerLimiter, async (req, res) => {
         newUser.save(saveError => {
             if (saveError) return res.json('error in saving user.', saveError);
             
-            const accessToken = generateTemporaryToken({_id: newUser._id});
+            const accessToken = generateTemporaryToken({_id: newUser._id, username: username});
             res.json({accessToken: accessToken});
         });
     });
@@ -89,7 +89,7 @@ router.get('/login', limiter, (req, res) => {
             if (passwordError) return res.json(401);
 
             if (passwordCorrect) {
-                const accessToken = generateTemporaryToken({_id: user._id});
+                const accessToken = generateTemporaryToken({_id: user._id, username: user.username});
                 res.json({accessToken: accessToken});
             }
         });
@@ -112,10 +112,12 @@ const verify = (req, res, next) => {
     });
 }
 
+// Generates new authToken, setting a new expiration date.
+// Sends username stored in token
 router.get('/verify', limiter, verify, (req, res) => {
     // refreshing user access:
-    const accessToken = generateTemporaryToken({_id: req.user._id})
-    res.json({accessToken: accessToken});
+    const accessToken = generateTemporaryToken({_id: req.user._id, username: req.user.username})
+    res.json({accessToken: accessToken, username: req.user.username});
 });
 
 
