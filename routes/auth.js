@@ -18,14 +18,20 @@ const limiter = rateLimit({
     max: 10
 });
 
+// Maximum of 10 /login and /verify requests in 15 mins per IP
+const isUsernameUniqueLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 50
+});
+
 function generateTemporaryToken(payload) {
     return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '3d'});
 }
 
 router.get('/register', registerLimiter, async (req, res) => {
 
-    if (! req.body || !req.body.username || ! req.body.password) {
-        return res.sendStatus(400);
+    if (!req.body || !req.body.username || ! req.body.password) {
+        return res.status(400).json('Username and password is required.');
     };
 
     // Usernames all lowercase and both usernames and passwords are without spaces.
@@ -75,7 +81,6 @@ router.get('/register', registerLimiter, async (req, res) => {
             res.json({accessToken: accessToken});
         });
     });
-    
 });
 
 router.get('/login', limiter, (req, res) => {
@@ -119,6 +124,21 @@ router.get('/verify', limiter, verify, (req, res) => {
     const userId = req.user._id;
     const accessToken = generateTemporaryToken({_id: userId, username: username})
     res.json({accessToken: accessToken, username: username});
+});
+
+router.get('/is-username-unique', isUsernameUniqueLimiter, (req, res) => {
+    if (!req.body.username || typeof req.body.username !== 'string') {
+        return res.status(400).json('Invalid username');
+    }
+
+    const username = req.body.username.toLowerCase().replace(/\s/g, '');
+
+    User.findOne({username: username}, (findUserError, user) => {
+        if (findUserError) return res.json(false);
+
+        const isUnique = user == null;
+        res.json(isUnique);
+    });
 });
 
 

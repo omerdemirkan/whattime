@@ -7,8 +7,20 @@ module.exports = new mongoose.Schema({
         minlength: 4,
         maxLength: 30
     },
-    date: Date,
-    creator: String,
-    creatorID: String,
-    submitions: [submitionSchema]
+    date: {
+        type: Date,
+        required: true
+    },
+    creator: {
+        type: String,
+        required: true
+    },
+    creatorID: {
+        type: String,
+        required: true
+    },
+    submitions: {
+        type: [submitionSchema],
+        default: []
+    }
 }, {timestamps: true});

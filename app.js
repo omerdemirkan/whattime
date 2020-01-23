@@ -21,7 +21,7 @@ app.use('/api/user', userRouter);
 app.use('/api/submit', surveyRouter);
 app.use('/api/auth', authRouter);
 
-mongoose.connect(process.env.LOCAL_URI, {useNewUrlParser: true, useUnifiedTopology: true})
+mongoose.connect(process.env.LOCAL_URI, {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true})
 .then(() => {
     console.log('Connected to MongoDB Shell');
 })
