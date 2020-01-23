@@ -48,7 +48,7 @@ router.get('/surveys/:id', (req, res) => {
         if (survey.creatorID !== req.user._id) {
             return res.status(403).json('Unauthorized');
         }
-        
+
         res.json(survey);
     });
 });

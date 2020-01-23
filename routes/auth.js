@@ -6,9 +6,9 @@ const jwt = require('jsonwebtoken');
 
 const rateLimit = require("express-rate-limit");
  
-// Maximum of 2 users registered in an hour per IP
+// Maximum of 2 users registered in a day per IP
 const registerLimiter = rateLimit({
-  windowMs: 60 * 60 * 1000, 
+  windowMs: 24 * 60 * 60 * 1000, 
   max: 2 
 });
 
@@ -18,7 +18,7 @@ const limiter = rateLimit({
     max: 10
 });
 
-// Maximum of 10 /login and /verify requests in 15 mins per IP
+// Maximum of 50 /is-username-unique per 15 minutes
 const isUsernameUniqueLimiter = rateLimit({
     windowMs: 15 * 60 * 1000,
     max: 50
@@ -30,30 +30,32 @@ function generateTemporaryToken(payload) {
 
 router.get('/register', registerLimiter, async (req, res) => {
 
-    if (!req.body || !req.body.username || ! req.body.password) {
+    let username = req.body.username;
+    let password = req.body.password;
+
+    // Basic input validation
+    if (!username || !password) {
         return res.status(400).json('Username and password is required.');
-    };
+    } else if (typeof username !== 'string' || typeof username !== 'string') {
+        return res.status(400).json('Username and password must be strings.');
+    }
 
     // Usernames all lowercase and both usernames and passwords are without spaces.
     // Note that this validation is as a last resort, these are handled in the front-end, but just for extra security.
-    const username = req.body.username.toLowerCase().replace(/\s/g, '');
-    const password = req.body.password.replace(/\s/g, '');
+    username = req.body.username.toLowerCase().replace(/\s/g, '');
+    password = req.body.password.replace(/\s/g, '');
 
     let errors = [];
 
-    // Type validation
-    if (typeof username !== 'string' || typeof password !== 'string') {
-        errors.push('Usernames and passwords must be string values');
-    };
-
     // Length validation
-    if (username.length && (username.length > 20 || username.length < 4)) {
+    if (username.length > 20 || username.length < 4) {
         errors.push('Usernames must be between 4 and 20 characters long');
     };
 
-    if (password.length && (password.length > 30 || password.length < 8)) {
+    if (password.length > 30 || password.length < 8) {
         errors.push('Passwords must be between 8 and 30 characters');
     };
+
 
     // Checking for unique username
     const duplicate = await User.findOne({username: username});
@@ -63,11 +65,14 @@ router.get('/register', registerLimiter, async (req, res) => {
     };
 
     if (errors.length !== 0) {
-        return res.json({errors: errors});
+        return res.status(400).json({errors: errors});
     };
 
-    bcrypt.hash(password, Number(process.env.SALT_ROUNDS), (hashError, hash) => {
-        if (hashError) return res.json('error hashing password:', hashError);
+
+    const saltRounds = Number(process.env.SALT_ROUNDS);
+
+    bcrypt.hash(password, saltRounds, (hashError, hash) => {
+        if (hashError) return res.status(500).json('error hashing password.', hashError);
 
         const newUser = new User({
             username: username,
@@ -75,7 +80,7 @@ router.get('/register', registerLimiter, async (req, res) => {
         });
 
         newUser.save(saveError => {
-            if (saveError) return res.json('error in saving user.', saveError);
+            if (saveError) return res.status(500).json('error in saving user.', saveError);
             
             const accessToken = generateTemporaryToken({_id: newUser._id, username: username});
             res.json({accessToken: accessToken});
@@ -85,24 +90,32 @@ router.get('/register', registerLimiter, async (req, res) => {
 
 router.get('/login', limiter, (req, res) => {
 
-    if (!req.body.username || !req.body.password || typeof req.body.username !== 'string' || typeof req.body.password !== 'string') {
-        return res.status(400).json('Username and password required.');
+    let username = req.body.username;
+    let password = req.body.password;
+
+    // Basic input validation
+    if (!username || !password) {
+        return res.status(400).json('Username and password is required.');
+    } else if (typeof username !== 'string' || typeof username !== 'string') {
+        return res.status(400).json('Username and password must be strings.');
     }
 
-    const username = req.body.username.toLowerCase().replace(/\s/g, '');
-    const password = req.body.password.replace(/\s/g, '');
+    username = username.toLowerCase().replace(/\s/g, '');
+    password = password.replace(/\s/g, '');
 
     User.findOne({username: username}, (findUserByNameError, user) => {
-        if (findUserByNameError) return res.sendStatus(401);
-        if (!user) return res.status().json('User could not be found');
+        if (findUserByNameError) return res.sendStatus(400);
+        if (!user) return res.status(400).json('Incorrect username or password');
 
         bcrypt.compare(password, user.hash, (passwordError, passwordCorrect) => {
-            if (passwordError) return res.json(401);
+            if (passwordError) return res.status(500).json('Error in checking password')
 
             if (passwordCorrect) {
                 const accessToken = generateTemporaryToken({_id: user._id, username: user.username});
-                res.json({accessToken: accessToken});
+                return res.json({accessToken: accessToken});
             }
+            
+            res.status(403).json('Incorrect username or password');
         });
     }); 
 });
