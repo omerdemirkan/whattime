@@ -19,18 +19,6 @@ const verify = (req, res, next) => {
 
 router.use(verify);
 
-// router.get('/', (req, res) => {
-//     const userId = req.user._id;
-
-//     User.findById(userId, (findUserError, user) => {
-//         if (findUserError || !user) return res.sendStatus(400);
-
-//         res.json({
-//             username: user.username
-//         });
-//     });
-// });
-
 router.get('/username', (req, res) => {
     const userId = req.user._id;
 
@@ -52,7 +40,6 @@ router.get('/surveys', (req, res) => {
 });
 
 router.get('/surveys/:id', (req, res) => {
-    const userId = req.user._id;
     const surveyId = req.params.id
 
     Survey.findById(surveyId, (findSurveyError, survey) => {
