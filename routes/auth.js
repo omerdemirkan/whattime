@@ -84,11 +84,17 @@ router.get('/register', registerLimiter, async (req, res) => {
 });
 
 router.get('/login', limiter, (req, res) => {
-    const username = req.body.username;
-    const password = req.body.password;
+
+    if (!req.body.username || !req.body.password || typeof req.body.username !== 'string' || typeof req.body.password !== 'string') {
+        return res.status(400).json('Username and password required.');
+    }
+
+    const username = req.body.username.toLowerCase().replace(/\s/g, '');
+    const password = req.body.password.replace(/\s/g, '');
 
     User.findOne({username: username}, (findUserByNameError, user) => {
-        if (findUserByNameError || !user) return res.sendStatus(401);
+        if (findUserByNameError) return res.sendStatus(401);
+        if (!user) return res.status().json('User could not be found');
 
         bcrypt.compare(password, user.hash, (passwordError, passwordCorrect) => {
             if (passwordError) return res.json(401);

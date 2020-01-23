@@ -45,6 +45,10 @@ router.get('/surveys/:id', (req, res) => {
     Survey.findById(surveyId, (findSurveyError, survey) => {
         if (findSurveyError) return res.status(400).json('No survey with this id found');
 
+        if (survey.creatorID !== req.user._id) {
+            return res.status(403).json('Unauthorized');
+        }
+        
         res.json(survey);
     });
 });
