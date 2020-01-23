@@ -7,19 +7,19 @@ const jwt = require('jsonwebtoken');
 const rateLimit = require("express-rate-limit");
  
 // Maximum of 2 users registered in a day per IP
-const registerLimiter = rateLimit({
+const strictLimiter = rateLimit({
   windowMs: 24 * 60 * 60 * 1000, 
   max: 2 
 });
 
 // Maximum of 10 /login and /verify requests in 15 mins per IP
-const limiter = rateLimit({
+const mediumLimiter = rateLimit({
     windowMs: 15 * 60 * 1000,
     max: 10
 });
 
 // Maximum of 50 /is-username-unique per 15 minutes
-const isUsernameUniqueLimiter = rateLimit({
+const laxLimiter = rateLimit({
     windowMs: 15 * 60 * 1000,
     max: 50
 });
@@ -28,7 +28,7 @@ function generateTemporaryToken(payload) {
     return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '3d'});
 }
 
-router.get('/register', registerLimiter, async (req, res) => {
+router.get('/register', strictLimiter, async (req, res) => {
 
     let username = req.body.username;
     let password = req.body.password;
@@ -88,7 +88,7 @@ router.get('/register', registerLimiter, async (req, res) => {
     });
 });
 
-router.get('/login', limiter, (req, res) => {
+router.get('/login', mediumLimiter, (req, res) => {
 
     let username = req.body.username;
     let password = req.body.password;
@@ -138,14 +138,14 @@ const verify = (req, res, next) => {
 
 // Generates new authToken, setting a new expiration date.
 // Sends username stored in token
-router.get('/verify', limiter, verify, (req, res) => {
+router.get('/verify', mediumLimiter, verify, (req, res) => {
     const username = req.user.username;
     const userId = req.user._id;
     const accessToken = generateTemporaryToken({_id: userId, username: username})
     res.json({accessToken: accessToken, username: username});
 });
 
-router.get('/is-username-unique', isUsernameUniqueLimiter, (req, res) => {
+router.get('/is-username-unique', laxLimiter, (req, res) => {
     if (!req.body.username || typeof req.body.username !== 'string') {
         return res.status(400).json({errors: 'Invalid username'});
     }

@@ -1,8 +1,26 @@
 const router = require('express').Router();
-const User = require('../models/user');
 const Survey = require('../models/survey');
 const jwt = require('jsonwebtoken');
 
+const rateLimit = require("express-rate-limit");
+ 
+// Rate limiters
+const strictLimiter = rateLimit({
+  windowMs: 24 * 60 * 60 * 1000, 
+  max: 5
+});
+
+const mediumLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 10
+});
+
+// Helper method
+const isValidDate = (date) => {
+    return date instanceof Date && !isNaN(date);
+}
+
+// Middleware
 const verify = (req, res, next) => {
     const authHeader = req.headers['authorization'];
     const token = authHeader ? authHeader.split(' ')[1] : null;
@@ -19,7 +37,9 @@ const verify = (req, res, next) => {
 
 router.use(verify);
 
-router.get('/username', (req, res) => {
+// Routes
+
+router.get('/username', mediumLimiter, (req, res) => {
     const username = req.user.username;
 
     if (!username) return res.status(500).json({errors: 'Server error: Issue in extracting username from valid token'});
@@ -27,36 +47,47 @@ router.get('/username', (req, res) => {
     res.json(username);
 });
 
-router.get('/surveys', (req, res) => {
+router.get('/surveys', mediumLimiter, (req, res) => {
     const userId = req.user._id;
+    const skip = req.body.currentPosts;
+    
+    if (skip == null || typeof skip !== 'number') return res.status(400).json('currentPosts number required')
 
-    Survey.find({creatorID: userId}, (findSurveysError, surveys) => {
+    Survey.find({creatorID: userId})
+    .sort({createdAt: -1})
+    .skip(skip)
+    .limit(6)
+    .exec((findSurveysError, surveys) => {
         if (findSurveysError) return res.json({errors: 'Error in finding surveys'});
+        const hasMore = surveys.length === 6;
 
-        res.json(surveys);
+        res.json({
+            surveys: surveys.slice(0, 6),
+            hasMore: hasMore
+        });
     });
 });
 
-router.get('/surveys/:id', (req, res) => {
+router.get('/surveys/:id', mediumLimiter, (req, res) => {
     const surveyId = req.params.id
 
     Survey.findById(surveyId, (findSurveyError, survey) => {
         if (findSurveyError) return res.status(400).json({errors: 'No survey with this id found'});
 
-        if (survey.creatorID !== req.user._id) {
-            return res.status(403).json({errors: 'Unauthorized'});
-        }
+        if (survey.creatorID !== req.user._id) return res.status(403).json({errors: 'Unauthorized'});
 
         res.json(survey);
     });
 });
 
-router.post('/surveys', (req, res) => {
+router.post('/surveys', strictLimiter, (req, res) => {
     const event = req.body.event.trim();
     const date = new Date(req.body.date);
 
     if (event == null || date == null) {
         return res.status(400).json({errors: 'Event and date are required in the body of the request.'}); 
+    } else if(!isValidDate(date)) {
+        return res.status(400).json({errors: 'Invalid date. Requires MM/DD/YYYY format'})
     }
 
     if (date <= new Date()) {
