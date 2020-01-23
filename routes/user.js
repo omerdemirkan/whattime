@@ -20,20 +20,18 @@ const verify = (req, res, next) => {
 router.use(verify);
 
 router.get('/username', (req, res) => {
-    const userId = req.user._id;
+    const username = req.user.username;
 
-    User.findById(userId, (findUserError, user) => {
-        if (findUserError || !user) return res.sendStatus(400);
+    if (!username) return res.status(500).json({errors: 'Server error: Issue in extracting username from valid token'});
 
-        res.json(user.username);
-    });
+    res.json(username);
 });
 
 router.get('/surveys', (req, res) => {
     const userId = req.user._id;
 
     Survey.find({creatorID: userId}, (findSurveysError, surveys) => {
-        if (findSurveysError) return res.json('Error in finding surveys');
+        if (findSurveysError) return res.json({errors: 'Error in finding surveys'});
 
         res.json(surveys);
     });
@@ -43,10 +41,10 @@ router.get('/surveys/:id', (req, res) => {
     const surveyId = req.params.id
 
     Survey.findById(surveyId, (findSurveyError, survey) => {
-        if (findSurveyError) return res.status(400).json('No survey with this id found');
+        if (findSurveyError) return res.status(400).json({errors: 'No survey with this id found'});
 
         if (survey.creatorID !== req.user._id) {
-            return res.status(403).json('Unauthorized');
+            return res.status(403).json({errors: 'Unauthorized'});
         }
 
         res.json(survey);
@@ -58,11 +56,11 @@ router.post('/surveys', (req, res) => {
     const date = new Date(req.body.date);
 
     if (event == null || date == null) {
-        return res.status(400).json('Event and date are required in the body of the request.'); 
+        return res.status(400).json({errors: 'Event and date are required in the body of the request.'}); 
     }
 
     if (date <= new Date()) {
-        return res.status(400).json('The event date must be after the current date');
+        return res.status(400).json({errors: 'The event date must be after the current date'});
     }
 
     const newSurvey = new Survey({
@@ -74,7 +72,7 @@ router.post('/surveys', (req, res) => {
     });
 
     newSurvey.save(saveError => {
-        if (saveError) return res.status(400).json('Error in saving survey.');
+        if (saveError) return res.status(400).json({errors: 'Error in saving survey.'});
 
         res.json('Survey created!');
     });

@@ -35,9 +35,9 @@ router.get('/register', registerLimiter, async (req, res) => {
 
     // Basic input validation
     if (!username || !password) {
-        return res.status(400).json('Username and password is required.');
+        return res.status(400).json({errors: 'Username and password is required.'});
     } else if (typeof username !== 'string' || typeof username !== 'string') {
-        return res.status(400).json('Username and password must be strings.');
+        return res.status(400).json({errors: 'Username and password must be strings.'});
     }
 
     // Usernames all lowercase and both usernames and passwords are without spaces.
@@ -72,7 +72,7 @@ router.get('/register', registerLimiter, async (req, res) => {
     const saltRounds = Number(process.env.SALT_ROUNDS);
 
     bcrypt.hash(password, saltRounds, (hashError, hash) => {
-        if (hashError) return res.status(500).json('error hashing password.', hashError);
+        if (hashError) return res.status(500).json({errors: "Network error: Can't in hashing password." + hashError});
 
         const newUser = new User({
             username: username,
@@ -80,7 +80,7 @@ router.get('/register', registerLimiter, async (req, res) => {
         });
 
         newUser.save(saveError => {
-            if (saveError) return res.status(500).json('error in saving user.', saveError);
+            if (saveError) return res.status(500).json({errors: 'Network Error: could not save user.' + saveError});
             
             const accessToken = generateTemporaryToken({_id: newUser._id, username: username});
             res.json({accessToken: accessToken});
@@ -95,9 +95,9 @@ router.get('/login', limiter, (req, res) => {
 
     // Basic input validation
     if (!username || !password) {
-        return res.status(400).json('Username and password is required.');
+        return res.status(400).json({errors: 'Username and password is required.'});
     } else if (typeof username !== 'string' || typeof username !== 'string') {
-        return res.status(400).json('Username and password must be strings.');
+        return res.status(400).json({errors: 'Username and password must be strings.'});
     }
 
     username = username.toLowerCase().replace(/\s/g, '');
@@ -105,17 +105,17 @@ router.get('/login', limiter, (req, res) => {
 
     User.findOne({username: username}, (findUserByNameError, user) => {
         if (findUserByNameError) return res.sendStatus(400);
-        if (!user) return res.status(400).json('Incorrect username or password');
+        if (!user) return res.status(400).json({errors: 'Incorrect username or password'});
 
         bcrypt.compare(password, user.hash, (passwordError, passwordCorrect) => {
-            if (passwordError) return res.status(500).json('Error in checking password')
+            if (passwordError) return res.status(500).json({errors: 'Error in checking password'})
 
             if (passwordCorrect) {
                 const accessToken = generateTemporaryToken({_id: user._id, username: user.username});
                 return res.json({accessToken: accessToken});
             }
             
-            res.status(403).json('Incorrect username or password');
+            res.status(403).json({errors: 'Incorrect username or password'});
         });
     }); 
 });
@@ -147,7 +147,7 @@ router.get('/verify', limiter, verify, (req, res) => {
 
 router.get('/is-username-unique', isUsernameUniqueLimiter, (req, res) => {
     if (!req.body.username || typeof req.body.username !== 'string') {
-        return res.status(400).json('Invalid username');
+        return res.status(400).json({errors: 'Invalid username'});
     }
 
     const username = req.body.username.toLowerCase().replace(/\s/g, '');
