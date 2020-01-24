@@ -2,6 +2,8 @@ const router = require('express').Router();
 const Survey = require('../models/survey');
 const jwt = require('jsonwebtoken');
 
+const nameTypeIsValid = require('../helper/nameTypeIsValid');
+
 const rateLimit = require("express-rate-limit");
  
 // Rate limiters
@@ -16,7 +18,7 @@ const mediumLimiter = rateLimit({
 });
 
 // Helper method
-const isValidDate = (date) => {
+const dateIsValid = (date) => {
     return date instanceof Date && !isNaN(date);
 }
 
@@ -42,7 +44,7 @@ router.use(verify);
 router.get('/username', mediumLimiter, (req, res) => {
     const username = req.user.username;
 
-    if (!username) return res.status(500).json({errors: 'Server error: Issue in extracting username from valid token'});
+    if (!username) return res.status(500).json({errors: ['Server error: Issue in extracting username from valid token']});
 
     res.json(username);
 });
@@ -58,7 +60,7 @@ router.get('/surveys', mediumLimiter, (req, res) => {
     .skip(skip)
     .limit(6)
     .exec((findSurveysError, surveys) => {
-        if (findSurveysError) return res.json({errors: 'Error in finding surveys'});
+        if (findSurveysError) return res.json({errors: ['Error in finding surveys']});
         const hasMore = surveys.length === 6;
 
         res.json({
@@ -72,9 +74,9 @@ router.get('/surveys/:id', mediumLimiter, (req, res) => {
     const surveyId = req.params.id
 
     Survey.findById(surveyId, (findSurveyError, survey) => {
-        if (findSurveyError) return res.status(400).json({errors: 'No survey with this id found'});
+        if (findSurveyError) return res.status(400).json({errors: ['No survey with this id found']});
 
-        if (survey.creatorID !== req.user._id) return res.status(403).json({errors: 'Unauthorized'});
+        if (survey.creatorID !== req.user._id) return res.status(403).json({errors: ['Unauthorized']});
 
         res.json(survey);
     });
@@ -82,16 +84,23 @@ router.get('/surveys/:id', mediumLimiter, (req, res) => {
 
 router.post('/surveys', strictLimiter, (req, res) => {
     const event = req.body.event.trim();
+    const nameType = req.body.nameType;
     const date = new Date(req.body.date);
 
-    if (event == null || date == null) {
-        return res.status(400).json({errors: 'Event and date are required in the body of the request.'}); 
-    } else if(!isValidDate(date)) {
-        return res.status(400).json({errors: 'Invalid date. Requires MM/DD/YYYY format'})
+    if (!event || !date || !nameType) {
+        return res.status(400).json('event, date, and nameType are required in the body of the request.'); 
+    }
+    
+    if (!nameTypeIsValid(nameType)) {
+        return res.status(400).json('Invalid nameType')
+    }
+    
+    if(!dateIsValid(date)) {
+        return res.status(400).json('Invalid date. Requires MM/DD/YYYY format')
     }
 
     if (date <= new Date()) {
-        return res.status(400).json({errors: 'The event date must be after the current date'});
+        return res.status(400).json({errors: ['The event date must be after the current date']});
     }
 
     const newSurvey = new Survey({
@@ -99,11 +108,12 @@ router.post('/surveys', strictLimiter, (req, res) => {
         date: date,
         creatorID: req.user._id,
         creator: req.user.username,
+        nameType: nameType,
         submitions: []
     });
 
     newSurvey.save(saveError => {
-        if (saveError) return res.status(400).json({errors: 'Error in saving survey.'});
+        if (saveError) return res.status(400).json({errors: ['Error in saving survey.']});
 
         res.json('Survey created!');
     });

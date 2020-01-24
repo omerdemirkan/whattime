@@ -1,12 +1,30 @@
 
-const availableIsValid = available => {
+const availableIsValid = (available, date) => {
     try {
         const length = available.length;
         if (length > 20 || length % 2 !== 0) {
             return false;
         }
 
-        return true;
+        // Checking if available is sorted and that no two epochs are the same.
+        let isSorted = true;
+        available.forEach((epoch, index) => {
+            if (index < length - 1 && epoch >= available[length + 1]) {
+                isSorted = false;
+            }
+        });
+
+        if (!isSorted) {
+            return false;
+        }
+
+        const start = date.getTime();
+        const end = start + 86400;
+
+        if (available[0] < start || available[length - 1] > end) {
+            return false;
+        }
+        return true
     }
     catch(err) {
         return false;
@@ -14,13 +32,12 @@ const availableIsValid = available => {
 }
 
 const nameIsValid = name => {
-    return true;
+    return typeof name === 'string' && name.length >= 3 && name.length <= 30;
 }
 
-module.exports = submition => {
-    if (nameIsValid(submition.name) && availableIsValid(submition.available)) {
-        return true;
-    } else {
-        return false;
-    }
+module.exports = (submition, date) => {
+    
+    if (!submition.name || !submition.available) return false;
+
+    return (nameIsValid(submition.name) && availableIsValid(submition.available, date))
 }
