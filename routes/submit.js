@@ -1,5 +1,8 @@
 const router = require('express').Router();
 const Survey = require('../models/survey');
+const submitionIsValid = require('../helper/submitionIsValid');
+
+// Non-authorized routes used 
 
 router.get('/:id', (req, res) => {
     const surveyId = req.params.id;
@@ -9,7 +12,9 @@ router.get('/:id', (req, res) => {
 
         res.json({
             event: survey.event,
-            date: survey.date
+            date: survey.date,
+            creator: survey.creator,
+            nameType: survey.nameType
         });
     });
 });
@@ -18,7 +23,7 @@ router.post('/:id', (req, res) => {
     const surveyId = req.params.id;
     const submition = req.params.submition;
 
-    if (!submition) {
+    if (!submitionIsValid(submition)) {
         return res.status(400).json('request needs a substitution property');
     }
 

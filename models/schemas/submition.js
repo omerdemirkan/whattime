@@ -1,10 +1,10 @@
 const Schema = require('mongoose').Schema;
-const timespanSchema = require('./timespan');
 
 module.exports = new Schema({
-    available: {
-        type: [timespanSchema],
-        minlength: 1,
-        maxlength: 10
+    available: [Number],
+    name: {
+        type: String,
+        minlength: 3,
+        maxlength: 30
     }
-});
+}, {timestamps: true});

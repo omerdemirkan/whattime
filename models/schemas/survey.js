@@ -5,7 +5,8 @@ module.exports = new mongoose.Schema({
     event: {
         type: String,
         minlength: 4,
-        maxLength: 30
+        maxLength: 30,
+        required: true
     },
     date: {
         type: Date,
@@ -19,8 +20,13 @@ module.exports = new mongoose.Schema({
         type: String,
         required: true
     },
+    nameType: {
+        type: String,
+        required: true
+    },
     submitions: {
         type: [submitionSchema],
-        default: []
+        default: [],
+        required: true
     }
 }, {timestamps: true});
