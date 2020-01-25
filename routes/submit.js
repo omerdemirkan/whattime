@@ -2,9 +2,16 @@ const router = require('express').Router();
 const Survey = require('../models/survey');
 const submitionIsValid = require('../helper/submitionIsValid');
 
+const rateLimit = require("express-rate-limit");
+
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 10
+});
+
 // Non-authorized routes used 
 
-router.get('/:id', (req, res) => {
+router.get('/:id', limiter, (req, res) => {
     const surveyId = req.params.id;
 
     Survey.findById(surveyId, (findSurveyError, survey) => {
@@ -23,7 +30,7 @@ router.get('/:id', (req, res) => {
     });
 });
 
-router.post('/:id', (req, res) => {
+router.post('/:id', limiter, (req, res) => {
     const surveyId = req.params.id;
     const submition = req.body.submition;
 
