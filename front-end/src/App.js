@@ -1,12 +1,14 @@
 import React, {useEffect} from 'react';
 import './App.css';
+import axios from './axios';
 
 import {connect} from 'react-redux';
 import * as actionTypes from './store/actions/actionTypes';
 
-import axios from './axios';
+import { Switch, Route } from 'react-router-dom'
 
 import Navbar from './containers/Navbar/Navbar';
+import HomePage from './components/HomePage/HomePage';
 
 function App(props) {
 
@@ -25,17 +27,21 @@ function App(props) {
 
         props.onAuthenticationSuccess(username, refreshedAccessToken);
 
-        console.log(refreshedAccessToken);
         localStorage.setItem('accessToken', refreshedAccessToken);
       })
       .catch(err => {
-        console.log(err);
+        if (err) {
+          console.log(err);
+        }
       });
     }
   }, []);
 
   return <div className="App">
     <Navbar/>
+    <Switch>
+      <Route path='/' component={HomePage}/>
+    </Switch>
     
   </div>
 }
