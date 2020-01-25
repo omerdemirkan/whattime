@@ -1,3 +1,7 @@
+
+
+// All routes that give access tokens
+
 const router = require('express').Router();
 const User = require('../models/user');
 

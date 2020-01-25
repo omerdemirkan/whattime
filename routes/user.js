@@ -121,6 +121,43 @@ router.get('/surveys/:id', mediumLimiter, (req, res) => {
     });
 });
 
+router.patch('/surveys/:id', mediumLimiter, (req, res) => {
+    const surveyId = req.params.id;
+    const event = req.body.event;
+    const nameType = req.body.nameType;
+    const date = new Date(req.body.date);
+
+    if (!event && !nameType && !date) {
+        res.status(400).json('No attribute to change.')
+    }
+
+    Survey.findById(surveyId, (findSurveyError, survey) => {
+        if (findSurveyError || !survey) return res.status(400).json('Survey not found');
+
+        if (nameType && nameTypeIsValid(nameType)) {
+            survey.nameType = nameType;
+        }
+
+        if (event) {
+            survey.nameType = nameType;
+        }
+
+        if (date) {
+            survey.date = date;
+        }
+
+        if (date && survey.submitions.length !== 0) {
+            survey.submitions = []
+        }
+
+        survey.save(saveSurveyError => {
+            if (saveSurveyError) return res.status(400).json('Invalid request');
+
+            res.json('Survey successfully updated');
+        });
+    });
+});
+
 router.delete('/surveys/:id', mediumLimiter, (req, res) => {
     const surveyId = req.params.id;
 
@@ -131,7 +168,7 @@ router.delete('/surveys/:id', mediumLimiter, (req, res) => {
     });
 });
 
-router.delete('/surveys/:surveyId/:submitionId', (req, res) => {
+router.delete('/surveys/:surveyId/:submitionId', mediumLimiter, (req, res) => {
     const surveyId = req.params.surveyId;
     const submitionId = req.params.submitionId;
 
