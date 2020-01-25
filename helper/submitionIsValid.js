@@ -36,7 +36,7 @@ const nameIsValid = name => {
 }
 
 module.exports = (submition, date) => {
-    
+
     if (!submition.name || !submition.available) return false;
 
     return (nameIsValid(submition.name) && availableIsValid(submition.available, date))

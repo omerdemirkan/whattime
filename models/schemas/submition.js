@@ -6,5 +6,9 @@ module.exports = new Schema({
         type: String,
         minlength: 3,
         maxlength: 30
+    },
+    createdAt: {
+        type: Date,
+        default: new Date()
     }
-}, {timestamps: true});
+});
