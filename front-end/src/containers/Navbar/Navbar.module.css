@@ -1,0 +1,12 @@
+.Navbar {
+    background-color: grey;
+    position: absolute;
+    width: 100vw;
+    height: 80px;
+    top: 0;
+    left: 0;
+}
+
+.Logo {
+    margin: 0;
+}
