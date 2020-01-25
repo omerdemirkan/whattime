@@ -35,7 +35,10 @@ function App(props) {
         }
       });
     }
+    window.scrollTo(0, 0)
   }, []);
+
+
 
   return <div className="App">
     <Navbar/>
@@ -43,6 +46,7 @@ function App(props) {
       <Route path='/' component={HomePage}/>
     </Switch>
     
+
   </div>
 }
 

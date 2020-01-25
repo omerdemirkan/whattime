@@ -1,6 +1,6 @@
 .Navbar {
     background-color: grey;
-    position: absolute;
+    position: sticky;
     width: 100vw;
     height: 80px;
     top: 0;
@@ -9,4 +9,28 @@
 
 .Logo {
     margin: 0;
+    display: inline-block;
+    position: absolute;
+    left: calc(20px + 8vw);
+}
+
+.NavList {
+    list-style: none;
+    padding-inline-start: 0;
+    display: inline-block;
+    position: absolute;
+    right: calc(25px + 4vw);
+    width: calc(100px + 10vw);
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.NavItem {
+    display: inline;
+
+}
+
+.NavLink {
+    text-decoration: none;
+    color: inherit;
 }

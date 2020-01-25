@@ -1,14 +1,37 @@
 import React from 'react';
 import classes from './Navbar.module.css';
+import {NavLink} from 'react-router-dom';
 
 // Redux
 import {connect} from 'react-redux';
 
 function Navbar(props) {
-    console.log(props.authLoading);
+    // Navbar is empty until authentication is determined.
     return <div className={classes.Navbar}>
+        {!props.authLoading ? 
         <h2 className={classes.Logo}>meettime.app</h2>
-        
+        : null}
+        {!props.authLoading && props.username ?
+            <ul className={classes.NavList}>
+                <li className={classes.NavItem}>
+                    <NavLink className={classes.NavLink} to='/surveys'>My Surveys</NavLink>
+                </li>
+                <li className={classes.NavItem}>
+                    <NavLink className={classes.NavLink} to='/create'>Create</NavLink>
+                </li>
+            </ul>
+        : null}
+        {!props.authLoading && !props.username ?
+            <ul className={classes.NavList}>
+                <li className={classes.NavItem}>
+                    <NavLink className={classes.NavLink} to='/login'>Login</NavLink>
+                </li>
+                <li className={classes.NavItem}>
+                    <NavLink className={classes.NavLink} to='/signup'>Sign Up</NavLink>
+                </li>
+            </ul>
+        : null}
+
     </div>
 }
 
