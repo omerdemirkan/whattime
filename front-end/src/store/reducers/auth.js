@@ -2,7 +2,8 @@ import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
     username: null,
-    loading: true
+    loading: true,
+    accessToken: null
 }
 
 const authReducer = (state = initialState, action) => {
@@ -11,7 +12,8 @@ const authReducer = (state = initialState, action) => {
             return {
                 ...state,
                 username: action.username,
-                loading: false
+                loading: false,
+                accessToken: action.accessToken
             }
         default:
             return state;
