@@ -32,7 +32,7 @@ router.post('/:id', (req, res) => {
     }
 
     Survey.findById(surveyId, (findSurveyError, survey) => {
-        if (findSurveyError || !survey) return res.status(400).json('No survey with this id');
+        if (findSurveyError || !survey) return res.status(400).json('Could not find a survey with this id');
 
         if (survey.date <= new Date()) {
             return res.status(400).json({errors: ['The event date has passed.']})

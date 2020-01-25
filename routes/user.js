@@ -41,14 +41,6 @@ router.use(verify);
 
 // Routes
 
-router.get('/username', mediumLimiter, (req, res) => {
-    const username = req.user.username;
-
-    if (!username) return res.status(500).json({errors: ['Server error: Issue in extracting username from valid token']});
-
-    res.json(username);
-});
-
 router.get('/surveys', mediumLimiter, (req, res) => {
     const userId = req.user._id;
     const skip = req.body.currentPosts;
@@ -67,18 +59,6 @@ router.get('/surveys', mediumLimiter, (req, res) => {
             surveys: surveys.slice(0, 6),
             hasMore: hasMore
         });
-    });
-});
-
-router.get('/surveys/:id', mediumLimiter, (req, res) => {
-    const surveyId = req.params.id
-
-    Survey.findById(surveyId, (findSurveyError, survey) => {
-        if (findSurveyError) return res.status(400).json({errors: ['No survey with this id found']});
-
-        if (survey.creatorID !== req.user._id) return res.status(403).json({errors: ['Unauthorized']});
-
-        res.json(survey);
     });
 });
 
@@ -117,6 +97,68 @@ router.post('/surveys', strictLimiter, (req, res) => {
 
         res.json('Survey created!');
     });
-})
+});
+
+router.delete('/surveys', strictLimiter, (req, res) => {
+    const userId = req.user._id;
+
+    Survey.deleteMany({creatorID: userId}, err => {
+        if (err) return res.status(400).json('No surveys to be deleted.');
+
+        res.json('Surveys successfully deleted.');
+    });
+});
+
+router.get('/surveys/:id', mediumLimiter, (req, res) => {
+    const surveyId = req.params.id
+
+    Survey.findById(surveyId, (findSurveyError, survey) => {
+        if (findSurveyError) return res.status(400).json({errors: ['No survey with this id found']});
+
+        if (survey.creatorID !== req.user._id) return res.status(403).json({errors: ['Unauthorized']});
+
+        res.json(survey);
+    });
+});
+
+router.delete('/surveys/:id', mediumLimiter, (req, res) => {
+    const surveyId = req.params.id;
+
+    Survey.deleteOne({_id: surveyId}, (findSurveyError) => {
+        if (findSurveyError) return res.status(400).json('Survey not found.')
+
+        res.json('Survey successfully deleted.');
+    });
+});
+
+router.delete('/surveys/:surveyId/:submitionId', (req, res) => {
+    const surveyId = req.params.surveyId;
+    const submitionId = req.params.submitionId;
+
+    Survey.findById(surveyId, (findSurveyError, survey) => {
+        if (findSurveyError || !survey) return res.status(400).json('Survey not found.');
+
+        try {
+            const initialNumSubmitions = survey.submitions.length;
+
+            survey.submitions = survey.submitions.filter(submition => {
+                return submition._id.toString() !== submitionId;
+            })
+
+            if (initialNumSubmitions === survey.submitions.length) {
+                return res.status(400).json('Submition not found.');
+            }
+
+            survey.save(saveError => {
+                if (saveError) return res.status(500).json('Error in saving survey.');
+
+                return res.json('Successfully deleted');
+            });
+        }
+        catch(err) {
+            res.status(500).json('Network error')
+        }
+    });
+});
 
 module.exports = router;

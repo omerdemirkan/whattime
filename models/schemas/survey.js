@@ -28,5 +28,9 @@ module.exports = new mongoose.Schema({
         type: [submitionSchema],
         default: [],
         required: true
+    },
+    createdAt: {
+        type: Date,
+        default: new Date()
     }
-}, {timestamps: true});
+});
