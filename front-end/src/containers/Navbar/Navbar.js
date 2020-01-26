@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useRef, useState, useEffect} from 'react';
 import classes from './Navbar.module.css';
 import {NavLink} from 'react-router-dom';
 
@@ -6,8 +6,27 @@ import {NavLink} from 'react-router-dom';
 import {connect} from 'react-redux';
 
 function Navbar(props) {
+
+    const [navBackground, setNavBackground] = useState(false);
+    const navRef = useRef();
+    navRef.current = navBackground;
+    useEffect(() => {
+      const handleScroll = () => {
+        const show = window.scrollY > 80
+        if (navRef.current !== show) {
+          setNavBackground(show)
+        }
+      }
+      document.addEventListener('scroll', handleScroll)
+      return () => {
+        document.removeEventListener('scroll', handleScroll)
+      }
+    }, [])
+
+
     // Navbar is empty until authentication is determined.
-    return <div className={classes.Navbar}>
+    console.log(window.pageYOffset);
+    return <div className={classes.Navbar} style={navBackground ? {backgroundColor: 'grey'} : null}>
         {!props.authLoading ? 
         <h2 className={classes.Logo}>meettime.app</h2>
         : null}
