@@ -26,7 +26,6 @@ function Navbar(props) {
 
 
     // Navbar is empty until authentication is determined.
-    console.log(window.pageYOffset);
     return <div className={classes.Navbar} style={navBackground ? {backgroundColor: 'grey'} : null}>
         {!props.authLoading ? 
         <h2 className={classes.Logo}><Link className={classes.Link} to='/'>meettime.app</Link></h2>

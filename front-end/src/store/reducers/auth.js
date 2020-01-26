@@ -15,6 +15,11 @@ const authReducer = (state = initialState, action) => {
                 loading: false,
                 accessToken: action.accessToken
             }
+        case actionTypes.AUTHENTICATION_FAILURE:
+            return {
+                ...state,
+                loading: false
+            }
         default:
             return state;
     }

@@ -33,9 +33,11 @@ function App(props) {
       })
       .catch(err => {
         if (err) {
-          console.log(err);
+          props.onAuthenticationFailure();
         }
       });
+    } else {
+      props.onAuthenticationFailure();
     }
     window.scrollTo(0, 0)
   }, []);
@@ -56,7 +58,8 @@ function App(props) {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onAuthenticationSuccess: (username, accessToken) => dispatch({type: actionTypes.AUTHENTICATION_SUCCESS, username: username})
+    onAuthenticationSuccess: (username, accessToken) => dispatch({type: actionTypes.AUTHENTICATION_SUCCESS, username: username, accessToken: accessToken}),
+    onAuthenticationFailure: () => dispatch({type: actionTypes.AUTHENTICATION_FAILURE})
   }
 }
 

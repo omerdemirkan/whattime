@@ -2,13 +2,16 @@
     transition: background-color 0.3s ease;
     position: sticky;
     width: 100%;
-    height: 80px;
+    height: 75px;
     top: 0;
     left: 0;
+    display: flex;
+    align-items: center;
 }
 
 .Logo {
     margin: 0;
+    padding: 0;
     display: inline-block;
     position: absolute;
     left: calc(20px + 8vw);
@@ -24,6 +27,7 @@
     width: calc(100px + 10vw);
     display: flex;
     justify-content: space-evenly;
+    margin: 0;
 }
 
 .NavItem {
