@@ -12,6 +12,7 @@
     display: inline-block;
     position: absolute;
     left: calc(20px + 8vw);
+    animation: FadeIn 0.5s ease forwards;
 }
 
 .NavList {
@@ -30,7 +31,16 @@
 
 }
 
-.NavLink {
+.Link {
     text-decoration: none;
     color: inherit;
+}
+
+@keyframes FadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }

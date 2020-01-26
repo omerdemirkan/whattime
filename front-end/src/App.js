@@ -9,6 +9,8 @@ import { Switch, Route } from 'react-router-dom'
 
 import Navbar from './containers/Navbar/Navbar';
 import HomePage from './components/HomePage/HomePage';
+import Login from './containers/Login/Login';
+import SignUp from './containers/SignUp/SignUp';
 
 function App(props) {
 
@@ -43,7 +45,9 @@ function App(props) {
   return <div className="App">
     <Navbar/>
     <Switch>
-      <Route path='/' component={HomePage}/>
+      <Route path='/signup' component={SignUp} />
+      <Route path='/login' component={Login} />
+      <Route path='/' component={HomePage} />
     </Switch>
     
 
