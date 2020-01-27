@@ -1,16 +1,18 @@
 import React, {useState, useEffect} from 'react';
 import classes from './SignUp.module.css';
+import { connect } from 'react-redux';
+import * as actionTypes from '../../store/actions/actionTypes';
 
 import useDebounce from '../Hooks/useDebounce';
 
 import axios from '../../axios';
 
-function SignUp() {
+function SignUp(props) {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     
-    const [usernameIsValid, setUsernameIsValid] = useState(false);
+    const [usernameIsUnique, setUsernameIsUnique] = useState(false);
 
     const debouncedUsername = useDebounce(username, 800);
 
@@ -18,9 +20,12 @@ function SignUp() {
         switch(input) {
             case 'username':
                 const updatedUsername = event.target.value.replace(/\s/g, '');
+
+                if (!updatedUsername.match(/^[a-zA-Z0-9]+$/)) break;
+
                 if (updatedUsername.length <= 20) {
                     setUsername(updatedUsername);
-                    setUsernameIsValid('unknown');
+                    setUsernameIsUnique('unknown');
                 }
                 break;
             case 'password':
@@ -33,7 +38,16 @@ function SignUp() {
 
     function submitForm(event) {
         event.preventDefault();
-        
+        axios.post('/auth/register', {
+            username: username,
+            password: password
+        })
+        .then(res => {
+            props.onAuthenticationSuccess(username, res.data.accessToken);
+        })
+        .catch(err => {
+            console.log(err);
+        });
     }
 
     useEffect(() => {
@@ -42,8 +56,8 @@ function SignUp() {
                 username: debouncedUsername
             })
             .then(res => {
-                if (res.data !== usernameIsValid) {
-                    setUsernameIsValid(res.data);
+                if (res.data !== usernameIsUnique) {
+                    setUsernameIsUnique(res.data);
                 }
             })
             .catch(err => {
@@ -52,10 +66,10 @@ function SignUp() {
         }
     }, [debouncedUsername]);
 
-    console.log('usernameIsValid:', usernameIsValid);
+    console.log(props.username);
     return <div>
         <form onSubmit={submitForm}>
-            <label>Username</label>
+            <label>Username ({usernameIsUnique === true ? 'unique': usernameIsUnique})</label>
             <input 
             type='text'
             value={username}
@@ -68,10 +82,22 @@ function SignUp() {
             onChange={event => updateFormHandler(event, 'password')}
             />
             <label>Re-enter Password</label>
-            <input type='submit'/>
+            <input disabled={usernameIsUnique !== true || password.length < 8} type='submit'/>
         </form>
         <h1>{debouncedUsername}</h1>
     </div>
 }
 
-export default SignUp;
+const mapStateToProps = state => {
+    return {
+        username: state.auth.username
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onAuthenticationSuccess: (username, accessToken) => dispatch({type: actionTypes.AUTHENTICATION_SUCCESS, username: username, accessToken: accessToken})
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp);

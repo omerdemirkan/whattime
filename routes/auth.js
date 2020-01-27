@@ -84,7 +84,8 @@ router.post('/register', strictLimiter, async (req, res) => {
         });
 
         newUser.save(saveError => {
-            if (saveError) return res.status(500).json({errors: ['Network Error: could not save user.' + saveError]});
+            console.log(saveError)
+            if (saveError) return res.status(400).json({errors: ['Network Error: could not save user.' + saveError]});
             
             const accessToken = generateTemporaryToken({_id: newUser._id, username: username});
             res.json({accessToken: accessToken});
@@ -150,7 +151,6 @@ router.get('/verify', mediumLimiter, verify, (req, res) => {
 });
 
 router.post('/is-username-unique', laxLimiter, (req, res) => {
-    console.log(req.body);
     if (!req.body.username || typeof req.body.username !== 'string') {
         return res.status(400).json({errors: ['Invalid username']});
     }
