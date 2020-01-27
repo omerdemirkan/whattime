@@ -33,7 +33,7 @@ function Navbar(props) {
         {!props.authLoading && props.username ?
             <ul className={classes.NavList}>
                 <li className={classes.NavItem}>
-                    <NavLink className={classes.Link} to='/surveys'>My Surveys</NavLink>
+                    <NavLink className={classes.Link} to='/my-surveys'>My Surveys</NavLink>
                 </li>
                 <li className={classes.NavItem}>
                     <NavLink className={classes.Link} to='/create'>Create</NavLink>
