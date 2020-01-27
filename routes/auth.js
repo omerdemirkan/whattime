@@ -32,7 +32,7 @@ function generateTemporaryToken(payload) {
     return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '3d'});
 }
 
-router.get('/register', strictLimiter, async (req, res) => {
+router.post('/register', strictLimiter, async (req, res) => {
 
     let username = req.body.username;
     let password = req.body.password;
@@ -92,7 +92,7 @@ router.get('/register', strictLimiter, async (req, res) => {
     });
 });
 
-router.get('/login', mediumLimiter, (req, res) => {
+router.post('/login', mediumLimiter, (req, res) => {
 
     let username = req.body.username;
     let password = req.body.password;
@@ -149,7 +149,8 @@ router.get('/verify', mediumLimiter, verify, (req, res) => {
     res.json({accessToken: accessToken, username: username});
 });
 
-router.get('/is-username-unique', laxLimiter, (req, res) => {
+router.post('/is-username-unique', laxLimiter, (req, res) => {
+    console.log(req.body);
     if (!req.body.username || typeof req.body.username !== 'string') {
         return res.status(400).json({errors: ['Invalid username']});
     }
