@@ -1,11 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import classes from './SignUp.module.css';
+import useDebounce from '../Hooks/useDebounce';
+import axios from '../../axios';
+
 import { connect } from 'react-redux';
 import * as actionTypes from '../../store/actions/actionTypes';
 
-import useDebounce from '../Hooks/useDebounce';
-
-import axios from '../../axios';
 
 function SignUp(props) {
 
@@ -43,7 +43,9 @@ function SignUp(props) {
             password: password
         })
         .then(res => {
+            localStorage.setItem('accessToken', res.data.accessToken);
             props.onAuthenticationSuccess(username, res.data.accessToken);
+            props.history.push('/create');
         })
         .catch(err => {
             console.log(err);
@@ -66,7 +68,6 @@ function SignUp(props) {
         }
     }, [debouncedUsername]);
 
-    console.log(props.username);
     return <div>
         <form onSubmit={submitForm}>
             <label>Username ({usernameIsUnique === true ? 'unique': usernameIsUnique})</label>
