@@ -14,39 +14,39 @@ import Select from '@material-ui/core/Select';
 
 import axios from '../../axios';
 
+import { connect } from 'react-redux';
+import * as actionTypes from '../../store/actions/actionTypes';
+
 const sameDate = (first, second) => {
     return first.getFullYear() === second.getFullYear() &&
     first.getMonth() === second.getMonth() &&
     first.getDate() === second.getDate();
 }
 
-export default function Create() {
-    const [selectedDate, setSelectedDate] = useState(new Date());
-    const [eventName, setEventName] = useState('');
-    const [nameType, setNameType] = useState('');
+function Create(props) {
 
     const setDateHandler = date => {
         const today = new Date()
         if (date >= today || sameDate(date, today)) {
-            setSelectedDate(date);
+            props.onUpdateSelectedDate(date);
         }
     };
 
     const setEventNameHandler = event => {
-        setEventName(event.target.value);
+        props.onUpdateEventName(event.target.value);
     }
 
     const setNameTypeHandler = event => {
-        setNameType(event.target.value)
+        props.onUpdateNameType(event.target.value)
     }
 
-    const postSurveyHandler = (props) => {
+    const postSurveyHandler = () => {
         const accessToken = localStorage.getItem('accessToken');
 
         axios.post('/user/surveys', {
-            event: eventName,
-            nameType: nameType,
-            date: selectedDate
+            event: props.eventName,
+            nameType: props.nameType,
+            date: props.selectedDate
         }, {
             headers: {
                 Authorization: 'Bearer ' + accessToken
@@ -64,14 +64,14 @@ export default function Create() {
         <TextField 
         id="standard-basic" 
         label="Event Name" 
-        value={eventName}
+        value={props.eventName}
         onChange={setEventNameHandler}/>
 
         <InputLabel id="demo-simple-select-label">Identifier</InputLabel>
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          value={nameType}
+          value={props.nameType}
           onChange={setNameTypeHandler}
         >
           <MenuItem value={'First Name'}>First Name</MenuItem>
@@ -87,7 +87,7 @@ export default function Create() {
             margin="normal"
             id="date-picker-inline"
             label="Date"
-            value={selectedDate}
+            value={props.selectedDate}
             onChange={setDateHandler}
             KeyboardButtonProps={{
                 'aria-label': 'change date',
@@ -97,3 +97,21 @@ export default function Create() {
         <button onClick={postSurveyHandler}>Submit</button>
     </div>
 }
+
+const mapStateToProps = state => {
+    return {
+        nameType: state.create.nameType,
+        eventName: state.create.eventName,
+        selectedDate: state.create.selectedDate
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onUpdateNameType: nameType => dispatch({type: actionTypes.UPDATE_NAME_TYPE, nameType: nameType}),
+        onUpdateEventName: eventName => dispatch({type: actionTypes.UPDATE_EVENT_NAME, eventName: eventName}),
+        onUpdateSelectedDate: selectedDate => dispatch({type: actionTypes.UPDATE_SELECTED_DATE, selectedDate: selectedDate})
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Create);
