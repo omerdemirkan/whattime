@@ -99,7 +99,7 @@ router.post('/surveys', strictLimiter, (req, res) => {
     newSurvey.save(saveError => {
         if (saveError) return res.status(400).json({errors: ['Error in saving survey.']});
 
-        res.json('Survey created!');
+        res.json({surveyId: newSurvey._id});
     });
 });
 
