@@ -6,12 +6,22 @@ import {
   KeyboardDatePicker,
 } from '@material-ui/pickers';
 
-export default function Create() {
-    const [selectedDate, setSelectedDate] = useState(new Date('2014-08-18T21:11:54'));
+const sameDate = (first, second) => {
+    return first.getFullYear() === second.getFullYear() &&
+    first.getMonth() === second.getMonth() &&
+    first.getDate() === second.getDate();
+}
 
-    const handleDateChange = date => {
-        setSelectedDate(date);
+export default function Create() {
+    const [selectedDate, setSelectedDate] = useState(new Date());
+
+    const dateChangeHandler = date => {
+        const today = new Date()
+        if (date >= today || sameDate(date, today)) {
+            setSelectedDate(date);
+        }
     };
+
     return <div>
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <KeyboardDatePicker
@@ -22,7 +32,7 @@ export default function Create() {
             id="date-picker-inline"
             label="Date picker inline"
             value={selectedDate}
-            onChange={handleDateChange}
+            onChange={dateChangeHandler}
             KeyboardButtonProps={{
                 'aria-label': 'change date',
             }}
