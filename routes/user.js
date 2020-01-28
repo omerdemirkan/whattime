@@ -68,18 +68,22 @@ router.post('/surveys', strictLimiter, (req, res) => {
     const date = new Date(req.body.date);
 
     if (!event || !date || !nameType) {
+        console.log('event, date, and nameType are required in the body of the request.');
         return res.status(400).json('event, date, and nameType are required in the body of the request.'); 
     }
     
     if (!nameTypeIsValid(nameType)) {
+        console.log('Invalid nameType');
         return res.status(400).json('Invalid nameType')
     }
     
     if(!dateIsValid(date)) {
-        return res.status(400).json('Invalid date. Requires MM/DD/YYYY format')
+        console.log('Invalid date.');
+        return res.status(400).json('Invalid date.')
     }
 
     if (date <= new Date()) {
+        console.log('The event date must be after the current date');
         return res.status(400).json({errors: ['The event date must be after the current date']});
     }
 
