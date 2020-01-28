@@ -53,7 +53,7 @@ function Create(props) {
             }
         })
         .then(res => {
-            props.history.push('/inspect/' + res.data.surveyId);
+            props.history.push('/my-surveys/' + res.data.surveyId);
         })
         .catch(err => {
             console.log(err);

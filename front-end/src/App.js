@@ -13,6 +13,7 @@ import Login from './containers/Login/Login';
 import SignUp from './containers/SignUp/SignUp';
 import Create from './containers/Create/Create';
 import MySurveys from './containers/MySurveys/MySurveys'
+import Inspect from './containers/Inspect/Inspect';
 
 function App(props) {
 
@@ -49,6 +50,7 @@ function App(props) {
   return <div className="App">
     <Navbar/>
     <Switch>
+      <Route path='/my-surveys/:id' component={Inspect}/>
       <Route path='/my-surveys' component={MySurveys}/>
       <Route path='/create' component={Create}/>
       <Route path='/signup' component={SignUp} />
