@@ -48,7 +48,7 @@ function Create(props) {
     }
 
     const postSurveyHandler = () => {
-        const accessToken = localStorage.getItem('accessToken');
+        const accessToken = props.accessToken;
 
         axios.post('/user/surveys', {
             event: props.eventName,
@@ -75,18 +75,6 @@ function Create(props) {
         value={props.eventName}
         onChange={setEventNameHandler}/>
 
-        <InputLabel id="demo-simple-select-label">Identifier</InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={props.nameType}
-          onChange={setNameTypeHandler}
-        >
-          <MenuItem value={'First Name'}>First Name</MenuItem>
-          <MenuItem value={'Full Name'}>Full Name</MenuItem>
-          <MenuItem value={'Alias'}>Alias</MenuItem>
-        </Select>
-
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <KeyboardDatePicker
             disableToolbar
@@ -102,6 +90,18 @@ function Create(props) {
             }}
             />
         </MuiPickersUtilsProvider>
+
+        <InputLabel id="demo-simple-select-label">Identifier</InputLabel>
+        <Select
+        labelId="demo-simple-select-label"
+        id="demo-simple-select"
+        value={props.nameType}
+        onChange={setNameTypeHandler}
+        >
+        <MenuItem value={'First Name'}>First Name</MenuItem>
+        <MenuItem value={'Full Name'}>Full Name</MenuItem>
+        <MenuItem value={'Alias'}>Alias</MenuItem>
+        </Select>
         <button onClick={postSurveyHandler}>Submit</button>
     </div>
 }

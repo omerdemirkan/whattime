@@ -77,14 +77,9 @@ router.post('/surveys', strictLimiter, (req, res) => {
         return res.status(400).json('Invalid nameType')
     }
     
-    if(!dateIsValid(date)) {
+    if(!dateIsValid(date) || date <= new Date()) {
         console.log('Invalid date.');
         return res.status(400).json('Invalid date.')
-    }
-
-    if (date <= new Date()) {
-        console.log('The event date must be after the current date');
-        return res.status(400).json({errors: ['The event date must be after the current date']});
     }
 
     const newSurvey = new Survey({

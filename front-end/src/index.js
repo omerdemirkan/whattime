@@ -11,12 +11,14 @@ import {combineReducers, createStore, applyMiddleware, compose} from 'redux';
 import {Provider} from 'react-redux';
 import authReducer from './store/reducers/auth';
 import createReducer from './store/reducers/create';
+import surveysReducer from './store/reducers/surveys';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const rootReducer = combineReducers({
     auth: authReducer,
-    create: createReducer
+    create: createReducer,
+    surveys: surveysReducer
 });
 
 const store = createStore(rootReducer, composeEnhancers());
