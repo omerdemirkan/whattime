@@ -33,7 +33,7 @@ const verify = (req, res, next) => {
         if (tokenError) return res.status(403).json('Token unauthorized');
 
         req.user = user;
-        next()
+        next();
     });
 };
 
@@ -43,7 +43,7 @@ router.use(verify);
 
 router.get('/surveys', mediumLimiter, (req, res) => {
     const userId = req.user._id;
-    const skip = req.body.currentPosts;
+    const skip = Number(req.headers['currentposts']);
     
     if (skip == null || typeof skip !== 'number') return res.status(400).json('currentPosts number required')
 
@@ -56,7 +56,7 @@ router.get('/surveys', mediumLimiter, (req, res) => {
         const hasMore = surveys.length === 6;
 
         res.json({
-            surveys: surveys.slice(0, 6),
+            surveys: surveys.slice(0, 5),
             hasMore: hasMore
         });
     });

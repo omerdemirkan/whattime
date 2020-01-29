@@ -6,10 +6,10 @@ const initialState = {
 
 const surveysReducer = (state = initialState, action) => {
     switch(action.type) {
-        case actionTypes.UPDATE_SURVEYS:
+        case actionTypes.ADD_SURVEYS:
             return {
                 ...state,
-                surveys: action.surveys
+                surveys: state.surveys.concat(action.surveys)
             }
         default:
             return state;
