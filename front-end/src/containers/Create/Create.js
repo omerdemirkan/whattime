@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect} from 'react';
 import classes from './Create.module.css';
 
 
@@ -24,6 +24,13 @@ const sameDate = (first, second) => {
 }
 
 function Create(props) {
+
+    // Redirecting if the user is not authorized
+    useEffect(() => {
+        if (!props.accessToken && !props.authLoading) {
+            props.history.push('/signup');
+        }
+    }, [props.authLoading]);
 
     const setDateHandler = date => {
         const today = new Date()
@@ -103,7 +110,9 @@ const mapStateToProps = state => {
     return {
         nameType: state.create.nameType,
         eventName: state.create.eventName,
-        selectedDate: state.create.selectedDate
+        selectedDate: state.create.selectedDate,
+        accessToken: state.auth.accessToken,
+        authLoading: state.auth.loading
     }
 }
 
