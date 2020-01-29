@@ -53,6 +53,7 @@ function Create(props) {
             }
         })
         .then(res => {
+            props.onResetCreate();
             props.history.push('/my-surveys/' + res.data.surveyId);
         })
         .catch(err => {
@@ -110,7 +111,8 @@ const mapDispatchToProps = dispatch => {
     return {
         onUpdateNameType: nameType => dispatch({type: actionTypes.UPDATE_NAME_TYPE, nameType: nameType}),
         onUpdateEventName: eventName => dispatch({type: actionTypes.UPDATE_EVENT_NAME, eventName: eventName}),
-        onUpdateSelectedDate: selectedDate => dispatch({type: actionTypes.UPDATE_SELECTED_DATE, selectedDate: selectedDate})
+        onUpdateSelectedDate: selectedDate => dispatch({type: actionTypes.UPDATE_SELECTED_DATE, selectedDate: selectedDate}),
+        onResetCreate: () => dispatch({type: actionTypes.RESET_CREATE})
     }
 }
 

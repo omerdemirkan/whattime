@@ -57,8 +57,6 @@ function App(props) {
       <Route path='/login' component={Login} />
       <Route path='/' component={HomePage} />
     </Switch>
-    
-
   </div>
 }
 

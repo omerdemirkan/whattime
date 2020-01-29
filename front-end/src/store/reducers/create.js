@@ -23,6 +23,8 @@ const createReducer = (state = initialState, action) => {
                 ...state,
                 selectedDate: action.selectedDate
             }
+        case actionTypes.RESET_CREATE:
+            return initialState;
         default: 
             return state;
     }
