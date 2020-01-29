@@ -1,7 +1,8 @@
 import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
-    surveys: []
+    surveys: [],
+    hasMore: true
 }
 
 const surveysReducer = (state = initialState, action) => {
@@ -9,7 +10,8 @@ const surveysReducer = (state = initialState, action) => {
         case actionTypes.ADD_SURVEYS:
             return {
                 ...state,
-                surveys: state.surveys.concat(action.surveys)
+                surveys: state.surveys.concat(action.surveys),
+                hasMore: action.hasMore
             }
         default:
             return state;

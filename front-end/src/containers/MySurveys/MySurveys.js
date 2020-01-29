@@ -22,7 +22,7 @@ function MySurveys(props) {
                 }
             })
             .then(res => {
-                props.onAddSurveys(res.data.surveys);
+                props.onAddSurveys(res.data.surveys, res.data.hasMore);
             })
             .catch(err => {
                 console.log(err);
@@ -52,7 +52,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onAddSurveys: surveys => dispatch({type: actionTypes.ADD_SURVEYS, surveys: surveys})
+        onAddSurveys: (surveys, hasMore) => dispatch({type: actionTypes.ADD_SURVEYS, surveys: surveys, hasMore: hasMore})
     }
 }
 
