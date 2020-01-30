@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import classes from './MySurveys.module.css';
 import {connect} from 'react-redux';
-import * as actionTypes from '../../store/actions/actionTypes';
+import loadSurveysAsync from '../../store/actions/loadSurveys';
 
 import axios from '../../axios';
 
@@ -15,18 +15,7 @@ function MySurveys(props) {
 
         } else if (accessToken && props.surveys.length === 0) {
 
-            axios.get('/user/surveys', {
-                headers: {
-                    Authorization: 'Bearer ' + accessToken,
-                    currentPosts: 0
-                }
-            })
-            .then(res => {
-                props.onAddSurveys(res.data.surveys, res.data.hasMore);
-            })
-            .catch(err => {
-                console.log(err);
-            });
+            props.onLoadSurveys(accessToken, 0)
         }
     }, [props.authLoading]);
 
@@ -53,7 +42,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onAddSurveys: (surveys, hasMore) => dispatch()
+        onLoadSurveys: (accessToken, currentPosts) => dispatch(loadSurveysAsync(accessToken, currentPosts))
     }
 }
 
