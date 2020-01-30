@@ -45,7 +45,7 @@ router.get('/surveys', mediumLimiter, (req, res) => {
     const userId = req.user._id;
     const skip = Number(req.headers['currentposts']);
     
-    if (skip == null || typeof skip !== 'number') return res.status(400).json('currentPosts number required')
+    if (typeof skip !== 'number' || typeof skip !== 'number') return res.status(400).json('currentPosts number required')
 
     Survey.find({creatorID: userId})
     .sort({createdAt: -1})

@@ -13,12 +13,12 @@ function MySurveys(props) {
         if (!accessToken && !props.authLoading) {
             props.history.push('/signup');
 
-        } else if (accessToken) {
+        } else if (accessToken && props.surveys.length === 0) {
 
             axios.get('/user/surveys', {
                 headers: {
                     Authorization: 'Bearer ' + accessToken,
-                    currentPosts: 'yeet'
+                    currentPosts: 0
                 }
             })
             .then(res => {
@@ -27,7 +27,6 @@ function MySurveys(props) {
             .catch(err => {
                 console.log(err);
             });
-
         }
     }, [props.authLoading]);
 
@@ -36,9 +35,11 @@ function MySurveys(props) {
     // }
     return <div>
         {props.surveys.map(survey => {
-            return <Survey key={survey._id} survey={survey}/>
+            return <Survey
+            key={survey._id} 
+            survey={survey}
+            history={props.history}/>
         })}
-        <p>My Surveys</p>
     </div>
 }
 
