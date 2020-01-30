@@ -13,6 +13,8 @@ import authReducer from './store/reducers/auth';
 import createReducer from './store/reducers/create';
 import surveysReducer from './store/reducers/surveys';
 
+import thunk from 'redux-thunk';
+
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const rootReducer = combineReducers({
@@ -21,7 +23,7 @@ const rootReducer = combineReducers({
     surveys: surveysReducer
 });
 
-const store = createStore(rootReducer, composeEnhancers());
+const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk)));
 
 ReactDOM.render(<Provider store={store}><BrowserRouter><App /></BrowserRouter></Provider>, document.getElementById('root'));
 

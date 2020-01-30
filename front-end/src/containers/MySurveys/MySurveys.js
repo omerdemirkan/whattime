@@ -53,7 +53,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onAddSurveys: (surveys, hasMore) => dispatch({type: actionTypes.ADD_SURVEYS, surveys: surveys, hasMore: hasMore})
+        onAddSurveys: (surveys, hasMore) => dispatch()
     }
 }
 
