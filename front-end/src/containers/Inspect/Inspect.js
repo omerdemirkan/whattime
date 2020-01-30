@@ -20,10 +20,13 @@ function Inspect(props) {
     if (!survey) {
         return null;
     }
-    
+
+    let shareURL = window.location.protocol + "//" + window.location.host + '/submit/' + id;
+    console.log(shareURL);
     return <div>
         <h1>{survey.event}</h1>
         <p>{survey.submitions.length} submitions</p>
+        <p>{shareURL}</p>
     </div>
 }
 

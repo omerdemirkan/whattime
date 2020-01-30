@@ -3,8 +3,6 @@ import classes from './MySurveys.module.css';
 import {connect} from 'react-redux';
 import loadSurveysAsync from '../../store/actions/loadSurveys';
 
-import axios from '../../axios';
-
 import Survey from '../../components/Survey/Survey';
 
 function MySurveys(props) {
@@ -18,10 +16,7 @@ function MySurveys(props) {
             props.onLoadSurveys(accessToken, 0)
         }
     }, [props.authLoading]);
-
-    // function fetchSurveys() {
-    //     axios.get();
-    // }
+    
     return <div>
         {props.surveys.map(survey => {
             return <Survey

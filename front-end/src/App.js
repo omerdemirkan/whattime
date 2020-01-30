@@ -14,6 +14,7 @@ import SignUp from './containers/SignUp/SignUp';
 import Create from './containers/Create/Create';
 import MySurveys from './containers/MySurveys/MySurveys'
 import Inspect from './containers/Inspect/Inspect';
+import Submit from './containers/Submit/Submit';
 
 function App(props) {
 
@@ -52,6 +53,7 @@ function App(props) {
     <Switch>
       <Route path='/my-surveys/:id' component={Inspect}/>
       <Route path='/my-surveys' component={MySurveys}/>
+      <Route path="/submit/:id" component={Submit}/>
       <Route path='/create' component={Create}/>
       <Route path='/signup' component={SignUp} />
       <Route path='/login' component={Login} />
