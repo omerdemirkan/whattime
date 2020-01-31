@@ -12,6 +12,7 @@ import {Provider} from 'react-redux';
 import authReducer from './store/reducers/auth';
 import createReducer from './store/reducers/create';
 import surveysReducer from './store/reducers/surveys';
+import submitReducer from './store/reducers/submit';
 
 import thunk from 'redux-thunk';
 
@@ -20,7 +21,8 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const rootReducer = combineReducers({
     auth: authReducer,
     create: createReducer,
-    surveys: surveysReducer
+    surveys: surveysReducer,
+    submit: submitReducer
 });
 
 const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk)));

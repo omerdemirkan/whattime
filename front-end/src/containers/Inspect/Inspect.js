@@ -1,7 +1,6 @@
 import React, {useEffect} from 'react';
 import classes from './Inspect.module.css';
 
-import * as actionTypes from '../../store/actions/actionTypes';
 import { connect } from 'react-redux';
 
 function Inspect(props) {

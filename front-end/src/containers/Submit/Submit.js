@@ -2,6 +2,8 @@ import React, {useEffect, useState} from 'react';
 import classes from './Submit.module.css';
 import axios from '../../axios';
 
+import TimeFrame from '../../components/TimeFrame/TimeFrame';
+
 export default function Submit(props) {
 
     const [survey, setSurvey] = useState(null);
@@ -26,5 +28,6 @@ export default function Submit(props) {
     return <div>
         <h1>{survey.event}</h1>
         <p>{survey.date}</p>
+        <TimeFrame/>
     </div>
 }
