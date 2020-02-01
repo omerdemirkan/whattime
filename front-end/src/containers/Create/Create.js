@@ -17,12 +17,6 @@ import axios from '../../axios';
 import { connect } from 'react-redux';
 import * as actionTypes from '../../store/actions/actionTypes';
 
-const sameDate = (first, second) => {
-    return first.getFullYear() === second.getFullYear() &&
-    first.getMonth() === second.getMonth() &&
-    first.getDate() === second.getDate();
-}
-
 function Create(props) {
 
     // Redirecting if the user is not authorized
@@ -33,10 +27,7 @@ function Create(props) {
     }, [props.authLoading]);
 
     const setDateHandler = date => {
-        const today = new Date()
-        if (date >= today || sameDate(date, today)) {
-            props.onUpdateSelectedDate(date);
-        }
+        props.onUpdateSelectedDate(date);
     };
 
     const setEventNameHandler = event => {
@@ -61,7 +52,8 @@ function Create(props) {
         })
         .then(res => {
             props.onResetCreate();
-            props.history.push('/my-surveys/' + res.data.surveyId);
+            // props.history.push('/my-surveys/' + res.data.surveyId);
+            console.log(res.data.surveyId);
         })
         .catch(err => {
             console.log(err);
@@ -83,6 +75,7 @@ function Create(props) {
             margin="normal"
             id="date-picker-inline"
             label="Date"
+            minDate={new Date()}
             value={props.selectedDate}
             onChange={setDateHandler}
             KeyboardButtonProps={{

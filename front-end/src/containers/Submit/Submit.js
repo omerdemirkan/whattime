@@ -1,12 +1,13 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import classes from './Submit.module.css';
 import axios from '../../axios';
 
+import { connect } from 'react-redux';
+import * as actionTypes from '../../store/actions/actionTypes';
+
 import TimeFrame from '../../components/TimeFrame/TimeFrame';
 
-export default function Submit(props) {
-
-    const [survey, setSurvey] = useState(null);
+function Submit(props) {
 
     useEffect(() => {
         const fullPath = props.history.location.pathname;
@@ -14,20 +15,35 @@ export default function Submit(props) {
 
         axios.get('/submit/' + id)
         .then(res => {
-            setSurvey(res.data)
+            props.onSetSurvey(res.data)
         })
         .catch(err => {
-            props.history.push('/');
+            // props.history.push('/');
+            console.log(err);
         });
     }, []);
 
-    if (!survey) {
+    if (!props.survey) {
         return null
     }
 
     return <div>
-        <h1>{survey.event}</h1>
-        <p>{survey.date}</p>
+        <h1>{props.survey.event}</h1>
+        <p>{props.survey.date}</p>
         <TimeFrame/>
     </div>
 }
+
+const mapStateToProps = state => {
+    return {
+        survey: state.submit.survey
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onSetSurvey: survey => dispatch({type: actionTypes.SET_SURVEY, survey: survey})
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Submit);

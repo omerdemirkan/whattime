@@ -10,7 +10,8 @@ function Survey(props) {
     return <div>
         <h1 onClick={inspectRedirect}>{props.survey.event}</h1>
         <p>{props.survey.submitions.length} submitions</p>
-        <p>{props.survey.createdAt}</p>
+        <p>date {props.survey.date}</p>
+        <p>Created at {props.survey.createdAt}</p>
     </div>
 }
 
