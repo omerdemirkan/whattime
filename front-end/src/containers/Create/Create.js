@@ -17,6 +17,12 @@ import axios from '../../axios';
 import { connect } from 'react-redux';
 import * as actionTypes from '../../store/actions/actionTypes';
 
+const floorDate = date => {
+    date.setHours(0);
+    date.setMinutes(0);
+    return date;
+}
+
 function Create(props) {
 
     // Redirecting if the user is not authorized
@@ -27,7 +33,7 @@ function Create(props) {
     }, [props.authLoading]);
 
     const setDateHandler = date => {
-        props.onUpdateSelectedDate(date);
+        props.onUpdateSelectedDate(floorDate(date));
     };
 
     const setEventNameHandler = event => {

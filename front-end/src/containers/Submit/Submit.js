@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import * as actionTypes from '../../store/actions/actionTypes';
 
 import TimeFrame from '../../components/TimeFrame/TimeFrame';
+import TimeFrameCreator from '../TimeFrameCreator/TimeFrameCreator';
 
 function Submit(props) {
 
@@ -27,9 +28,16 @@ function Submit(props) {
     }
 
     return <div>
-        <h1>{props.survey.event}</h1>
-        <p>{props.survey.date}</p>
-        <TimeFrame/>
+        <h1>Event: {props.survey.event}</h1>
+        <p>Date{props.survey.date}</p>
+        <p>Creator: {props.survey.creator}</p>
+        <div>
+            <h1>What times will you be available?</h1>
+            {props.survey ?
+                <TimeFrameCreator date={props.survey.date}/>
+            : null}
+            
+        </div>
     </div>
 }
 
