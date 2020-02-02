@@ -18,8 +18,7 @@ function Submit(props) {
             props.onSetSurvey(res.data)
         })
         .catch(err => {
-            // props.history.push('/');
-            console.log(err);
+            props.history.push('/');
         });
     }, []);
 
