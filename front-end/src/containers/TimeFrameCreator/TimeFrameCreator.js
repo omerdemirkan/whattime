@@ -13,22 +13,21 @@ export default function TimeFrameCreator(props) {
     const [endTime, setEndTime] = useState(props.date);
 
     return <div>
-        
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                <TimePicker 
-                label="Start" 
-                defaultValue={props.date}
-                value={startTime} 
-                onChange={setStartTime} />
-                <p>{startTime.toString()}</p>
-                <TimePicker 
-                label="End" 
-                defaultValue={props.date}
-                value={endTime} 
-                onChange={setEndTime} />
-                <p>{endTime.toString()}</p>
+            <TimePicker 
+            label="Start" 
+            defaultValue={props.date}
+            value={startTime} 
+            onChange={setStartTime} />
+            <p>{startTime.toString()}</p>
+            <TimePicker 
+            label="End" 
+            defaultValue={props.date}
+            value={endTime} 
+            onChange={setEndTime} />
+            <p>{endTime.toString()}</p>
         </MuiPickersUtilsProvider>
 
-        <button>Add availability</button>
+        <button onClick={() => props.add({start: startTime, end: endTime})}>Add availability</button>
     </div>
 }

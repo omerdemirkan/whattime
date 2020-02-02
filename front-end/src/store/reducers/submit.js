@@ -8,7 +8,8 @@ const initialState = {
 const submitReducer = (state = initialState, action) => {
     switch(action.type) {
         case actionTypes.ADD_TIMEFRAME:
-            let newTimeframes = [...state.timeframes].push(action.timeframe);
+            let newTimeframes = [...state.timeframes];
+            newTimeframes.push(action.timeframe);
             return {
                 ...state,
                 timeframes: newTimeframes
