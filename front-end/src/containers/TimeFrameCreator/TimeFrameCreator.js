@@ -12,6 +12,8 @@ export default function TimeFrameCreator(props) {
     const [startTime, setStartTime] = useState(props.date);
     const [endTime, setEndTime] = useState(props.date);
 
+    console.log(typeof props.date);
+
     return <div>
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <TimePicker 

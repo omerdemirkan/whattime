@@ -43,6 +43,11 @@ function Submit(props) {
                 add={addTimeFrameHandler}
                 />
             : null}
+            {props.timeframes.map(timeframe => {
+                return <TimeFrame 
+                start={timeframe.start} 
+                end={timeframe.end}/>
+            })}
             
         </div>
     </div>
@@ -50,7 +55,8 @@ function Submit(props) {
 
 const mapStateToProps = state => {
     return {
-        survey: state.submit.survey
+        survey: state.submit.survey,
+        timeframes: state.submit.timeframes
     }
 }
 

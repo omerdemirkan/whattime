@@ -32,6 +32,7 @@ function Create(props) {
         }
     }, [props.authLoading]);
 
+
     const setDateHandler = date => {
         props.onUpdateSelectedDate(floorDate(date));
     };
@@ -58,8 +59,7 @@ function Create(props) {
         })
         .then(res => {
             props.onResetCreate();
-            // props.history.push('/my-surveys/' + res.data.surveyId);
-            console.log(res.data.surveyId);
+            props.history.push('/my-surveys/' + res.data.surveyId);
         })
         .catch(err => {
             console.log(err);
