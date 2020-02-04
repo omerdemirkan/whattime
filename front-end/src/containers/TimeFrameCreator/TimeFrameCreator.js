@@ -8,28 +8,41 @@ import {
 } from '@material-ui/pickers';
 
 export default function TimeFrameCreator(props) {
+    const minDate = new Date(props.date);
+    const maxDate = minDate;
+    maxDate.setDate(minDate.getDate() + 1);
 
-    const [startTime, setStartTime] = useState(props.date);
-    const [endTime, setEndTime] = useState(props.date);
+    const [startTime, setStartTime] = useState(minDate);
+    const [endTime, setEndTime] = useState(minDate);
 
-    console.log(typeof props.date);
+    const submitHandler = () => {
+        props.add(
+            {
+                start: startTime.getTime(), 
+                end: endTime.getTime()
+            }
+        )
+    }
+
 
     return <div>
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <TimePicker 
             label="Start" 
-            defaultValue={props.date}
+            minDate={minDate}
+            maxDate={maxDate}
             value={startTime} 
             onChange={setStartTime} />
             <p>{startTime.toString()}</p>
             <TimePicker 
             label="End" 
-            defaultValue={props.date}
+            minDate={minDate}
+            maxDate={maxDate}
             value={endTime} 
             onChange={setEndTime} />
             <p>{endTime.toString()}</p>
         </MuiPickersUtilsProvider>
 
-        <button onClick={() => props.add({start: startTime, end: endTime})}>Add availability</button>
+        <button onClick={submitHandler}>Add availability</button>
     </div>
 }

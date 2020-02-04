@@ -28,7 +28,12 @@ function Submit(props) {
     }
 
     const addTimeFrameHandler = timeframe => {
-        props.onAddTimeFrame(timeframe)
+        const start = new Date(timeframe.start);
+        const end = new Date(timeframe.end);
+        if (start < end) {
+            
+            props.onAddTimeFrame(timeframe)
+        }
     }
 
     return <div>
