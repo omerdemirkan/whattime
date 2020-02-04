@@ -15,6 +15,7 @@ import Create from './containers/Create/Create';
 import MySurveys from './containers/MySurveys/MySurveys'
 import Inspect from './containers/Inspect/Inspect';
 import Submit from './containers/Submit/Submit';
+import Notification from './containers/Notification/Notification';
 
 function App(props) {
 
@@ -59,6 +60,7 @@ function App(props) {
       <Route path='/login' component={Login} />
       <Route path='/' component={HomePage} />
     </Switch>
+    <Notification/>
   </div>
 }
 

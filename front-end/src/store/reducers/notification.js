@@ -27,7 +27,7 @@ const notificationReducer = (state = initialState, action) => {
                 ...state,
                 snackbarMessage: null
             }
-        default: 
+        default:
             return state;
     }
 }

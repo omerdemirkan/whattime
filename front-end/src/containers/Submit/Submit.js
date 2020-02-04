@@ -42,12 +42,12 @@ function Submit(props) {
                 props.onSetTimeFrames(timeframes)
             } else {
                 // Modal: Not a valid duration
+                props.onOpenModal('Boojie');
                 console.log('Not a valid duration (overlap found)');
             }
-
-            
         } else {
             // Modal: Not a valid duration
+                props.onOpenModal('Boojie');
             console.log('Not a valid duration');
         }
     }
@@ -84,7 +84,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         onSetSurvey: survey => dispatch({type: actionTypes.SET_SURVEY, survey: survey}),
-        onSetTimeFrames: timeframes => dispatch({type: actionTypes.SET_TIMEFRAMES, timeframes: timeframes})
+        onSetTimeFrames: timeframes => dispatch({type: actionTypes.SET_TIMEFRAMES, timeframes: timeframes}),
+        onOpenModal: message => dispatch({type: actionTypes.OPEN_MODAL, message: message})
     }
 }
 
