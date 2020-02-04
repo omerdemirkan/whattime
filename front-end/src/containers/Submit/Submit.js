@@ -28,11 +28,27 @@ function Submit(props) {
     }
 
     const addTimeFrameHandler = timeframe => {
-        const start = new Date(timeframe.start);
-        const end = new Date(timeframe.end);
-        if (start < end) {
+        if (timeframe.start < timeframe.end) {
+            let overlapFound = false;
+            props.timeframes.forEach(tf => {
+                if ((tf.start <= timeframe.start && tf.end >= timeframe.end) || (tf.start >= timeframe.start && tf.end <= timeframe.end)) {
+                    overlapFound = true;
+                }
+            });
+            if (!overlapFound) {
+                let timeframes = [...props.timeframes];
+                timeframes.push(timeframe);
+                timeframes.sort((a, b) => a.start - b.start);
+                props.onSetTimeFrames(timeframes)
+            } else {
+                // Modal: Not a valid duration
+                console.log('Not a valid duration (overlap found)');
+            }
+
             
-            props.onAddTimeFrame(timeframe)
+        } else {
+            // Modal: Not a valid duration
+            console.log('Not a valid duration');
         }
     }
 
@@ -68,7 +84,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         onSetSurvey: survey => dispatch({type: actionTypes.SET_SURVEY, survey: survey}),
-        onAddTimeFrame: timeframe => dispatch({type: actionTypes.ADD_TIMEFRAME, timeframe: timeframe})
+        onSetTimeFrames: timeframes => dispatch({type: actionTypes.SET_TIMEFRAMES, timeframes: timeframes})
     }
 }
 
