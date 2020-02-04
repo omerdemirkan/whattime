@@ -16,14 +16,11 @@ export default function TimeFrameCreator(props) {
     const [endTime, setEndTime] = useState(minDate);
 
     const submitHandler = () => {
-        props.add(
-            {
-                start: startTime.getTime(), 
-                end: endTime.getTime()
-            }
-        )
+        props.add({
+            start: startTime.getTime(), 
+            end: endTime.getTime()
+        })
     }
-
 
     return <div>
         <MuiPickersUtilsProvider utils={DateFnsUtils}>

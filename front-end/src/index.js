@@ -13,6 +13,7 @@ import authReducer from './store/reducers/auth';
 import createReducer from './store/reducers/create';
 import surveysReducer from './store/reducers/surveys';
 import submitReducer from './store/reducers/submit';
+import notificationReducer from './store/reducers/notification';
 
 import thunk from 'redux-thunk';
 
@@ -22,7 +23,8 @@ const rootReducer = combineReducers({
     auth: authReducer,
     create: createReducer,
     surveys: surveysReducer,
-    submit: submitReducer
+    submit: submitReducer,
+    notification: notificationReducer
 });
 
 const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk)));
