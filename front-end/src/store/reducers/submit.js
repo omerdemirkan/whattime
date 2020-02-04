@@ -12,7 +12,7 @@ const submitReducer = (state = initialState, action) => {
                 ...state,
                 timeframes: action.timeframes
             }
-        case actionTypes.SET_SURVEY:
+        case actionTypes.SET_SUBMIT_SURVEY:
             return {
                 ...state,
                 survey: action.survey

@@ -11,7 +11,6 @@ const availableIsValid = (available, date) => {
         let isSorted = true;
         available.forEach((epoch, index) => {
             if (index < length - 1 && epoch + 60 >= available[length + 1]) {
-                console.log('failed available array sorted test');
                 isSorted = false;
             }
         });
@@ -23,10 +22,8 @@ const availableIsValid = (available, date) => {
         // Checking if given availabilities are within the given timeframe
         const start = date.getTime();
         const end = start + 86400000;
-        console.log(start);
 
         if (available[0] < start || available[length - 1] > end) {
-            console.log(start - available[0]);
             return false;
         }
         
@@ -42,7 +39,6 @@ const nameIsValid = name => {
 }
 
 module.exports = (submition, date) => {
-    console.log(nameIsValid(submition.name), availableIsValid(submition.available, date));
 
     if (!submition.name || !submition.available) return false;
 

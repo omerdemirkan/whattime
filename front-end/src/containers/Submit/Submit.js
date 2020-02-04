@@ -118,7 +118,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onSetSurvey: survey => dispatch({type: actionTypes.SET_SURVEY, survey: survey}),
+        onSetSurvey: survey => dispatch({type: actionTypes.SET_SUBMIT_SURVEY, survey: survey}),
         onSetTimeFrames: timeframes => dispatch({type: actionTypes.SET_TIMEFRAMES, timeframes: timeframes}),
         onOpenModal: message => dispatch({type: actionTypes.OPEN_MODAL, message: message})
     }
