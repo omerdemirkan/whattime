@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import classes from './Submit.module.css';
 import axios from '../../axios';
 
@@ -7,8 +7,13 @@ import * as actionTypes from '../../store/actions/actionTypes';
 
 import TimeFrame from '../../components/TimeFrame/TimeFrame';
 import TimeFrameCreator from '../TimeFrameCreator/TimeFrameCreator';
+import TextField from '@material-ui/core/TextField';
 
 function Submit(props) {
+    const fullPath = props.history.location.pathname;
+    const id = fullPath.slice(fullPath.lastIndexOf('/') + 1, fullPath.length);
+
+    const [name, setName] = useState('');
 
     useEffect(() => {
         const fullPath = props.history.location.pathname;
@@ -42,14 +47,37 @@ function Submit(props) {
                 props.onSetTimeFrames(timeframes)
             } else {
                 // Modal: Not a valid duration
-                props.onOpenModal('Boojie');
-                console.log('Not a valid duration (overlap found)');
+                props.onOpenModal('Overlap found with another availability');
             }
         } else {
             // Modal: Not a valid duration
-                props.onOpenModal('Boojie');
-            console.log('Not a valid duration');
+            props.onOpenModal('Not a valid duration. Be sure to set start times before end times');
         }
+    }
+
+    const updateNameHandler = event => {
+        setName(event.target.value)
+    }
+
+    const submitHandler = () => {
+        let allTimes = [];
+        props.timeframes.forEach(timeframe => {
+            allTimes.push(timeframe.start);
+            allTimes.push(timeframe.end);
+        });
+
+        axios.post('/submit/' + id, {
+            submition: {
+                available: allTimes,
+                name: name
+            }
+        })
+        .then(res => {
+            console.log(res);
+        })
+        .catch(err => {
+            console.log(err);
+        });
     }
 
     return <div>
@@ -67,8 +95,15 @@ function Submit(props) {
             {props.timeframes.map(timeframe => {
                 return <TimeFrame 
                 start={timeframe.start} 
-                end={timeframe.end}/>
+                end={timeframe.end}
+                />
             })}
+            <TextField 
+            id="standard-basic" label={'Your ' + props.survey.nameType}
+            value={name}
+            onChange={updateNameHandler}
+            />
+            <button onClick={submitHandler}>SUBMIT</button>
             
         </div>
     </div>

@@ -3,7 +3,6 @@ import classes from './Notification.module.css';
 
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
-import DialogTitle from '@material-ui/core/DialogTitle';
 
 import { connect } from 'react-redux';
 import * as actionTypes from '../../store/actions/actionTypes';
@@ -20,10 +19,7 @@ function Notification(props) {
             <p>{props.modalMessage}</p>
             <DialogActions>
                 <button onClick={props.onCloseModal}>
-                    Disagree
-                </button>
-                <button onClick={props.onCloseModal}>
-                    Agree
+                    OK
                 </button>
             </DialogActions>
         </Dialog>

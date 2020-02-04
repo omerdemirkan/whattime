@@ -9,7 +9,8 @@ import {
 
 export default function TimeFrameCreator(props) {
     const minDate = new Date(props.date);
-    const maxDate = minDate;
+    console.log(minDate);
+    const maxDate = new Date(props.date);
     maxDate.setDate(minDate.getDate() + 1);
 
     const [startTime, setStartTime] = useState(minDate);

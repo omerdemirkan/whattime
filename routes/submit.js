@@ -35,6 +35,7 @@ router.post('/:id', limiter, (req, res) => {
     const submition = req.body.submition;
 
     if (!submition) {
+        console.log('Submition required in request body.');
         return res.status(400).json('Submition required in request body.')
     }
 
@@ -42,10 +43,12 @@ router.post('/:id', limiter, (req, res) => {
         if (findSurveyError || !survey) return res.status(400).json('Could not find a survey with this id');
 
         if (survey.date <= new Date()) {
+            console.log('The event date has passed.')
             return res.status(400).json({errors: ['The event date has passed.']})
         }
 
         if (!submitionIsValid(submition, survey.date)) {
+            console.log('submition not valid');
             return res.status(400).json('Invalid submition (failed submitionIsValid).');
         }
 
