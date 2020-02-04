@@ -1,6 +1,8 @@
 import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
+    modalOpen: false,
+    snackbarOpen: false,
     modalMessage: null,
     snackbarMessage: null
 }
@@ -10,22 +12,24 @@ const notificationReducer = (state = initialState, action) => {
         case actionTypes.OPEN_MODAL:
             return {
                 ...state,
-                modalMessage: action.message
+                modalMessage: action.message,
+                modalOpen: true
             }
         case actionTypes.CLOSE_MODAL:
             return {
                 ...state,
-                modalMessage: null
+                modalOpen: false
             }
         case actionTypes.OPEN_SNACKBAR:
             return {
                 ...state,
-                snackbarMessage: action.message
+                snackbarMessage: action.message,
+                snackbarOpen: true
             }
         case actionTypes.CLOSE_SNACKBAR:
             return {
                 ...state,
-                snackbarMessage: null
+                snackbarOpen: false
             }
         default:
             return state;

@@ -11,7 +11,7 @@ import * as actionTypes from '../../store/actions/actionTypes';
 function Notification(props) {
     return <>
         <Dialog
-        open={!!props.modalMessage}
+        open={props.modalOpen}
         onClose={props.onCloseModal}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
@@ -33,7 +33,9 @@ function Notification(props) {
 const mapStateToProps = state => {
     return {
         modalMessage: state.notification.modalMessage,
-        snackbarMessage: state.notification.snackbarMessage
+        modalOpen: state.notification.modalOpen,
+        snackbarMessage: state.notification.snackbarMessage,
+        snackbarOpen: state.notification.snackbarOpen
     }
 }
 
