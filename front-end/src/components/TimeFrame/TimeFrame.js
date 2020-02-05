@@ -11,7 +11,6 @@ function getDisplayTime(date) {
 
 export default function TimeFrame(props) {
     return <div>
-        <p>Start: {getDisplayTime(props.start)}</p>
-        <p>End: {getDisplayTime(props.end)}</p>
+        <p>{getDisplayTime(props.start)} - {getDisplayTime(props.end)}</p>
     </div>
 }

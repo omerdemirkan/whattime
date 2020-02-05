@@ -1,16 +1,19 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import classes from './Inspect.module.css';
 
 import { connect } from 'react-redux';
 import * as actionTypes from '../../store/actions/actionTypes';
 
 import Person from './Person/Person';
+import TimeFrame from '../../components/TimeFrame/TimeFrame';
 
 function Inspect(props) {
 
     const fullPath = props.history.location.pathname;
     const id = fullPath.slice(fullPath.lastIndexOf('/') + 1, fullPath.length);
     const shareURL = window.location.protocol + "//" + window.location.host + '/submit/' + id;
+
+    const [availableTimes, setAvailableTimes] = useState(null);
 
     useEffect(() => {
         const survey = props.loadedSurveys.filter(survey => survey._id === id)[0] || false;
@@ -64,7 +67,7 @@ function Inspect(props) {
                     availableCounter--;
                 }
             });
-            console.log(allAvailableTimeFrames);
+            setAvailableTimes(allAvailableTimeFrames);
         }
     }, [props.survey]);
 
@@ -83,6 +86,14 @@ function Inspect(props) {
             createdAt={submition.createdAt}
             />
         })}
+        <h1>Available Times:</h1>
+        {availableTimes ? 
+            availableTimes.map(time => {
+                return <TimeFrame
+                start={time.start}
+                end={time.end}/>
+            })
+        : null}
     </div>
 }
 
