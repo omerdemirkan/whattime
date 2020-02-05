@@ -19,12 +19,17 @@ function Inspect(props) {
             props.history.push('/my-surveys');
         } else {
             props.onSetSurvey(survey);
+            
+        }
+    }, [props.loadedSurveys]);
+
+    useEffect(() => {
+        if (props.survey) {
+            
             let cumulativeTimes = [];
-            survey.submitions.forEach(submition => {
-                console.log(submition.available.length);
+            props.survey.submitions.forEach(submition => {
                 let formattedTimes = []
                 for (let i = 0; i < submition.available.length; i += 2) {
-                    console.log('inside inner for loop');
                     formattedTimes.push({
                         name: submition.name,
                         time: submition.available[i],
@@ -38,11 +43,30 @@ function Inspect(props) {
                 }
                 cumulativeTimes = cumulativeTimes.concat(formattedTimes);
             });
-            cumulativeTimes.sort((a, b) => b - a);
+            cumulativeTimes.sort((a, b) => a.time - b.time);
             console.log(cumulativeTimes);
             
+            const numSubmitions = props.survey.submitions.length;
+            let availableCounter = 0;
+            let allAvailableTimeFrames = [];
+            cumulativeTimes.forEach(time => {
+                if (time.isStart) {
+                    availableCounter++;
+                    if (availableCounter === numSubmitions) {
+                        allAvailableTimeFrames.push({
+                            start: time.time
+                        });
+                    }
+                } else {
+                    if (availableCounter === numSubmitions) {
+                        allAvailableTimeFrames[allAvailableTimeFrames.length - 1].end = time.time;
+                    }
+                    availableCounter--;
+                }
+            });
+            console.log(allAvailableTimeFrames);
         }
-    }, [props.loadedSurveys]);
+    }, [props.survey]);
 
     
 
