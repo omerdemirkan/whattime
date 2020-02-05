@@ -7,26 +7,48 @@ import * as actionTypes from '../../store/actions/actionTypes';
 import Person from './Person/Person';
 
 function Inspect(props) {
+
     const fullPath = props.history.location.pathname;
     const id = fullPath.slice(fullPath.lastIndexOf('/') + 1, fullPath.length);
+    const shareURL = window.location.protocol + "//" + window.location.host + '/submit/' + id;
 
     useEffect(() => {
-        const numSurveys = props.surveys.length
-        if (numSurveys === 0) {
+        const survey = props.loadedSurveys.filter(survey => survey._id === id)[0] || false;
+
+        if (!survey) {
             props.history.push('/my-surveys');
         } else {
-            const survey = props.surveys.filter(survey => survey._id === id)[0];
             props.onSetSurvey(survey);
+            let cumulativeTimes = [];
+            survey.submitions.forEach(submition => {
+                console.log(submition.available.length);
+                let formattedTimes = []
+                for (let i = 0; i < submition.available.length; i += 2) {
+                    console.log('inside inner for loop');
+                    formattedTimes.push({
+                        name: submition.name,
+                        time: submition.available[i],
+                        isStart: true
+                    });
+                    formattedTimes.push({
+                        name: submition.name,
+                        time: submition.available[i + 1],
+                        isStart: false
+                    });
+                }
+                cumulativeTimes = cumulativeTimes.concat(formattedTimes);
+            });
+            cumulativeTimes.sort((a, b) => b - a);
+            console.log(cumulativeTimes);
+            
         }
-    }, [props.surveys]);
+    }, [props.loadedSurveys]);
 
     
 
     if (!props.survey) {
         return null;
     }
-
-    let shareURL = window.location.protocol + "//" + window.location.host + '/submit/' + id;
     return <div>
         <h1>{props.survey.event}</h1>
         <p>{props.survey.submitions.length} submitions</p>
@@ -42,7 +64,7 @@ function Inspect(props) {
 
 const mapStateToProps = state => {
     return {
-        surveys: state.surveys.surveys,
+        loadedSurveys: state.surveys.surveys,
         survey: state.inspect.survey
     }
 }
