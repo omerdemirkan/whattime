@@ -6,7 +6,7 @@ function getDisplayTime(date) {
     const minutes = parsedDate.getMinutes();
     
     const hours = parsedDate.getHours() % 12;
-    return (hours !== 0 ? hours : '12') + ':' + (minutes < 10 ? '0' : '') + minutes + (hours > 12 ? 'PM' : 'AM');
+    return (hours !== 0 ? hours : '12') + ':' + (minutes < 10 ? '0' : '') + minutes + (parsedDate.getHours() >= 12 ? 'PM' : 'AM');
 }
 
 export default function TimeFrame(props) {

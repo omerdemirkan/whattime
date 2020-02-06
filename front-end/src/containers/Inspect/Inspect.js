@@ -28,7 +28,6 @@ function Inspect(props) {
 
     useEffect(() => {
         if (props.survey) {
-            
             let cumulativeTimes = [];
             props.survey.submitions.forEach(submition => {
                 let formattedTimes = []
@@ -47,7 +46,6 @@ function Inspect(props) {
                 cumulativeTimes = cumulativeTimes.concat(formattedTimes);
             });
             cumulativeTimes.sort((a, b) => a.time - b.time);
-            console.log(cumulativeTimes);
             
             const numSubmitions = props.survey.submitions.length;
             let availableCounter = 0;
