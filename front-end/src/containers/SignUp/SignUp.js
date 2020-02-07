@@ -7,10 +7,11 @@ import { connect } from 'react-redux';
 import * as actionTypes from '../../store/actions/actionTypes';
 
 import TextField from '@material-ui/core/TextField';
-import InputAdornment from '@material-ui/core/InputAdornment';
 import IconButton from '@material-ui/core/IconButton';
 import VisibilityOffRoundedIcon from '@material-ui/icons/VisibilityOffRounded';
 import VisibilityRoundedIcon from '@material-ui/icons/VisibilityRounded';
+
+import Button from '../../components/UI/Button/Button';
 
 function SignUp(props) {
 
@@ -69,7 +70,7 @@ function SignUp(props) {
                 username: debouncedUsername
             })
             .then(res => {
-                if (res.data !== usernameIsUnique) {
+                if (res.data !== usernameIsUnique && usernameIsUnique === 'unknown') {
                     setUsernameIsUnique(res.data);
                 }
             })
@@ -96,15 +97,18 @@ function SignUp(props) {
             onChange={event => updateFormHandler(event, 'password')}
             className={classes.TextField}
             />
-
-            {showPassword ? 
-                <VisibilityOffRoundedIcon onClick={() => setShowPassword(false)}/>
-            : 
-                <VisibilityRoundedIcon onClick={() => setShowPassword(true)}/>
-            }
-            
-            
-            <input disabled={usernameIsUnique !== true || password.length < 8} type='submit'/>
+            <IconButton>
+                {showPassword ? 
+                    <VisibilityOffRoundedIcon onClick={() => setShowPassword(false)}/>
+                : 
+                    <VisibilityRoundedIcon onClick={() => setShowPassword(true)}/>
+                }
+            </IconButton>
+            <Button
+            disabled={usernameIsUnique !== true || password.length < 8} 
+            type='submit'
+            buttonClasses=''
+            >Submit</Button>
         </form>
         <h1>{debouncedUsername}</h1>
     </div>
