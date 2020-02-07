@@ -6,6 +6,8 @@ import axios from '../../axios';
 import { connect } from 'react-redux';
 import * as actionTypes from '../../store/actions/actionTypes';
 
+import TextField from '@material-ui/core/TextField';
+import InputAdornment from '@material-ui/core/InputAdornment';
 
 function SignUp(props) {
 
@@ -21,7 +23,8 @@ function SignUp(props) {
             case 'username':
                 const updatedUsername = event.target.value.replace(/\s/g, '');
 
-                if (!updatedUsername.match(/^[a-zA-Z0-9]+$/)) break;
+                // Regex validation (uppercase, lowercase, dash, underscore)
+                if (!updatedUsername.match(/^[a-zA-Z0-9_-]+$/) && updatedUsername !== '') break;
 
                 if (updatedUsername.length <= 20) {
                     setUsername(updatedUsername);
@@ -69,20 +72,22 @@ function SignUp(props) {
     }, [debouncedUsername]);
 
     return <div>
-        <form onSubmit={submitForm}>
-            <label>Username ({usernameIsUnique === true ? 'unique': usernameIsUnique})</label>
-            <input 
+        <form onSubmit={submitForm} className={classes.Form}>
+            <TextField 
             type='text'
+            label="Username"
             value={username}
             onChange={event => updateFormHandler(event, 'username')}
+            className={classes.TextField}
             />
-            <label>Password</label>
-            <input 
+            <TextField 
+            id="standard-adornment-password"
             type='password' 
+            label="Password"
             value={password}
             onChange={event => updateFormHandler(event, 'password')}
+            className={classes.TextField}
             />
-            <label>Re-enter Password</label>
             <input disabled={usernameIsUnique !== true || password.length < 8} type='submit'/>
         </form>
         <h1>{debouncedUsername}</h1>
