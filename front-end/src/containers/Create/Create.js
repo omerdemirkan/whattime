@@ -1,5 +1,6 @@
 import React, {useEffect} from 'react';
 import classes from './Create.module.css';
+import AuthRequired from '../Auth/AuthRequired';
 
 
 import DateFnsUtils from '@date-io/date-fns';
@@ -24,14 +25,6 @@ const floorDate = date => {
 }
 
 function Create(props) {
-
-    // Redirecting if the user is not authorized
-    useEffect(() => {
-        if (!props.accessToken && !props.authLoading) {
-            props.history.push('/signup');
-        }
-    }, [props.authLoading]);
-
 
     const setDateHandler = date => {
         props.onUpdateSelectedDate(floorDate(date));
@@ -67,6 +60,7 @@ function Create(props) {
     }
 
     return <div>
+        <AuthRequired history={props.history}/>
         <TextField 
         id="standard-basic" 
         label="Event Name" 
@@ -110,8 +104,7 @@ const mapStateToProps = state => {
         nameType: state.create.nameType,
         eventName: state.create.eventName,
         selectedDate: state.create.selectedDate,
-        accessToken: state.auth.accessToken,
-        authLoading: state.auth.loading
+        accessToken: state.auth.accessToken
     }
 }
 
