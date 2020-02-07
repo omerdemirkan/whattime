@@ -10,6 +10,7 @@ import {Input, IconButton} from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import VisibilityOffRoundedIcon from '@material-ui/icons/VisibilityOffRounded';
 import VisibilityRoundedIcon from '@material-ui/icons/VisibilityRounded';
+import CheckRoundedIcon from '@material-ui/icons/CheckRounded';
 
 import Button from '../../components/UI/Button/Button';
 
@@ -32,7 +33,6 @@ function SignUp(props) {
         .then(res => {
             console.log(usernameIsUnique);
             setUsernameIsUnique(res.data);
-                
         })
         .catch(err => {
             console.log(err);
@@ -88,15 +88,26 @@ function SignUp(props) {
 
     let usernameMessage = null;
 
-    if (usernameIsUnique === false) {
-        usernameMessage = <span className={classes.UsernameErrorMessage}>username taken</span>
-    } else if (username === veryDebouncedUsername && username.length > 0 && username.length < 4) {
-        usernameMessage = <span className={classes.UsernameErrorMessage}>username too short</span>
-    } else if (usernameIsUnique === 'loading') {
-        usernameMessage = <CircularProgress size={20} className={classes.UsernameLoader}/>
+    switch(usernameIsUnique) {
+        case true:
+            usernameMessage = <CheckRoundedIcon className={classes.UsernameLoader}/>;
+            break;
+        case false:
+            usernameMessage = <span className={classes.UsernameMessage}>username taken</span>
+            break;
+        case 'unknown':
+            if (username === veryDebouncedUsername && username.length > 0 && username.length < 4) {
+                usernameMessage = <span className={classes.UsernameMessage}>username too short</span>
+            }
+            break;
+        case 'loading':
+            usernameMessage = <CircularProgress size={20} className={classes.UsernameLoader}/>
+            break;
     }
 
+
     return <div>
+        <h1 className={classes.Header}>Sign Up</h1>
         <form onSubmit={submitForm} className={classes.Form}>
             <div className={classes.InputGroup}>
                 <label>Username</label>
@@ -136,7 +147,7 @@ function SignUp(props) {
             disabled={usernameIsUnique !== true || password.length < 8} 
             type='submit'
             buttonClasses='Medium Primary'
-            style={{float: 'right'}}
+            style={{position: 'absolute', bottom: '0', right: '0'}}
             >SIGN UP</Button>
         </form>
     </div>
