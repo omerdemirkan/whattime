@@ -23,20 +23,25 @@ function SignUp(props) {
     const debouncedUsername = useDebounce(username, 800);
     const veryDebouncedUsername = useDebounce(username, 3000);
 
+
+    async function fetchUsernameIsLoading() {
+        setUsernameIsUnique('loading');
+        axios.post('/auth/is-username-unique', {
+            username: debouncedUsername
+        })
+        .then(res => {
+            console.log(usernameIsUnique);
+            setUsernameIsUnique(res.data);
+                
+        })
+        .catch(err => {
+            console.log(err);
+        });
+    }
+
+
     useEffect(() => {
-        if (debouncedUsername.length >= 4) {
-            axios.post('/auth/is-username-unique', {
-                username: debouncedUsername
-            })
-            .then(res => {
-                if (res.data !== usernameIsUnique && usernameIsUnique === 'loading') {
-                    setUsernameIsUnique(res.data);
-                }
-            })
-            .catch(err => {
-                console.log(err);
-            });
-        }
+        if (debouncedUsername.length >= 4) fetchUsernameIsLoading();
     }, [debouncedUsername]);
 
     function updateFormHandler(event, input) {
@@ -49,7 +54,7 @@ function SignUp(props) {
 
                 if (updatedUsername.length <= 20 && updatedUsername.length !== username) {
                     setUsername(updatedUsername);
-                    setUsernameIsUnique(updatedUsername >= 4 ? 'loading': 'unknown');
+                    setUsernameIsUnique('unknown');
                 }
 
                 break;
