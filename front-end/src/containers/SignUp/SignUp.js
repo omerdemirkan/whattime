@@ -142,6 +142,9 @@ function SignUp(props) {
                 className={classes.TextField}
                 />
             </div>
+            <div className={classes.PasswordFeedbackBox}>
+
+            </div>
             
             <Button
             disabled={usernameIsUnique !== true || password.length < 8} 
@@ -153,16 +156,10 @@ function SignUp(props) {
     </div>
 }
 
-const mapStateToProps = state => {
-    return {
-        username: state.auth.username
-    }
-}
-
 const mapDispatchToProps = dispatch => {
     return {
         onAuthenticationSuccess: (username, accessToken) => dispatch({type: actionTypes.AUTHENTICATION_SUCCESS, username: username, accessToken: accessToken})
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignUp);
+export default connect(null, mapDispatchToProps)(SignUp);

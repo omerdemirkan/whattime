@@ -1,6 +1,6 @@
 .Form {
     width: 90%;
-    max-width: 400px;
+    max-width: 450px;
     margin: auto;
     position: relative;
     padding-bottom: 10px;
@@ -31,4 +31,8 @@
 
 .UsernameLoader {
     float: right;
+}
+
+.PasswordFeedbackBox {
+    
 }
