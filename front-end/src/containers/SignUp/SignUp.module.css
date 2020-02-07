@@ -16,7 +16,11 @@
     float: right;
 }
 
-.UsernameTaken {
+.UsernameErrorMessage {
     color: red;
+    float: right;
+}
+
+.UsernameLoader {
     float: right;
 }

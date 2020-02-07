@@ -6,8 +6,8 @@ import axios from '../../axios';
 import { connect } from 'react-redux';
 import * as actionTypes from '../../store/actions/actionTypes';
 
-import Input from '@material-ui/core/Input';
-import IconButton from '@material-ui/core/IconButton';
+import {Input, IconButton} from '@material-ui/core';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import VisibilityOffRoundedIcon from '@material-ui/icons/VisibilityOffRounded';
 import VisibilityRoundedIcon from '@material-ui/icons/VisibilityRounded';
 
@@ -21,6 +21,23 @@ function SignUp(props) {
     const [usernameIsUnique, setUsernameIsUnique] = useState('unknown');
 
     const debouncedUsername = useDebounce(username, 800);
+    const veryDebouncedUsername = useDebounce(username, 3000);
+
+    useEffect(() => {
+        if (debouncedUsername.length >= 4) {
+            axios.post('/auth/is-username-unique', {
+                username: debouncedUsername
+            })
+            .then(res => {
+                if (res.data !== usernameIsUnique && usernameIsUnique === 'loading') {
+                    setUsernameIsUnique(res.data);
+                }
+            })
+            .catch(err => {
+                console.log(err);
+            });
+        }
+    }, [debouncedUsername]);
 
     function updateFormHandler(event, input) {
         switch(input) {
@@ -30,9 +47,9 @@ function SignUp(props) {
                 // Regex validation (uppercase, lowercase, dash, underscore)
                 if (!updatedUsername.match(/^[a-zA-Z0-9_-]+$/) && updatedUsername !== '') break;
 
-                if (updatedUsername.length <= 20) {
+                if (updatedUsername.length <= 20 && updatedUsername.length !== username) {
                     setUsername(updatedUsername);
-                    setUsernameIsUnique('unknown');
+                    setUsernameIsUnique(updatedUsername >= 4 ? 'loading': 'unknown');
                 }
 
                 break;
@@ -64,30 +81,21 @@ function SignUp(props) {
         });
     }
 
-    useEffect(() => {
-        if (debouncedUsername.length >= 4) {
-            axios.post('/auth/is-username-unique', {
-                username: debouncedUsername
-            })
-            .then(res => {
-                if (res.data !== usernameIsUnique && usernameIsUnique === 'unknown') {
-                    setUsernameIsUnique(res.data);
-                }
-            })
-            .catch(err => {
-                console.log(err);
-            });
-        }
-    }, [debouncedUsername]);
+    let usernameMessage = null;
+
+    if (usernameIsUnique === false) {
+        usernameMessage = <span className={classes.UsernameErrorMessage}>username taken</span>
+    } else if (username === veryDebouncedUsername && username.length > 0 && username.length < 4) {
+        usernameMessage = <span className={classes.UsernameErrorMessage}>username too short</span>
+    } else if (usernameIsUnique === 'loading') {
+        usernameMessage = <CircularProgress size={20} className={classes.UsernameLoader}/>
+    }
 
     return <div>
         <form onSubmit={submitForm} className={classes.Form}>
             <div className={classes.InputGroup}>
                 <label>Username</label>
-                {usernameIsUnique === false ?
-                    <span className={classes.UsernameTaken}>username taken</span>
-                : null}
-                
+                {usernameMessage}
                 <Input 
                 type='text'
                 label="Username"
@@ -126,7 +134,6 @@ function SignUp(props) {
             style={{float: 'right'}}
             >SIGN UP</Button>
         </form>
-        <h1>{debouncedUsername}</h1>
     </div>
 }
 
