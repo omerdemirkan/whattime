@@ -6,7 +6,7 @@ import axios from '../../axios';
 import { connect } from 'react-redux';
 import * as actionTypes from '../../store/actions/actionTypes';
 
-import TextField from '@material-ui/core/TextField';
+import Input from '@material-ui/core/Input';
 import IconButton from '@material-ui/core/IconButton';
 import VisibilityOffRoundedIcon from '@material-ui/icons/VisibilityOffRounded';
 import VisibilityRoundedIcon from '@material-ui/icons/VisibilityRounded';
@@ -18,7 +18,7 @@ function SignUp(props) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
-    const [usernameIsUnique, setUsernameIsUnique] = useState(false);
+    const [usernameIsUnique, setUsernameIsUnique] = useState('unknown');
 
     const debouncedUsername = useDebounce(username, 800);
 
@@ -82,33 +82,49 @@ function SignUp(props) {
 
     return <div>
         <form onSubmit={submitForm} className={classes.Form}>
-            <TextField 
-            type='text'
-            label="Username"
-            value={username}
-            onChange={event => updateFormHandler(event, 'username')}
-            className={classes.TextField}
-            />
-            <TextField 
-            id="filled-password-input"
-            type={showPassword ? 'text' : 'password'}
-            label='Password'
-            value={password}
-            onChange={event => updateFormHandler(event, 'password')}
-            className={classes.TextField}
-            />
-            <IconButton>
-                {showPassword ? 
-                    <VisibilityOffRoundedIcon onClick={() => setShowPassword(false)}/>
-                : 
-                    <VisibilityRoundedIcon onClick={() => setShowPassword(true)}/>
-                }
-            </IconButton>
+            <div className={classes.InputGroup}>
+                <label>Username</label>
+                {usernameIsUnique === false ?
+                    <span className={classes.UsernameTaken}>username taken</span>
+                : null}
+                
+                <Input 
+                type='text'
+                label="Username"
+                value={username}
+                onChange={event => updateFormHandler(event, 'username')}
+                className={classes.TextField}
+                error={usernameIsUnique === false}
+                />
+            </div>
+
+            <div className={classes.InputGroup}>
+                <label>Password</label>
+                <IconButton
+                size="small"
+                className={classes.IconButton}>
+                    {showPassword ? 
+                        <VisibilityOffRoundedIcon onClick={() => setShowPassword(false)}/>
+                    : 
+                        <VisibilityRoundedIcon onClick={() => setShowPassword(true)}/>
+                    }
+                </IconButton>
+                <Input 
+                id="filled-password-input"
+                type={showPassword ? 'text' : 'password'}
+                label='Password'
+                value={password}
+                onChange={event => updateFormHandler(event, 'password')}
+                className={classes.TextField}
+                />
+            </div>
+            
             <Button
             disabled={usernameIsUnique !== true || password.length < 8} 
             type='submit'
-            buttonClasses=''
-            >Submit</Button>
+            buttonClasses='Medium Primary'
+            style={{float: 'right'}}
+            >SIGN UP</Button>
         </form>
         <h1>{debouncedUsername}</h1>
     </div>
