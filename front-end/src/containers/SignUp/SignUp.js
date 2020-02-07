@@ -8,12 +8,15 @@ import * as actionTypes from '../../store/actions/actionTypes';
 
 import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
+import IconButton from '@material-ui/core/IconButton';
+import VisibilityOffRoundedIcon from '@material-ui/icons/VisibilityOffRounded';
+import VisibilityRoundedIcon from '@material-ui/icons/VisibilityRounded';
 
 function SignUp(props) {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    
+    const [showPassword, setShowPassword] = useState(false);
     const [usernameIsUnique, setUsernameIsUnique] = useState(false);
 
     const debouncedUsername = useDebounce(username, 800);
@@ -21,7 +24,7 @@ function SignUp(props) {
     function updateFormHandler(event, input) {
         switch(input) {
             case 'username':
-                const updatedUsername = event.target.value.replace(/\s/g, '');
+                const updatedUsername = event.target.value;
 
                 // Regex validation (uppercase, lowercase, dash, underscore)
                 if (!updatedUsername.match(/^[a-zA-Z0-9_-]+$/) && updatedUsername !== '') break;
@@ -30,11 +33,16 @@ function SignUp(props) {
                     setUsername(updatedUsername);
                     setUsernameIsUnique('unknown');
                 }
+
                 break;
             case 'password':
+                const updatedPassword = event.target.value;
 
-                setPassword(event.target.value.trim());
-                
+                if (!updatedPassword.match(/^[a-zA-Z0-9!@#\$%\^&]+$/) && updatedPassword !== '') break;
+
+                if (updatedPassword.length <= 30) {
+                    setPassword(updatedPassword);
+                }
                 break;
         }
     }
@@ -81,13 +89,21 @@ function SignUp(props) {
             className={classes.TextField}
             />
             <TextField 
-            id="standard-adornment-password"
-            type='password' 
-            label="Password"
+            id="filled-password-input"
+            type={showPassword ? 'text' : 'password'}
+            label='Password'
             value={password}
             onChange={event => updateFormHandler(event, 'password')}
             className={classes.TextField}
             />
+
+            {showPassword ? 
+                <VisibilityOffRoundedIcon onClick={() => setShowPassword(false)}/>
+            : 
+                <VisibilityRoundedIcon onClick={() => setShowPassword(true)}/>
+            }
+            
+            
             <input disabled={usernameIsUnique !== true || password.length < 8} type='submit'/>
         </form>
         <h1>{debouncedUsername}</h1>
