@@ -1,15 +1,16 @@
 import React, {useEffect} from 'react';
 import classes from './Create.module.css';
-import AuthRequired from '../Auth/AuthRequired';
 
+import AuthRequired from '../Auth/AuthRequired';
+import Button from '../../components/UI/Button/Button';
+import useDebounce from '../Hooks/useDebounce';
 
 import DateFnsUtils from '@date-io/date-fns';
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from '@material-ui/pickers';
-import TextField from '@material-ui/core/TextField';
-import InputLabel from '@material-ui/core/InputLabel';
+import Input from '@material-ui/core/Input';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 
@@ -31,7 +32,10 @@ function Create(props) {
     };
 
     const setEventNameHandler = event => {
-        props.onUpdateEventName(event.target.value);
+        const newEventName = event.target.value;
+        if (newEventName.length <= 30) {
+            props.onUpdateEventName(newEventName);
+        }
     }
 
     const setNameTypeHandler = event => {
@@ -59,43 +63,72 @@ function Create(props) {
         });
     }
 
-    return <div>
+    const debouncedEventName = useDebounce(props.eventName, 3000);
+
+    const showEventNameAlert = debouncedEventName !== '' && debouncedEventName === props.eventName && props.eventName.trim().length < 4;
+
+    return <div className={classes.Create}>
         <AuthRequired history={props.history}/>
-        <TextField 
-        id="standard-basic" 
-        label="Event Name" 
-        value={props.eventName}
-        onChange={setEventNameHandler}/>
+        <h1 className={classes.Header}>Create a Survey</h1>
+        <div className={classes.MainBox}>
+            <div className={classes.InputGroup}>
+                <label className={classes.Label}>Event</label>
+                {showEventNameAlert ?
+                    <span>too short!</span>
+                : null}
 
-        <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <KeyboardDatePicker
-            disableToolbar
-            variant="inline"
-            format="MM/dd/yyyy"
-            margin="normal"
-            id="date-picker-inline"
-            label="Date"
-            minDate={new Date()}
-            value={props.selectedDate}
-            onChange={setDateHandler}
-            KeyboardButtonProps={{
-                'aria-label': 'change date',
-            }}
-            />
-        </MuiPickersUtilsProvider>
+                <Input 
+                id="standard-basic" 
+                value={props.eventName}
+                onChange={setEventNameHandler}
+                className={classes.Input}
+                autoComplete='off'/>
+            </div>
+            
 
-        <InputLabel id="demo-simple-select-label">Identifier</InputLabel>
-        <Select
-        labelId="demo-simple-select-label"
-        id="demo-simple-select"
-        value={props.nameType}
-        onChange={setNameTypeHandler}
-        >
-        <MenuItem value={'First Name'}>First Name</MenuItem>
-        <MenuItem value={'Full Name'}>Full Name</MenuItem>
-        <MenuItem value={'Alias'}>Alias</MenuItem>
-        </Select>
-        <button onClick={postSurveyHandler}>Submit</button>
+            <div className={classes.InputGroup}>
+                <label className={classes.Label}>Date</label>
+                <MuiPickersUtilsProvider utils={DateFnsUtils} style={{margin: '0'}}>
+                    <KeyboardDatePicker
+                    disableToolbar
+                    variant="inline"
+                    format="MM/dd/yyyy"
+                    margin="normal"
+                    id="date-picker-inline"
+                    minDate={new Date()}
+                    value={props.selectedDate}
+                    onChange={setDateHandler}
+                    KeyboardButtonProps={{
+                        'aria-label': 'change date',
+                    }}
+                    className={classes.Input}
+                    />
+                </MuiPickersUtilsProvider>
+            </div>
+
+            <div className={classes.InputGroup}>
+                <label className={classes.Label}>Identifier</label>
+                <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={props.nameType}
+                onChange={setNameTypeHandler}
+                className={classes.Input}>
+                    <MenuItem value={'First Name'}>First Name</MenuItem>
+                    <MenuItem value={'Full Name'}>Full Name</MenuItem>
+                    <MenuItem value={'Alias'}>Alias</MenuItem>
+                </Select>
+            </div>
+
+            
+            <Button 
+            onClick={postSurveyHandler}
+            buttonClasses='Medium'
+            style={{position: 'absolute', right: '0', bottom: '0'}}
+            disabled={props.eventName.length < 4 || props.nameType === ''}
+            >Submit</Button>
+        </div>
+        
     </div>
 }
 
