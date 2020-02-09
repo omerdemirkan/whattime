@@ -9,3 +9,8 @@
 .Large {
     padding: 10px 40px;
 }
+
+.Center {
+    transform: translate(-50%);
+    margin-left: 50%;
+}

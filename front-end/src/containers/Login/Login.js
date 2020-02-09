@@ -85,15 +85,15 @@ function Login(props) {
                 className={classes.Input}
                 />
             </div>
-            
-            <span>Don't have an account? <Link to="/signup" className={classes.Link}>Sign Up</Link></span>
 
             <Button
             disabled={password.length < 8} 
             type='submit'
-            buttonClasses='Medium Primary'
-            style={{position: 'absolute', bottom: '0', right: '0'}}
+            buttonClasses='Medium Primary Center'
+            style={{width: '100%'}}
             >SIGN UP</Button>
+            
+            <p className={classes.LinkText}>Don't have an account? <Link to="/signup" className={classes.Link}>Sign Up</Link></p>
         </form>
     </div>
 }

@@ -18,7 +18,11 @@ import Button from '../../components/UI/Button/Button';
 function SignUp(props) {
 
     const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+    const [password, setPassword] = useState({
+        text: '',
+        caseIsValid: false,
+        lengthIsValid: false
+    });
     const [showPassword, setShowPassword] = useState(false);
     const [usernameIsUnique, setUsernameIsUnique] = useState('unknown');
 
@@ -65,7 +69,11 @@ function SignUp(props) {
                 if (!updatedPassword.match(/^[a-zA-Z0-9!@#\$%\^&]+$/) && updatedPassword !== '') break;
 
                 if (updatedPassword.length <= 30) {
-                    setPassword(updatedPassword);
+                    setPassword({
+                        text: updatedPassword,
+                        caseIsValid: new RegExp('[A-Z]').test(password.text) && new RegExp('[a-z]').test(password.text),
+                        lengthIsValid: updatedPassword.length >= 8
+                    });
                 }
                 break;
         }
@@ -75,7 +83,7 @@ function SignUp(props) {
         event.preventDefault();
         axios.post('/auth/register', {
             username: username,
-            password: password
+            password: password.text
         })
         .then(res => {
             localStorage.setItem('accessToken', res.data.accessToken);
@@ -89,6 +97,8 @@ function SignUp(props) {
 
     let usernameMessage = null;
 
+    const showUsernameLengthError = username === veryDebouncedUsername && username.length > 0 && username.length < 4;
+
     switch(usernameIsUnique) {
         case true:
             usernameMessage = <CheckRoundedIcon className={classes.UsernameLoader}/>;
@@ -97,7 +107,7 @@ function SignUp(props) {
             usernameMessage = <span className={classes.UsernameMessage}>username taken</span>
             break;
         case 'unknown':
-            if (username === veryDebouncedUsername && username.length > 0 && username.length < 4) {
+            if (showUsernameLengthError) {
                 usernameMessage = <span className={classes.UsernameMessage}>username too short</span>
             }
             break;
@@ -105,7 +115,6 @@ function SignUp(props) {
             usernameMessage = <CircularProgress size={20} className={classes.UsernameLoader}/>
             break;
     }
-
 
     return <div>
         <h1 className={classes.Header}>Sign Up</h1>
@@ -122,7 +131,7 @@ function SignUp(props) {
                 value={username}
                 onChange={event => updateFormHandler(event, 'username')}
                 className={classes.Input}
-                error={usernameIsUnique === false}
+                error={usernameIsUnique === false || showUsernameLengthError}
                 />
             </div>
 
@@ -144,23 +153,33 @@ function SignUp(props) {
                 id="filled-password-input"
                 type={showPassword ? 'text' : 'password'}
                 label='Password'
-                value={password}
+                value={password.text}
                 onChange={event => updateFormHandler(event, 'password')}
                 className={classes.Input}
                 />
-            </div>
-            <div className={classes.PasswordFeedbackBox}>
+
+                <div className={classes.PasswordFeedbackBox}>
+                    <div className={classes.PasswordFeedback}>
+                        <span style={password.lengthIsValid ? {backgroundColor: 'green'}: {backgroundColor: 'grey'}} className={classes.Dot}></span>
+                        <span className={classes.PasswordFeedbackText}>Minimum of 8 characters</span>
+                    </div>
+                    <div className={classes.PasswordFeedback}>
+                        <span style={password.caseIsValid ? {backgroundColor: 'green'}: {backgroundColor: 'grey'}} className={classes.Dot}></span>
+                        <span className={classes.PasswordFeedbackText}>Capital and Lowercase letters</span>
+                    </div>
+                </div>
 
             </div>
             
-            <span>Already have an account? <Link to="/login" className={classes.Link}>Log In</Link></span>
             
             <Button
-            disabled={usernameIsUnique !== true || password.length < 8} 
+            disabled={usernameIsUnique !== true || password.text.length < 8} 
             type='submit'
-            buttonClasses='Medium Primary'
-            style={{position: 'absolute', bottom: '0', right: '0'}}
+            buttonClasses='Large Primary'
+            style={{width: '100%'}}
             >SIGN UP</Button>
+            
+            <p className={classes.LinkText}>Already have an account? <Link to="/login" className={classes.Link}>Log In</Link></p>
         </form>
     </div>
 }

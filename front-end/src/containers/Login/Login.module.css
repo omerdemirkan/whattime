@@ -9,7 +9,7 @@
 .Header {
     text-align: center;
     font-size: 2.5rem;
-    margin: 50px 0;
+    margin: 5vh 0;
 }
 
 .InputGroup {
@@ -33,12 +33,11 @@
 }
 
 .IconButton {
-    float: right;
+    
 }
 
 .UsernameMessage {
     color: red;
-    float: right;
 }
 
 .Link {
@@ -48,4 +47,8 @@
 
 .Link:hover {
     opacity: 1;
+}
+
+.LinkText {
+    text-align: center
 }

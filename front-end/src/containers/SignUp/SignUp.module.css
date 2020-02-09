@@ -3,13 +3,13 @@
     max-width: 450px;
     margin: auto;
     position: relative;
-    padding-bottom: 10px;
+    /* padding-bottom: 10px; */
 }
 
 .Header {
     text-align: center;
     font-size: 2.5rem;
-    margin: 50px 0;
+    margin: 5vh 0;
 }
 
 .InputGroup {
@@ -26,6 +26,7 @@
     display: inline-block;
     height: 20px;
     align-self: center;
+    font-size: 1.1rem;
 }
 
 .Input {
@@ -33,21 +34,37 @@
 }
 
 .IconButton {
-    float: right;
     
 }
 
 .UsernameMessage {
     color: red;
-    float: right;
 }
 
 .UsernameLoader {
-    float: right;
+
 }
 
 .PasswordFeedbackBox {
     
+    padding: 10px 0 0 10%;
+}
+
+.PasswordFeedback {
+    margin: 10px 0;
+}
+
+.Dot {
+    height: 10px;
+    width: 10px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.PasswordFeedbackText {
+    margin-left: 10px;
+    font-size: .9rem;
 }
 
 .Link {
@@ -57,4 +74,14 @@
 
 .Link:hover {
     opacity: 1;
+}
+
+.LinkText {
+    text-align: center
+}
+
+@media (max-width: 768px) {
+    .PasswordFeedbackBox {
+        display: block;
+    }
 }
