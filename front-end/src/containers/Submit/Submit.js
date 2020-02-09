@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import classes from './Submit.module.css';
 import axios from '../../axios';
+import getDisplayDate from '../../helper/getDisplayDate';
 
 import { connect } from 'react-redux';
 import * as actionTypes from '../../store/actions/actionTypes';
@@ -8,6 +9,7 @@ import * as actionTypes from '../../store/actions/actionTypes';
 import TimeFrame from '../../components/TimeFrame/TimeFrame';
 import TimeFrameCreator from '../TimeFrameCreator/TimeFrameCreator';
 import TextField from '@material-ui/core/TextField';
+import Button from '../../components/UI/Button/Button';
 
 function Submit(props) {
     const fullPath = props.history.location.pathname;
@@ -81,30 +83,41 @@ function Submit(props) {
     }
 
     return <div>
-        <h1>Event: {props.survey.event}</h1>
-        <p>Date{props.survey.date}</p>
-        <p>Creator: {props.survey.creator}</p>
-        <div>
-            <h1>What times will you be available?</h1>
+        <h1 className={classes.EventHeader}>Event: {props.survey.event}</h1>
+        <h2 className={classes.DateHeader}>What times will you be available {getDisplayDate(props.survey.date)}?</h2>
+        <div className={classes.Main}>
+
             {props.survey ?
                 <TimeFrameCreator 
                 date={props.survey.date}
                 add={addTimeFrameHandler}
                 />
             : null}
+            <div className={classes.TimeFramesBox}>
+
+            </div>
             {props.timeframes.map(timeframe => {
                 return <TimeFrame 
                 start={timeframe.start} 
                 end={timeframe.end}
                 />
             })}
+            
+        </div>
+        <div className={classes.SubmitBox}>
             <TextField 
             id="standard-basic" label={'Your ' + props.survey.nameType}
             value={name}
             onChange={updateNameHandler}
+            className={classes.NameField}
+            autoComplete='off'
+            style={{marginBottom: '30px'}}
             />
-            <button onClick={submitHandler}>SUBMIT</button>
-            
+            <Button 
+            onClick={submitHandler}
+            buttonClasses='Large'
+            style={{width: '100%'}}
+            >SUBMIT</Button>
         </div>
     </div>
 }

@@ -1,0 +1,17 @@
+.TimePickersBox {
+    display: flex;
+    justify-content: space-around;
+}
+
+.TimePicker {
+    width: 49%;
+}
+
+@media (max-width: 768px) {
+    .TimePickersBox {
+        display: block;
+    }
+    .TimePicker {
+        width: 100%;
+    }
+}

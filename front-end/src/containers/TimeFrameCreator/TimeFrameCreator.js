@@ -6,6 +6,7 @@ import DateFnsUtils from '@date-io/date-fns';
 import {
   MuiPickersUtilsProvider
 } from '@material-ui/pickers';
+import Button from '../../components/UI/Button/Button';
 
 export default function TimeFrameCreator(props) {
     const minDate = new Date(props.date);
@@ -23,23 +24,31 @@ export default function TimeFrameCreator(props) {
     }
 
     return <div>
-        <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <TimePicker 
-            label="Start" 
-            minDate={minDate}
-            maxDate={maxDate}
-            value={startTime} 
-            onChange={setStartTime} />
-            <p>{startTime.toString()}</p>
-            <TimePicker 
-            label="End" 
-            minDate={minDate}
-            maxDate={maxDate}
-            value={endTime} 
-            onChange={setEndTime} />
-            <p>{endTime.toString()}</p>
-        </MuiPickersUtilsProvider>
+        <div className={classes.TimePickersBox}>
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <TimePicker 
+                label="Start" 
+                minDate={minDate}
+                maxDate={maxDate}
+                value={startTime} 
+                onChange={setStartTime}
+                style={{margin: '25px 0'}}
+                className={classes.TimePicker}/>
+                <TimePicker 
+                label="End" 
+                minDate={minDate}
+                maxDate={maxDate}
+                value={endTime} 
+                onChange={setEndTime}
+                style={{margin: '25px 0'}}
+                className={classes.TimePicker}/>
+            </MuiPickersUtilsProvider>
+        </div>
+        
 
-        <button onClick={submitHandler}>Add availability</button>
+        <Button
+        onClick={submitHandler}
+        buttonClasses="Medium Center"
+        >Add availability</Button>
     </div>
 }

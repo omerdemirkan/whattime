@@ -71,7 +71,7 @@ function SignUp(props) {
                 if (updatedPassword.length <= 30) {
                     setPassword({
                         text: updatedPassword,
-                        caseIsValid: new RegExp('[A-Z]').test(password.text) && new RegExp('[a-z]').test(password.text),
+                        caseIsValid: new RegExp('[A-Z]').test(updatedPassword) && new RegExp('[a-z]').test(updatedPassword),
                         lengthIsValid: updatedPassword.length >= 8
                     });
                 }

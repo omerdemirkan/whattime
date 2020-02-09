@@ -73,10 +73,12 @@ function Create(props) {
         <h1 className={classes.Header}>Create a Survey</h1>
         <div className={classes.MainBox}>
             <div className={classes.InputGroup}>
-                <label className={classes.Label}>Event</label>
-                {showEventNameAlert ?
-                    <span className={classes.EventNameMessage}>too short!</span>
-                : null}
+                <div className={classes.InputHeader}>
+                    <label className={classes.Label}>Event</label>
+                    {showEventNameAlert ?
+                        <span className={classes.EventNameMessage}>too short!</span>
+                    : null}
+                </div>
 
                 <Input 
                 id="standard-basic" 
@@ -87,9 +89,12 @@ function Create(props) {
                 error={showEventNameAlert}/>
             </div>
             
-
-            <div className={classes.InputGroup}>
-                <label className={classes.Label}>Date</label>
+            {/* Special styling for following divs due to Icon button in KeyboardDatePicker */}
+            <div className={classes.InputGroup} style={{marginTop: '-16px'}}>
+                <div style={{position: 'relative', top: '16px'}} className={classes.InputHeader}>
+                    <label className={classes.Label}>Date</label>
+                </div>
+                
                 <MuiPickersUtilsProvider utils={DateFnsUtils} style={{margin: '0'}}>
                     <KeyboardDatePicker
                     disableToolbar
@@ -109,7 +114,9 @@ function Create(props) {
             </div>
 
             <div className={classes.InputGroup}>
-                <label className={classes.Label}>Identifier</label>
+                <div className={classes.InputHeader}>
+                    <label className={classes.Label}>Identifier</label>
+                </div>
                 <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"

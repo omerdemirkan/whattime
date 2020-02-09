@@ -1,0 +1,26 @@
+.EventHeader {
+    text-align: center;
+}
+
+.DateHeader {
+    text-align: center;
+
+}
+
+.Main {
+    width: 90%;
+    max-width: 500px;
+    margin: auto;
+    margin-top: 3vh;
+}
+
+.NameField {
+    width: 100%;
+    margin: 30px 0;
+}
+
+.SubmitBox {
+    width: 90%;
+    max-width: 500px;
+    margin: auto;
+}
