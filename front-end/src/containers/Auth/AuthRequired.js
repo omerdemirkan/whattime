@@ -6,7 +6,7 @@ function AuthRequired(props) {
     useEffect(() => {
         const accessToken = props.accessToken;
         if (!accessToken && !props.authLoading) {
-            props.history.push('/signup');
+            props.history.push('/login');
 
         }
     }, [props.authLoading]);
