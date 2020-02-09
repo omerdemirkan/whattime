@@ -1,0 +1,9 @@
+.Header {
+    text-align: center;
+}
+
+.SurveysBox {
+    width: 90%;
+    max-width: 600px;
+    margin: auto;
+}

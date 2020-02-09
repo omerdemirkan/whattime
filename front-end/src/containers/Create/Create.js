@@ -55,6 +55,7 @@ function Create(props) {
             }
         })
         .then(res => {
+            console.log(res.data);
             props.onResetCreate();
             props.history.push('/my-surveys/' + res.data.surveyId);
         })
@@ -74,7 +75,7 @@ function Create(props) {
             <div className={classes.InputGroup}>
                 <label className={classes.Label}>Event</label>
                 {showEventNameAlert ?
-                    <span>too short!</span>
+                    <span className={classes.EventNameMessage}>too short!</span>
                 : null}
 
                 <Input 
@@ -82,7 +83,8 @@ function Create(props) {
                 value={props.eventName}
                 onChange={setEventNameHandler}
                 className={classes.Input}
-                autoComplete='off'/>
+                autoComplete='off'
+                error={showEventNameAlert}/>
             </div>
             
 

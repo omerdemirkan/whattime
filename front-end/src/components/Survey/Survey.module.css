@@ -1,0 +1,19 @@
+.Survey {
+    
+}
+
+.Header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.EventName {
+    display: inline;
+    margin: 0;
+    line-height: 2;
+    cursor: pointer;
+}
+
+.CreatedAt {
+    display: inline;
+}

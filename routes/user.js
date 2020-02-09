@@ -10,7 +10,7 @@ const rateLimit = require("express-rate-limit");
 const strictLimiter = rateLimit({
   windowMs: 24 * 60 * 60 * 1000, 
   max: 5
-});
+}); 
 
 const mediumLimiter = rateLimit({
     windowMs: 15 * 60 * 1000,

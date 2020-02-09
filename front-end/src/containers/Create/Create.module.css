@@ -1,0 +1,33 @@
+.Create {
+    
+}
+
+.Header {
+    text-align: center;
+}
+
+.MainBox {
+    width: 90%;
+    max-width: 450px;
+    margin: auto;
+    padding-bottom: 15px;
+    position: relative;
+}
+
+.InputGroup {
+    margin: 50px 0;
+}
+
+.Label {
+    
+}
+
+.EventNameMessage {
+    color: red;
+    float: right;
+}
+
+.Input {
+    width: 100%;
+    margin: 16px 0 8px;
+}

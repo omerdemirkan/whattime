@@ -11,15 +11,20 @@ function MySurveys(props) {
         if (props.accessToken && props.surveys.length === 0) {
             props.onLoadSurveys(props.accessToken, 0)
         }
-    }, []);
+    }, [props.accessToken]);
+
     return <div>
         <AuthRequired history={props.history}/>
-        {props.surveys.map(survey => {
-            return <Survey
-            key={survey._id} 
-            survey={survey}
-            history={props.history}/>
-        })}
+        <h1 className={classes.Header}>My Surveys</h1>
+        <div className={classes.SurveysBox}>
+            {props.surveys.map(survey => {
+                return <Survey
+                key={survey._id} 
+                survey={survey}
+                history={props.history}/>
+            })}
+        </div>
+        
     </div>
 }
 
