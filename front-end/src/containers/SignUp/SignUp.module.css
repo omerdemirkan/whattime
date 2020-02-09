@@ -16,12 +16,25 @@
     margin: 50px 0;
 }
 
-.TextField {
+.InputHeader {
+    height: 30px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.Label {
+    display: inline-block;
+    height: 20px;
+    align-self: center;
+}
+
+.Input {
     width: 100%;
 }
 
 .IconButton {
     float: right;
+    
 }
 
 .UsernameMessage {
@@ -35,4 +48,13 @@
 
 .PasswordFeedbackBox {
     
+}
+
+.Link {
+    color: inherit;
+    opacity: .8;
+}
+
+.Link:hover {
+    opacity: 1;
 }

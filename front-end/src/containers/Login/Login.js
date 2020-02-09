@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
 import classes from './Login.module.css';
 import axios from '../../axios';
+import { Link } from 'react-router-dom'
+
 
 import Input from '@material-ui/core/Input';
 import Button from '../../components/UI/Button/Button';
@@ -58,27 +60,34 @@ function Login(props) {
         <h1 className={classes.Header}>Log In</h1>
         <form onSubmit={submitForm} className={classes.Form}>
             <div className={classes.InputGroup}>
-                <label>Username</label>
+                <div className={classes.InputHeader}>
+                    <label className={classes.Label}>Username</label>
+                </div>
+                
                 <Input 
                 type='text'
                 label="Username"
                 value={username}
                 onChange={event => updateFormHandler(event, 'username')}
-                className={classes.TextField}
+                className={classes.Input}
                 />
             </div>
             <div className={classes.InputGroup}>
-                <label>Password</label>
+            <div className={classes.InputHeader}>
+                    <label className={classes.Label}>Password</label>
+                </div>
                 <Input 
                 id="filled-password-input"
                 type='password'
                 label='Password'
                 value={password}
                 onChange={event => updateFormHandler(event, 'password')}
-                className={classes.TextField}
+                className={classes.Input}
                 />
             </div>
             
+            <span>Don't have an account? <Link to="/signup" className={classes.Link}>Sign Up</Link></span>
+
             <Button
             disabled={password.length < 8} 
             type='submit'

@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import classes from './SignUp.module.css';
 import useDebounce from '../Hooks/useDebounce';
 import axios from '../../axios';
+import { Link } from 'react-router-dom'
 
 import { connect } from 'react-redux';
 import * as actionTypes from '../../store/actions/actionTypes';
@@ -110,41 +111,49 @@ function SignUp(props) {
         <h1 className={classes.Header}>Sign Up</h1>
         <form onSubmit={submitForm} className={classes.Form}>
             <div className={classes.InputGroup}>
-                <label>Username</label>
-                {usernameMessage}
+                <div className={classes.InputHeader}>
+                    <label className={classes.Label}>Username</label>
+                    {usernameMessage}
+                </div>
+                
                 <Input 
                 type='text'
                 label="Username"
                 value={username}
                 onChange={event => updateFormHandler(event, 'username')}
-                className={classes.TextField}
+                className={classes.Input}
                 error={usernameIsUnique === false}
                 />
             </div>
 
             <div className={classes.InputGroup}>
-                <label>Password</label>
-                <IconButton
-                size="small"
-                className={classes.IconButton}>
-                    {showPassword ? 
-                        <VisibilityOffRoundedIcon onClick={() => setShowPassword(false)}/>
-                    : 
-                        <VisibilityRoundedIcon onClick={() => setShowPassword(true)}/>
-                    }
-                </IconButton>
+                <div className={classes.InputHeader}>
+                    <label className={classes.Label}>Password</label>
+                    <IconButton
+                    size="small"
+                    className={classes.IconButton}>
+                        {showPassword ? 
+                            <VisibilityOffRoundedIcon onClick={() => setShowPassword(false)}/>
+                        : 
+                            <VisibilityRoundedIcon onClick={() => setShowPassword(true)}/>
+                        }
+                    </IconButton>
+                </div>
+                
                 <Input 
                 id="filled-password-input"
                 type={showPassword ? 'text' : 'password'}
                 label='Password'
                 value={password}
                 onChange={event => updateFormHandler(event, 'password')}
-                className={classes.TextField}
+                className={classes.Input}
                 />
             </div>
             <div className={classes.PasswordFeedbackBox}>
 
             </div>
+            
+            <span>Already have an account? <Link to="/login" className={classes.Link}>Log In</Link></span>
             
             <Button
             disabled={usernameIsUnique !== true || password.length < 8} 

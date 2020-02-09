@@ -22,7 +22,6 @@ function Inspect(props) {
             props.history.push('/my-surveys');
         } else {
             props.onSetSurvey(survey);
-            
         }
     }, [props.loadedSurveys]);
 
