@@ -1,13 +1,35 @@
+.Default {
+    border: none;
+    background-color: rgba(0, 0, 0, 0);
+    opacity: .9;
+    outline: none;
+}
+
+.Default:hover {
+    opacity: 1;
+    background-color: rgba(0, 0, 0, .1);
+    transition: 0.1s ease;
+}
+
+.Default:disabled {
+    opacity: 0.6;
+}
+
 .Small {
     padding: 4px 10px;
+    font-size: .9rem;
 }
 
 .Medium {
     padding: 8px 20px;
+    font-size: 1rem;
+    font-weight: 600;
 }
 
 .Large {
     padding: 10px 40px;
+    font-size: 1.1rem;
+    font-weight: 700;
 }
 
 .Center {

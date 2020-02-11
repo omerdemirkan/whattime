@@ -16,10 +16,12 @@ export default function Window(props) {
         {/* Special translations for very small timeframes to avoid visual overlap */}
         <span style={windowPercentage < smallWindow ? {transform: 'translate(-100%)'} : {}} className={classes.Start}>{getDisplayTime(props.timeframe.start)}</span>
         <span style={windowPercentage < smallWindow ? {transform: 'translate(100%)'} : {}} className={classes.End}>{getDisplayTime(props.timeframe.end)}</span>
-        <div className={classes.DeleteBox}>
-            <span 
-            className={classes.Delete}
-            onClick={() => props.deleteByStartTime(props.timeframe.start)}>DELETE</span>
-        </div>
+        {props.deleteByStartTime ? 
+            <div className={classes.DeleteBox}>
+                <span 
+                className={classes.Delete}
+                onClick={() => props.deleteByStartTime(props.timeframe.start)}>DELETE</span>
+            </div>
+        : null}
     </div>
 }

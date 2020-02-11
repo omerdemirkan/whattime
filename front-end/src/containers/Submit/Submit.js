@@ -93,31 +93,27 @@ function Submit(props) {
         });
     }
 
-    return <div>
+    return <div className={classes.Submit}>
         <h1 className={classes.EventHeader}>{props.survey.event}: {getDisplayDate(props.survey.date)}</h1>
         <h2 className={classes.PromptHeader}>What times will you be available?</h2>
 
         {/* Setting availability timeframes */}
         {stage === 1 ?
             <>
-                <div className={classes.Main}>
-                    <div className={classes.TimeFrameCreatorBox}>
+                <div className={classes.TimeFrameCreatorBox}>
 
-                        {props.survey ?
-                            <TimeFrameCreator 
-                            date={props.survey.date}
-                            add={addTimeFrameHandler}
-                            />
-                        : null}
-                        
-                    </div>
+                    {props.survey ?
+                        <TimeFrameCreator 
+                        date={props.survey.date}
+                        add={addTimeFrameHandler}
+                        />
+                    : null}
                     
                 </div>
                 <Availabilities 
                 date={props.survey.date}
                 timeframes={props.timeframes}
                 deleteByStartTime={deleteByStartTime}/>
-                
             </>
         : null}
         
@@ -134,12 +130,18 @@ function Submit(props) {
                 />
                 <Button 
                 onClick={submitHandler}
-                buttonClasses='Large'
+                buttonClasses='Large Border'
                 style={{width: '100%'}}
                 disabled={name.length < 4 || props.timeframes.length === 0}
                 >SUBMIT</Button>
             </div>
         : null}
+        <Button
+        buttonClasses='Large Center'
+        style={{position: 'absolute', bottom: '0'}}
+        onClick={() => setStage(stage === 1 ? 2 : 1)}
+        disabled={props.timeframes.length === 0}>{stage === 1 ? 'NEXT' : 'BACK'}</Button>
+        
         
     </div>
 }

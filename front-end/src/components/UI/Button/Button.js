@@ -8,7 +8,7 @@ export default function Button(props) {
         classNamesString += (classes[className] + ' ' || '')
     });
 
-    return <button style={props.style} onClick={props.onClick} disabled={props.disabled} className={classNamesString} >
+    return <button style={props.style} onClick={props.onClick} disabled={props.disabled} className={classes.Default + ' ' + classNamesString} >
         {props.children}
     </button>
 }

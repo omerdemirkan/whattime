@@ -1,3 +1,8 @@
+.Submit {
+    min-height: 80vh;
+    position: relative;
+}
+
 .EventHeader {
     text-align: center;
     font-size: 2.5rem;
@@ -11,12 +16,14 @@
 .Main {
     display: flex;
     justify-content: center;
-    margin-top: 5vh;
+    margin-top: 8vh;
 }
 
 .TimeFrameCreatorBox {
-    width: 90%;
+    width: 90vw;
     max-width: 400px;
+    margin: auto;
+    margin-top: 8vh;
 }
 
 .NameField {
@@ -25,9 +32,11 @@
 }
 
 .SubmitBox {
-    width: 90%;
+    width: 90vw;
     max-width: 300px;
     margin: auto;
+    margin-top: 8vh;
+    margin-bottom: 8vh;
 }
 
 @media (max-width: 768px) {
