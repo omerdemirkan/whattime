@@ -1,0 +1,20 @@
+.TimeFrame {
+    padding: 0px;
+    width: 200px;
+    display: flex;
+    justify-content: center;
+}
+
+.TextBox {
+    width: 160px;
+    padding: 5px 0;
+}
+
+.Text {
+    text-align: center;
+    margin: 0;
+}
+
+.CloseIcon {
+    align-self: center;
+}

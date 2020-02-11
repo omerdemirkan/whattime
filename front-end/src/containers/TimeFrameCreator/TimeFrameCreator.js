@@ -23,8 +23,8 @@ export default function TimeFrameCreator(props) {
         })
     }
 
-    return <div>
-        <div className={classes.TimePickersBox}>
+    return <div className={classes.TimeFrameCreator}>
+        <div className={classes.TimePicker}>
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <TimePicker 
                 label="Start" 
@@ -32,15 +32,18 @@ export default function TimeFrameCreator(props) {
                 maxDate={maxDate}
                 value={startTime} 
                 onChange={setStartTime}
-                style={{margin: '25px 0'}}
                 className={classes.TimePicker}/>
+            </MuiPickersUtilsProvider>
+        </div>
+
+        <div className={classes.TimePicker}>
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <TimePicker 
                 label="End" 
                 minDate={minDate}
                 maxDate={maxDate}
                 value={endTime} 
                 onChange={setEndTime}
-                style={{margin: '25px 0'}}
                 className={classes.TimePicker}/>
             </MuiPickersUtilsProvider>
         </div>

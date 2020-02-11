@@ -91,7 +91,7 @@ function Login(props) {
             type='submit'
             buttonClasses='Medium Primary Center'
             style={{width: '100%'}}
-            >SIGN UP</Button>
+            >LOG IN</Button>
             
             <p className={classes.LinkText}>Don't have an account? <Link to="/signup" className={classes.Link}>Sign Up</Link></p>
         </form>

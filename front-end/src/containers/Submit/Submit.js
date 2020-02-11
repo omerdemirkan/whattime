@@ -38,7 +38,7 @@ function Submit(props) {
         if (timeframe.start < timeframe.end) {
             let overlapFound = false;
             props.timeframes.forEach(tf => {
-                if ((tf.start <= timeframe.start && tf.end >= timeframe.end) || (tf.start >= timeframe.start && tf.end <= timeframe.end)) {
+                if ((tf.start <= timeframe.start && tf.end >= timeframe.start) || (tf.start <= timeframe.end && tf.end >= timeframe.end)) {
                     overlapFound = true;
                 }
             });
@@ -57,8 +57,15 @@ function Submit(props) {
         }
     }
 
+    const removeTimeFrameHandler = startTime => {
+        props.onSetTimeFrames(props.timeframes.filter(timeframe => timeframe.start !== startTime))
+    }
+
     const updateNameHandler = event => {
-        setName(event.target.value)
+        const newName = event.target.value
+        if (newName.length <= 30) {
+            setName(newName)
+        }
     }
 
     const submitHandler = () => {
@@ -83,42 +90,53 @@ function Submit(props) {
     }
 
     return <div>
-        <h1 className={classes.EventHeader}>Event: {props.survey.event}</h1>
-        <h2 className={classes.DateHeader}>What times will you be available {getDisplayDate(props.survey.date)}?</h2>
+        <h1 className={classes.EventHeader}>{props.survey.event}: {getDisplayDate(props.survey.date)}</h1>
+        <h2 className={classes.DateHeader}>What times will you be available?</h2>
         <div className={classes.Main}>
+            <div className={classes.TimeFrameCreatorBox}>
 
-            {props.survey ?
-                <TimeFrameCreator 
-                date={props.survey.date}
-                add={addTimeFrameHandler}
-                />
-            : null}
-            <div className={classes.TimeFramesBox}>
-
+                {props.survey ?
+                    <TimeFrameCreator 
+                    date={props.survey.date}
+                    add={addTimeFrameHandler}
+                    />
+                : null}
+                
             </div>
-            {props.timeframes.map(timeframe => {
-                return <TimeFrame 
-                start={timeframe.start} 
-                end={timeframe.end}
+
+            {props.timeframes.length > 0 ?
+                <div className={classes.TimeFramesBox}>
+                    {props.timeframes.map(timeframe => {
+                        return <TimeFrame 
+                        start={timeframe.start} 
+                        end={timeframe.end}
+                        key={timeframe.start}
+                        delete ={() => removeTimeFrameHandler(timeframe.start)}
+                        />
+                    })}
+                </div>
+            : null}
+        </div>
+
+        {props.timeframes.length > 0 ?
+            <div className={classes.SubmitBox}>
+                <TextField 
+                id="standard-basic" label={'Your ' + props.survey.nameType}
+                value={name}
+                onChange={updateNameHandler}
+                className={classes.NameField}
+                autoComplete='off'
+                style={{marginBottom: '30px'}}
                 />
-            })}
-            
-        </div>
-        <div className={classes.SubmitBox}>
-            <TextField 
-            id="standard-basic" label={'Your ' + props.survey.nameType}
-            value={name}
-            onChange={updateNameHandler}
-            className={classes.NameField}
-            autoComplete='off'
-            style={{marginBottom: '30px'}}
-            />
-            <Button 
-            onClick={submitHandler}
-            buttonClasses='Large'
-            style={{width: '100%'}}
-            >SUBMIT</Button>
-        </div>
+                <Button 
+                onClick={submitHandler}
+                buttonClasses='Large'
+                style={{width: '100%'}}
+                disabled={name.length < 4 || props.timeframes.length === 0}
+                >SUBMIT</Button>
+            </div>
+        : null}
+        
     </div>
 }
 

@@ -1,5 +1,6 @@
 .EventHeader {
     text-align: center;
+    font-size: 2.5rem;
 }
 
 .DateHeader {
@@ -8,10 +9,21 @@
 }
 
 .Main {
-    width: 90%;
-    max-width: 500px;
-    margin: auto;
+    display: flex;
+    justify-content: center;
     margin-top: 3vh;
+}
+
+.TimeFrameCreatorBox {
+    width: 90%;
+    max-width: 300px;
+    /* margin: auto; */
+}
+
+.TimeFramesBox {
+    width: 90%;
+    max-width: 200px;
+    padding-left: 50px;
 }
 
 .NameField {
@@ -21,6 +33,16 @@
 
 .SubmitBox {
     width: 90%;
-    max-width: 500px;
+    max-width: 300px;
     margin: auto;
+}
+
+@media (max-width: 500px) {
+    .Main {
+        flex-direction: column;
+        align-items: center;
+    }
+    .TimeFramesBox {
+        padding: 0;
+    }
 }

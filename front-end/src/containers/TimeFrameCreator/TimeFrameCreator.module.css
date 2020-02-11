@@ -1,17 +1,10 @@
-.TimePickersBox {
+.TimeFrameCreator {
+    height: 230px;
     display: flex;
-    justify-content: space-around;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .TimePicker {
-    width: 49%;
-}
-
-@media (max-width: 768px) {
-    .TimePickersBox {
-        display: block;
-    }
-    .TimePicker {
-        width: 100%;
-    }
+    width: 100%;
 }

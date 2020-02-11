@@ -133,7 +133,7 @@ function Create(props) {
             <Button 
             onClick={postSurveyHandler}
             buttonClasses='Medium'
-            style={{position: 'absolute', right: '0', bottom: '0'}}
+            style={{width: '100%'}}
             disabled={props.eventName.length < 4 || props.nameType === ''}
             >Submit</Button>
         </div>
