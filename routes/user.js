@@ -84,7 +84,7 @@ router.post('/surveys', strictLimiter, (req, res) => {
 
     const newSurvey = new Survey({
         event: event,
-        date: date,
+        date: date.getTime(),
         creatorID: req.user._id,
         creator: req.user.username,
         nameType: nameType,
