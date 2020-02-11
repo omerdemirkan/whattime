@@ -10,6 +10,7 @@ import TimeFrame from '../../components/TimeFrame/TimeFrame';
 import TimeFrameCreator from '../TimeFrameCreator/TimeFrameCreator';
 import TextField from '@material-ui/core/TextField';
 import Button from '../../components/UI/Button/Button';
+import Availabilities from '../../components/Availabilities/Availabilities';
 
 function Submit(props) {
     const fullPath = props.history.location.pathname;
@@ -99,32 +100,38 @@ function Submit(props) {
 
         {/* Setting availability timeframes */}
         {stage === 1 ?
-            <div className={classes.Main}>
-                <div className={classes.TimeFrameCreatorBox}>
+            <>
+                <div className={classes.Main}>
+                    <div className={classes.TimeFrameCreatorBox}>
 
-                    {props.survey ?
-                        <TimeFrameCreator 
-                        date={props.survey.date}
-                        add={addTimeFrameHandler}
-                        />
+                        {props.survey ?
+                            <TimeFrameCreator 
+                            date={props.survey.date}
+                            add={addTimeFrameHandler}
+                            />
+                        : null}
+                        
+                    </div>
+
+                    {props.timeframes.length > 0 ?
+                        <div className={classes.TimeFramesBox}>
+                            {props.timeframes.map(timeframe => {
+                                return <TimeFrame 
+                                start={timeframe.start} 
+                                end={timeframe.end}
+                                key={timeframe.start}
+                                delete ={() => removeTimeFrameHandler(timeframe.start)}
+                                />
+                            })}
+                        </div>
                     : null}
                     
                 </div>
-
-                {props.timeframes.length > 0 ?
-                    <div className={classes.TimeFramesBox}>
-                        {props.timeframes.map(timeframe => {
-                            return <TimeFrame 
-                            start={timeframe.start} 
-                            end={timeframe.end}
-                            key={timeframe.start}
-                            delete ={() => removeTimeFrameHandler(timeframe.start)}
-                            />
-                        })}
-                    </div>
-                : null}
+                <Availabilities 
+                date={props.survey.date}
+                timeframes={props.timeframes}/>
                 
-            </div>
+            </>
         : null}
         
         {/* Setting name*/}

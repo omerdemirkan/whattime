@@ -1,0 +1,19 @@
+.AvailabilitiesBox {
+    width: 90%;
+    max-width: 800px;
+    height: 30px;
+    margin: auto;
+}
+
+.Availabilities {
+    height: 30px;
+    width: 100%;
+    position: relative;
+    background-color: black;
+}
+
+.Window {
+    position: absolute;
+    height: 100%;
+    background-color: orange;
+}
