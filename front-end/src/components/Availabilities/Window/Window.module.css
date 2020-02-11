@@ -3,4 +3,45 @@
     height: 100%;
     background-color: orange;
     border-radius: .2rem;
+
+}
+
+.Start {
+    height: 20px;
+    padding: 0 3px;
+    border-radius: .2rem;
+    transform: translate(-50%);
+    position: absolute;
+    left: 0;
+    bottom: calc(100% + 10px);
+    font-size: .8rem;
+    background-color: black;
+    opacity: .5;
+    color: white;
+    display: none;
+}
+
+.Window:hover .Start {
+    display: inline-block;
+    
+}
+
+.End {
+    height: 20px;
+    padding: 0 3px;
+    border-radius: .2rem;
+    transform: translate(50%);
+    position: absolute;
+    right: 0;
+    bottom: calc(100% + 10px);
+    font-size: .8rem;
+    background-color: black;
+    opacity: .5;
+    color: white;
+    display: none;
+}
+
+.Window:hover .End {
+    display: inline-block;
+    
 }

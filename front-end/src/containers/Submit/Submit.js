@@ -62,7 +62,7 @@ function Submit(props) {
         }
     }
 
-    const removeTimeFrameHandler = startTime => {
+    const deleteByStartTime = startTime => {
         props.onSetTimeFrames(props.timeframes.filter(timeframe => timeframe.start !== startTime))
     }
 
@@ -120,7 +120,7 @@ function Submit(props) {
                                 start={timeframe.start} 
                                 end={timeframe.end}
                                 key={timeframe.start}
-                                delete ={() => removeTimeFrameHandler(timeframe.start)}
+                                delete ={() => deleteByStartTime(timeframe.start)}
                                 />
                             })}
                         </div>
@@ -129,7 +129,8 @@ function Submit(props) {
                 </div>
                 <Availabilities 
                 date={props.survey.date}
-                timeframes={props.timeframes}/>
+                timeframes={props.timeframes}
+                deleteByStartTime={deleteByStartTime}/>
                 
             </>
         : null}

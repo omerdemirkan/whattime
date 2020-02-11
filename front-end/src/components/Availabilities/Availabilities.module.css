@@ -1,7 +1,7 @@
 .AvailabilitiesBox {
     width: 90%;
     max-width: 800px;
-    height: 100px;
+    height: 200px;
     margin: auto;
     display: flex;
     flex-direction: column;
