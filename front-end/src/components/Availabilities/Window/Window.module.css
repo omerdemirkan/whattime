@@ -45,3 +45,31 @@
     display: inline-block;
     
 }
+
+.DeleteBox {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%);
+    height: 200%;
+    top: 90%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.Delete {
+    align-self: center;
+    cursor: pointer;
+    font-size: .7rem;
+    font-weight: 700;
+    opacity: .5;
+    display: none;
+}
+
+.Delete:hover {
+    opacity: 1;
+}
+
+.Window:hover .Delete {
+    display: inline-block;
+}
