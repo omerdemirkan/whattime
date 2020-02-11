@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import * as actionTypes from '../../store/actions/actionTypes';
 
 import Person from './Person/Person';
-import TimeFrame from '../../components/TimeFrame/TimeFrame';
 
 function Inspect(props) {
 
@@ -84,13 +83,7 @@ function Inspect(props) {
             />
         })}
         <h1>Available Times:</h1>
-        {availableTimes ? 
-            availableTimes.map(time => {
-                return <TimeFrame
-                start={time.start}
-                end={time.end}/>
-            })
-        : null}
+        
     </div>
 }
 

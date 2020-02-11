@@ -16,14 +16,7 @@
 
 .TimeFrameCreatorBox {
     width: 90%;
-    max-width: 300px;
-    /* margin: auto; */
-}
-
-.TimeFramesBox {
-    width: 90%;
-    max-width: 200px;
-    padding-left: 50px;
+    max-width: 400px;
 }
 
 .NameField {

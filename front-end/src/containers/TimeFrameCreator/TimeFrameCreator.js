@@ -24,7 +24,7 @@ export default function TimeFrameCreator(props) {
     }
 
     return <div className={classes.TimeFrameCreator}>
-        <div className={classes.TimePicker}>
+        <div className={classes.TimePickerBox}>
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <TimePicker 
                 label="Start" 
@@ -33,11 +33,6 @@ export default function TimeFrameCreator(props) {
                 value={startTime} 
                 onChange={setStartTime}
                 className={classes.TimePicker}/>
-            </MuiPickersUtilsProvider>
-        </div>
-
-        <div className={classes.TimePicker}>
-            <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <TimePicker 
                 label="End" 
                 minDate={minDate}
@@ -45,13 +40,14 @@ export default function TimeFrameCreator(props) {
                 value={endTime} 
                 onChange={setEndTime}
                 className={classes.TimePicker}/>
+
             </MuiPickersUtilsProvider>
         </div>
-        
 
         <Button
         onClick={submitHandler}
-        buttonClasses="Medium"
+        buttonClasses="Large"
+        style={{width: '100%'}}
         >Add availability</Button>
     </div>
 }

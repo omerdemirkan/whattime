@@ -6,7 +6,6 @@ import getDisplayDate from '../../helper/getDisplayDate';
 import { connect } from 'react-redux';
 import * as actionTypes from '../../store/actions/actionTypes';
 
-import TimeFrame from '../../components/TimeFrame/TimeFrame';
 import TimeFrameCreator from '../TimeFrameCreator/TimeFrameCreator';
 import TextField from '@material-ui/core/TextField';
 import Button from '../../components/UI/Button/Button';
@@ -112,19 +111,6 @@ function Submit(props) {
                         : null}
                         
                     </div>
-
-                    {props.timeframes.length > 0 ?
-                        <div className={classes.TimeFramesBox}>
-                            {props.timeframes.map(timeframe => {
-                                return <TimeFrame 
-                                start={timeframe.start} 
-                                end={timeframe.end}
-                                key={timeframe.start}
-                                delete ={() => deleteByStartTime(timeframe.start)}
-                                />
-                            })}
-                        </div>
-                    : null}
                     
                 </div>
                 <Availabilities 
