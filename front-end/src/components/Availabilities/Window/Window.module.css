@@ -1,0 +1,6 @@
+.Window {
+    position: absolute;
+    height: 100%;
+    background-color: orange;
+    border-radius: .2rem;
+}
