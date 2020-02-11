@@ -51,7 +51,7 @@ export default function TimeFrameCreator(props) {
 
         <Button
         onClick={submitHandler}
-        buttonClasses="Medium Center"
+        buttonClasses="Medium"
         >Add availability</Button>
     </div>
 }

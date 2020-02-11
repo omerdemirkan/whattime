@@ -13,8 +13,14 @@
 .Text {
     text-align: center;
     margin: 0;
+    line-height: 1;
 }
 
 .CloseIcon {
     align-self: center;
+    opacity: .5;
+}
+
+.CloseIcon:hover {
+    opacity: 1;
 }
