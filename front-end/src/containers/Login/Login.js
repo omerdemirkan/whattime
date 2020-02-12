@@ -89,7 +89,7 @@ function Login(props) {
             <Button
             disabled={password.length < 8} 
             type='submit'
-            buttonClasses='Medium Primary Center'
+            buttonClasses='Large Primary Center'
             style={{width: '100%'}}
             >LOG IN</Button>
             

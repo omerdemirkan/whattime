@@ -20,12 +20,13 @@ router.get('/:id', limiter, (req, res) => {
         if (survey.date <= new Date()) {
             return res.status(400).json({errors: ['The event date has passed.']})
         }
-
+        
         res.json({
             event: survey.event,
             date: survey.date,
             creator: survey.creator,
-            nameType: survey.nameType
+            nameType: survey.nameType,
+            submitionIds: survey.submitions.map(submition => submition._id)
         });
     });
 });
@@ -54,10 +55,10 @@ router.post('/:id', limiter, (req, res) => {
 
         survey.submitions.push(submition);
 
-        survey.save(saveSurveyError => {
+        survey.save((saveSurveyError, newSurvey) => {
             if (saveSurveyError) return res.status(400).json(`Invalid submition: ${saveSurveyError}`);
 
-            res.json('Submition successful');
+            res.json(newSurvey._id);
         });
     });
 });

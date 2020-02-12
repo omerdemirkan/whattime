@@ -10,6 +10,7 @@ export default function Availabilities(props) {
             return <Window
             date={props.date}
             timeframe={timeframe}
+            key={timeframe.start}
             deleteByStartTime={props.deleteByStartTime ? props.deleteByStartTime : null}
             minDate={new Date(props.date).getTime()}/>
         })}

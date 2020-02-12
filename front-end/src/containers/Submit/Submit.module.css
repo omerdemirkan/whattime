@@ -39,6 +39,11 @@
     margin-bottom: 8vh;
 }
 
+.StageThreeHeader {
+    text-align: center;
+    margin-top: 8vh;
+}
+
 @media (max-width: 768px) {
     .Main {
         flex-direction: column;
