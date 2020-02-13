@@ -13,7 +13,7 @@ function MySurveys(props) {
         }
     }, [props.accessToken]);
 
-    return <div>
+    return <div className={classes.MySurveys}>
         <AuthRequired history={props.history}/>
         <h1 className={classes.Header}>My Surveys</h1>
         <div className={classes.SurveysBox}>

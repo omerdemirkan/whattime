@@ -1,0 +1,32 @@
+.Inspect {
+    padding: 0 5%;
+}
+
+.EventHeader {
+    text-align: center;
+}
+
+.ShareBox {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 120px;
+    margin: auto;
+}
+
+.ShareIcon {
+    cursor: pointer;
+    opacity: .8;
+}
+
+.ShareIcon:hover {
+    opacity: 1;
+}
+
+.ShareText {
+    font-weight: 700;
+}
+
+.SubmitionsBox {
+    width: 300px;
+}

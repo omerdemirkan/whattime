@@ -5,12 +5,13 @@ import { connect } from 'react-redux';
 import * as actionTypes from '../../store/actions/actionTypes';
 
 import Person from './Person/Person';
+import {CopyToClipboard} from 'react-copy-to-clipboard';
+import FileCopyIcon from '@material-ui/icons/FileCopy';
 
 function Inspect(props) {
 
     const fullPath = props.history.location.pathname;
     const id = fullPath.slice(fullPath.lastIndexOf('/') + 1, fullPath.length);
-    const shareURL = window.location.protocol + "//" + window.location.host + '/submit/' + id;
 
     const [availableTimes, setAvailableTimes] = useState(null);
 
@@ -72,17 +73,29 @@ function Inspect(props) {
     if (!props.survey) {
         return null;
     }
-    return <div>
-        <h1>{props.survey.event}</h1>
-        <p>{props.survey.submitions.length} submitions</p>
-        <p>{shareURL}</p>
-        {props.survey.submitions.map(submition => {
-            return <Person 
-            name={submition.name}
-            createdAt={submition.createdAt}
-            />
-        })}
-        <h1>Available Times:</h1>
+
+    const shareURL = window.location.protocol + "//" + window.location.host + '/submit/' + id;
+    const numSubmitions = props.survey.submitions.length;
+
+    return <div className={classes.Inspect}>
+        <h1 className={classes.EventHeader}>{props.survey.event}</h1>
+        <div className={classes.ShareBox}>
+            <CopyToClipboard text={shareURL}
+            onCopy={() => {}}>
+            <span className={classes.ShareIcon}><FileCopyIcon fontSize='large'/></span>
+            </CopyToClipboard>
+            <span className={classes.ShareText}>SHARE</span>
+        </div>
+
+        <aside className={classes.SubmitionsBox}>
+            <h2>{numSubmitions} submition{numSubmitions === 1 ? '' : 's'}</h2>
+            {props.survey.submitions.map(submition => {
+                return <Person 
+                name={submition.name}
+                createdAt={submition.createdAt}
+                />
+            })}
+        </aside>
         
     </div>
 }

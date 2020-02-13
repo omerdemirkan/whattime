@@ -116,7 +116,7 @@ function SignUp(props) {
             break;
     }
 
-    return <div>
+    return <div className={classes.SignUp}>
         <h1 className={classes.Header}>Sign Up</h1>
         <form onSubmit={submitForm} className={classes.Form}>
             <div className={classes.InputGroup}>
@@ -171,9 +171,8 @@ function SignUp(props) {
 
             </div>
             
-            
             <Button
-            disabled={usernameIsUnique !== true || password.text.length < 8} 
+            disabled={usernameIsUnique !== true || !password.lengthIsValid || !password.caseIsValid} 
             type='submit'
             buttonClasses='Large Primary'
             style={{width: '100%'}}

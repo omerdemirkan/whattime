@@ -56,7 +56,7 @@ function Login(props) {
         }
     }
 
-    return <div>
+    return <div className={classes.Login}>
         <h1 className={classes.Header}>Log In</h1>
         <form onSubmit={submitForm} className={classes.Form}>
             <div className={classes.InputGroup}>
