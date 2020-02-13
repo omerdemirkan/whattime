@@ -81,7 +81,7 @@ function Inspect(props) {
         <h1 className={classes.EventHeader}>{props.survey.event}</h1>
         <div className={classes.ShareBox}>
             <CopyToClipboard text={shareURL}
-            onCopy={() => {}}>
+            onCopy={props.onCopyToClipboard}>
             <span className={classes.ShareIcon}><FileCopyIcon fontSize='large'/></span>
             </CopyToClipboard>
             <span className={classes.ShareText}>SHARE</span>
@@ -109,7 +109,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onSetSurvey: survey => dispatch({type: actionTypes.SET_INSPECT_SURVEY, survey: survey})
+        onSetSurvey: survey => dispatch({type: actionTypes.SET_INSPECT_SURVEY, survey: survey}),
+        onCopyToClipboard: () => dispatch({type: actionTypes.OPEN_SNACKBAR, message: 'Link Copied to Clipboard'})
     }
 }
 

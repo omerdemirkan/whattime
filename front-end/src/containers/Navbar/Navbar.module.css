@@ -17,6 +17,7 @@
     position: absolute;
     left: calc(20px + 8vw);
     animation: FadeIn 0.5s ease forwards;
+    line-height: 1;
 }
 
 .NavList {

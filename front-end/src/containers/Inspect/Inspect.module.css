@@ -1,9 +1,11 @@
 .Inspect {
     padding: 0 5%;
+    overflow: auto;
 }
 
 .EventHeader {
     text-align: center;
+    margin: 6vh 0 4vh;
 }
 
 .ShareBox {
