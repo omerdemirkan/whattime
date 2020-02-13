@@ -10,7 +10,7 @@
 
 .ShareBox {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-evenly;
     align-items: center;
     width: 120px;
     margin: auto;
@@ -27,6 +27,12 @@
 
 .ShareText {
     font-weight: 700;
+}
+
+.Main {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
 }
 
 .SubmitionsBox {

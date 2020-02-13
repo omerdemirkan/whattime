@@ -134,6 +134,7 @@ function Submit(props) {
                 date={props.survey.date}
                 timeframes={props.timeframes}
                 deleteByStartTime={deleteByStartTime}/>
+                
                 <Button
                 buttonClasses='Large Center'
                 style={{position: 'absolute', bottom: '0'}}

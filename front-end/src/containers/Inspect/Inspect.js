@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import * as actionTypes from '../../store/actions/actionTypes';
 
 import Person from './Person/Person';
+import Availabilities from '../../components/Availabilities/Availabilities';
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
 
@@ -77,6 +78,7 @@ function Inspect(props) {
     const shareURL = window.location.protocol + "//" + window.location.host + '/submit/' + id;
     const numSubmitions = props.survey.submitions.length;
 
+    console.log(availableTimes);
     return <div className={classes.Inspect}>
         <h1 className={classes.EventHeader}>{props.survey.event}</h1>
         <div className={classes.ShareBox}>
@@ -87,15 +89,27 @@ function Inspect(props) {
             <span className={classes.ShareText}>SHARE</span>
         </div>
 
-        <aside className={classes.SubmitionsBox}>
-            <h2>{numSubmitions} submition{numSubmitions === 1 ? '' : 's'}</h2>
-            {props.survey.submitions.map(submition => {
-                return <Person 
-                name={submition.name}
-                createdAt={submition.createdAt}
-                />
-            })}
-        </aside>
+        <div className={classes.Main}>
+            
+            <div className={classes.SubmitionsBox}>
+                <h2>{numSubmitions} submition{numSubmitions === 1 ? '' : 's'}</h2>
+                {props.survey.submitions.map(submition => {
+                    return <Person 
+                    name={submition.name}
+                    createdAt={submition.createdAt}
+                    />
+                })}
+            </div>
+            <div style={{width: '800px', maxWidth: '90vw'}}>
+                {availableTimes ?
+                    <Availabilities 
+                    date={props.survey.date}
+                    timeframes={availableTimes}/>
+                : null}
+            </div>
+            
+        </div>
+        
         
     </div>
 }
