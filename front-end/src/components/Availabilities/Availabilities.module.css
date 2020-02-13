@@ -1,19 +1,11 @@
-.AvailabilitiesBox {
-    width: 100%;
-    max-width: 800px;
-    height: 200px;
-    margin: auto;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
 .Availabilities {
     height: 20px;
     width: 100%;
+    max-width: 800px;
     position: relative;
     background-color: black;
     border-radius: .2rem;
+    margin: auto;
 }
 
 .Window {

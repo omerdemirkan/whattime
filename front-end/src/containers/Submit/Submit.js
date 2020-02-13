@@ -130,10 +130,13 @@ function Submit(props) {
                     />
                     
                 </div>
-                <Availabilities 
-                date={props.survey.date}
-                timeframes={props.timeframes}
-                deleteByStartTime={deleteByStartTime}/>
+                <div className={classes.AvailabilitiesBox}>
+                    <Availabilities 
+                    date={props.survey.date}
+                    timeframes={props.timeframes}
+                    deleteByStartTime={deleteByStartTime}/>
+                </div>
+                
                 
                 <Button
                 buttonClasses='Large Center'

@@ -1,5 +1,6 @@
 .MySurveys {
     padding: 0 5%;
+    overflow: auto;
 }
 
 .Header {

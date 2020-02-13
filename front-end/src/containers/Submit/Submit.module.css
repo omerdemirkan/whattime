@@ -1,6 +1,7 @@
 .Submit {
     min-height: 80vh;
     position: relative;
+    padding: 0 5%;
 }
 
 .EventHeader {
@@ -24,6 +25,10 @@
     max-width: 400px;
     margin: auto;
     margin-top: 8vh;
+}
+
+.AvailabilitiesBox {
+    padding: 50px 0;
 }
 
 .NameField {

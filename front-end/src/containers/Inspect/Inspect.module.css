@@ -33,8 +33,26 @@
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
+    margin-top: 4vh;
 }
 
 .SubmitionsBox {
     width: 300px;
+}
+
+.SubmitionsHeader {
+    text-align: center;
+}
+
+.AvailabilitiesBox {
+    width: 90vw;
+    max-width: 800px;
+    padding: 80px 0;
+}
+
+@media (max-width: 1300px) {
+    .SubmitionsBox {
+        width: 90vw;
+        max-width: 800px;
+    }
 }

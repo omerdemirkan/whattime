@@ -92,7 +92,7 @@ function Inspect(props) {
         <div className={classes.Main}>
             
             <div className={classes.SubmitionsBox}>
-                <h2>{numSubmitions} submition{numSubmitions === 1 ? '' : 's'}</h2>
+                <h2 className={classes.SubmitionsHeader}>{numSubmitions} submition{numSubmitions === 1 ? '' : 's'}</h2>
                 {props.survey.submitions.map(submition => {
                     return <Person 
                     name={submition.name}
@@ -100,7 +100,7 @@ function Inspect(props) {
                     />
                 })}
             </div>
-            <div style={{width: '800px', maxWidth: '90vw'}}>
+            <div className={classes.AvailabilitiesBox}>
                 {availableTimes ?
                     <Availabilities 
                     date={props.survey.date}

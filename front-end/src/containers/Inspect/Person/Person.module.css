@@ -1,0 +1,16 @@
+.Person {
+    display: inline-block;
+    padding: 3px 30px;
+}
+
+.Main {
+    
+}
+
+.Name {
+    margin: 0;
+}
+
+.TimeAgo {
+    margin: 0;
+}
