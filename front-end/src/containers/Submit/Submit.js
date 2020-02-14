@@ -81,7 +81,7 @@ function Submit(props) {
 
     const updateNameHandler = event => {
         const newName = event.target.value
-        if (newName.length <= 30) {
+        if (newName.length <= 20) {
             setName(newName)
         }
     }

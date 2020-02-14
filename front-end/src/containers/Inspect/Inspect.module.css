@@ -31,17 +31,23 @@
 
 .Main {
     display: flex;
-    justify-content: center;
+    justify-content: space-evenly;
     flex-wrap: wrap;
     margin-top: 4vh;
 }
 
 .SubmitionsBox {
-    width: 300px;
+    width: 350px;
 }
 
 .SubmitionsHeader {
     text-align: center;
+}
+
+.PersonsBox {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
 }
 
 .AvailabilitiesBox {

@@ -3,6 +3,7 @@ import classes from './Inspect.module.css';
 
 import { connect } from 'react-redux';
 import * as actionTypes from '../../store/actions/actionTypes';
+import axios from '../../axios';
 
 import Person from './Person/Person';
 import Availabilities from '../../components/Availabilities/Availabilities';
@@ -69,7 +70,21 @@ function Inspect(props) {
         }
     }, [props.survey]);
 
-    
+    function deleteSubmitionHandler(id) {
+        axios.delete('/user/surveys/' + props.survey._id + '/' + id, {
+            headers: {
+                Authorization: 'Bearer ' + props.accessToken,
+            }
+        })
+        .then(res => {
+            let newSurvey = {...props.survey};
+            newSurvey.submitions = newSurvey.submitions.filter(submition => submition._id !== id);
+            props.onSetSurvey(newSurvey)
+        })
+        .catch(err => {
+            console.log(err);
+        });
+    }
 
     if (!props.survey) {
         return null;
@@ -78,7 +93,6 @@ function Inspect(props) {
     const shareURL = window.location.protocol + "//" + window.location.host + '/submit/' + id;
     const numSubmitions = props.survey.submitions.length;
 
-    console.log(availableTimes);
     return <div className={classes.Inspect}>
         <h1 className={classes.EventHeader}>{props.survey.event}</h1>
         <div className={classes.ShareBox}>
@@ -93,12 +107,16 @@ function Inspect(props) {
             
             <div className={classes.SubmitionsBox}>
                 <h2 className={classes.SubmitionsHeader}>{numSubmitions} submition{numSubmitions === 1 ? '' : 's'}</h2>
-                {props.survey.submitions.map(submition => {
-                    return <Person 
-                    name={submition.name}
-                    createdAt={submition.createdAt}
-                    />
-                })}
+                <div className={classes.PersonsBox}>
+                    {props.survey.submitions.map(submition => {
+                        return <Person 
+                        name={submition.name}
+                        createdAt={submition.createdAt}
+                        key={submition._id}
+                        delete={() => deleteSubmitionHandler(submition._id)}
+                        />
+                    })}
+                </div>
             </div>
             <div className={classes.AvailabilitiesBox}>
                 {availableTimes ?
@@ -107,17 +125,15 @@ function Inspect(props) {
                     timeframes={availableTimes}/>
                 : null}
             </div>
-            
         </div>
-        
-        
     </div>
 }
 
 const mapStateToProps = state => {
     return {
         loadedSurveys: state.surveys.surveys,
-        survey: state.inspect.survey
+        survey: state.inspect.survey,
+        accessToken: state.auth.accessToken
     }
 }
 

@@ -1,6 +1,7 @@
 .Person {
     display: inline-block;
-    padding: 3px 30px;
+    padding: 3px 80px 3px 30px;
+    position: relative;
 }
 
 .Main {
@@ -13,4 +14,23 @@
 
 .TimeAgo {
     margin: 0;
+}
+
+.DeleteButton {
+    position: absolute;
+    right: 5px;
+    bottom: 5px;
+    background: none;
+    border: none;
+    outline: none;
+    font-weight: 700;
+    font-size: .8rem;
+    cursor: pointer;
+    padding: 0;
+}
+
+@media (min-width: 1301px) {
+    .Person {
+        width: 100%;
+    }
 }

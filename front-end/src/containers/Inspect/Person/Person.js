@@ -13,5 +13,6 @@ export default function Person(props) {
         </div>
         
         
+        <button onClick={props.delete} className={classes.DeleteButton}>DELETE</button>
     </span>
 }
