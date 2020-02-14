@@ -79,7 +79,16 @@ function Inspect(props) {
         .then(res => {
             let newSurvey = {...props.survey};
             newSurvey.submitions = newSurvey.submitions.filter(submition => submition._id !== id);
-            props.onSetSurvey(newSurvey)
+            let surveyIndex = props.loadedSurveys.map(survey => survey._id).indexOf(newSurvey._id);
+
+            if (surveyIndex >= 0) {
+                const newLoadedSurveys = [...props.loadedSurveys];
+                newLoadedSurveys[surveyIndex] = newSurvey;
+                props.onSetSurveys(newLoadedSurveys);
+            } else {
+                props.onSetSurvey(newSurvey)
+            }
+            
         })
         .catch(err => {
             console.log(err);
@@ -140,7 +149,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         onSetSurvey: survey => dispatch({type: actionTypes.SET_INSPECT_SURVEY, survey: survey}),
-        onCopyToClipboard: () => dispatch({type: actionTypes.OPEN_SNACKBAR, message: 'Link Copied to Clipboard'})
+        onCopyToClipboard: () => dispatch({type: actionTypes.OPEN_SNACKBAR, message: 'Link Copied to Clipboard'}),
+        onSetSurveys: surveys => dispatch({type: actionTypes.SET_SURVEYS, surveys: surveys})
     }
 }
 

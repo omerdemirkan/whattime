@@ -20,6 +20,11 @@ const surveysReducer = (state = initialState, action) => {
                 hasMore: action.hasMore,
                 loading: false
             }
+        case actionTypes.SET_SURVEYS:
+            return {
+                ...state,
+                surveys: action.surveys
+            }
         default:
             return state;
     }
