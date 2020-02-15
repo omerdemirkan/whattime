@@ -33,16 +33,22 @@ function Inspect(props) {
 
     // Searches for whether or not the survey inspected is already loaded, 
     // if it isn't, it is manually loaded with an async action creator.
-    // Also functions to update survey after deleting a submition.
     useEffect(() => {
-        const survey = props.loadedSurveys.filter(survey => survey._id === surveyId)[0] || false;
 
-        if (survey) {
-            props.onSetSurvey(survey);
-        } else if (props.accessToken) {
+        if (props.accessToken) {
             props.onLoadInspectSurvey(props.accessToken, surveyId);
         }
-    }, [props.loadedSurveys, props.accessToken]);
+    }, [props.accessToken]);
+
+    
+    // Functions to update survey after deleting a submition.
+    useEffect(() => {
+        const loadedSurvey = props.loadedSurveys.filter(survey => survey._id === surveyId)[0] || false;
+
+        if (loadedSurvey) {
+            props.onSetSurvey(loadedSurvey);
+        }
+    }, [props.loadedSurveys]);
 
 
     // Sets initial value of numAvailable to the total number of submitions on load.
