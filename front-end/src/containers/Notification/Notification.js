@@ -6,6 +6,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
+import Button from '../../components/UI/Button/Button';
 
 import { connect } from 'react-redux';
 import * as actionTypes from '../../store/actions/actionTypes';
@@ -17,14 +18,19 @@ function Notification(props) {
         onClose={props.onCloseModal}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
+        style={{borderRadius: '0'}}
         >
+          <div className={classes.Modal}>
             <h1>Error</h1>
             <p>{props.modalMessage}</p>
             <DialogActions>
-                <button onClick={props.onCloseModal}>
+                <Button 
+                onClick={props.onCloseModal}
+                buttonClasses='Large'>
                     OK
-                </button>
+                </Button>
             </DialogActions>
+          </div>
         </Dialog>
 
         <Snackbar
