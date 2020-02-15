@@ -1,8 +1,11 @@
 import React from 'react';
 import classes from './HomePage.module.css';
+import shapes from '../../images/shapes.svg';
 
 export default function HomePage() {
     return <div className={classes.HomePage}>
-        <h1>Hi</h1>
+        <img 
+        src={shapes}
+        className={classes.Shapes}/>
     </div>
 }

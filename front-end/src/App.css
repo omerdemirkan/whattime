@@ -3,9 +3,18 @@
   padding: 0;
   min-height: calc(100vh + 80px);
   color: #73708F;
+  font-family: 'Montserrat', sans-serif;
+  background-color: #F1F1FF;
 }
 
-p::selection, h1::selection, h2::selection, h3::selection, span::selection {
+p::selection, 
+h1::selection, 
+h2::selection, 
+h3::selection, 
+span::selection, 
+time::selection,
+a::selection,
+button::selection {
   
   background-color: rgb(83, 80, 107);
   color: white;

@@ -162,12 +162,18 @@ function Inspect(props) {
             <span className={classes.ShareText}>SHARE</span>
         </div>
 
-        {availableTimes && numSubmitions > 0 ?
+        {availableTimes && availableTimes.length > 0 ?
             <div className={classes.AvailabilitiesBox}>
                 <h1 className={classes.AvailabilitiesHeader}>Times {numAvailable === numSubmitions ? 'Everyone is' : getDisplayPeople(numAvailable) + (numAvailable === 1 ? ' is ' : ' are ')} Available:</h1>
                 <Availabilities 
                 date={props.survey.date}
                 timeframes={availableTimes}/>
+            </div>
+        : null}
+        {availableTimes && availableTimes.length === 0 ? 
+            <div className={classes.AvailabilitiesBox}>
+                <h1 className={classes.AvailabilitiesHeader}>No Availabilities Found</h1>
+                <h2 className={classes.AvailabilitiesHeader}>Try Narrowing the Number of People</h2>
             </div>
         : null}
 

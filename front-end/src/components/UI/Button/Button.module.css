@@ -3,6 +3,7 @@
     background-color: rgba(0, 0, 0, 0);
     opacity: .9;
     outline: none;
+    font-family: 'Montserrat', sans-serif;
 }
 
 .Default:hover {
