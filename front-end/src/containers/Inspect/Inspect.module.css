@@ -62,6 +62,16 @@
     margin-bottom: 40px;
 }
 
+.SubmitBox {
+    width: 100%;
+    max-width: 300px;
+    margin: auto;
+}
+
+.SubmitCTA {
+    text-align: center;
+}
+
 .InputsBox {
     margin: 30px 0;
     width: 90vw;

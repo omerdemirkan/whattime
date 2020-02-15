@@ -14,6 +14,7 @@ import {CopyToClipboard} from 'react-copy-to-clipboard';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
+import Button from '../../components/UI/Button/Button';
 
 function getDisplayPeople(numPeople) {
     return numPeople + (numPeople === 1 ? ' Person' : ' People');
@@ -27,9 +28,11 @@ function Inspect(props) {
 
     const [availableTimes, setAvailableTimes] = useState(null);
     const [numAvailable, setNumAvailable] =  useState(null);
+    const [userHasSubmitted, setUserHasSubmitted] = useState(null);
+
 
     // Searches for whether or not the survey inspected is already loaded, 
-    // if it isn't it is manually loaded with an async action creator.
+    // if it isn't, it is manually loaded with an async action creator.
     // Also functions to update survey after deleting a submition.
     useEffect(() => {
         const survey = props.loadedSurveys.filter(survey => survey._id === surveyId)[0] || false;
@@ -41,12 +44,28 @@ function Inspect(props) {
         }
     }, [props.loadedSurveys, props.accessToken]);
 
+
+    // Sets initial value of numAvailable to the total number of submitions on load.
+    // Searches whether or not the user has already submitted.
     useEffect(() => {
         if (props.survey && !numAvailable) {
+            const storedSubmitionIds = JSON.parse(localStorage.getItem("submitionIds")) || [];
+            const surveySubmitionsIds = props.survey.submitions.map(submition => submition._id);
+
+            let userAlreadySubmitted = false;
+            for(var i = 0; i < storedSubmitionIds.length; i++) {
+                if (surveySubmitionsIds.includes(surveySubmitionsIds[i])) {
+                    userAlreadySubmitted = true;
+                    break;
+                }
+            }
+            setUserHasSubmitted(userAlreadySubmitted);
             setNumAvailable(props.survey.submitions.length)
         }
     }, [props.survey]);
 
+
+    // Searches available times on survey load and when the user changes the number of availabilities searched for.
     useEffect(() => {
         if (props.survey) {
             let cumulativeTimes = [];
@@ -161,6 +180,13 @@ function Inspect(props) {
                         delete={() => deleteSubmitionHandler(submition._id)}
                         />
                     })}
+                    {userHasSubmitted === false ?
+                        <div className={classes.SubmitBox}>
+                            <a href={shareURL} target="_blank">
+                                <Button buttonClasses='Large ' style={{width: '100%'}}>Submit your availabilities</Button>
+                            </a>
+                        </div>
+                    : null}
                 </div>
             </div>
             
