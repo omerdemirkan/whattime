@@ -15,10 +15,15 @@ import FileCopyIcon from '@material-ui/icons/FileCopy';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 
+function getDisplayPeople(numPeople) {
+    return numPeople + (numPeople === 1 ? ' Person' : ' People');
+}
+
 function Inspect(props) {
 
     const fullPath = props.history.location.pathname;
     const surveyId = fullPath.slice(fullPath.lastIndexOf('/') + 1, fullPath.length);
+    const shareURL = window.location.protocol + "//" + window.location.host + '/submit/' + surveyId;
 
     const [availableTimes, setAvailableTimes] = useState(null);
     const [numAvailable, setNumAvailable] =  useState(null);
@@ -112,15 +117,15 @@ function Inspect(props) {
         return null;
     }
 
-    const shareURL = window.location.protocol + "//" + window.location.host + '/submit/' + surveyId;
     const numSubmitions = props.survey.submitions.length;
 
-    // Determines the options to choose numAvailable
+    // Determines the select options to choose numAvailable
     let numAvailableSelectOptions = [];
     for(let i = numSubmitions; i > 0; i--) {
+        const defaultDisplay = getDisplayPeople(i)
         numAvailableSelectOptions.push({
             value: i,
-            display: i === numSubmitions ? 'All' : i
+            display: i === numSubmitions ? 'Everyone' : defaultDisplay
         });
     }
 
@@ -133,6 +138,15 @@ function Inspect(props) {
             </CopyToClipboard>
             <span className={classes.ShareText}>SHARE</span>
         </div>
+
+        {availableTimes && numSubmitions > 0 ?
+            <div className={classes.AvailabilitiesBox}>
+                <h1 className={classes.AvailabilitiesHeader}>What time {numAvailable === numSubmitions ? 'is Everyone' : (numAvailable === 1 ? 'is ' : 'are ') + getDisplayPeople(numAvailable)} available?</h1>
+                <Availabilities 
+                date={props.survey.date}
+                timeframes={availableTimes}/>
+            </div>
+        : null}
 
         <div className={classes.Main}>
             
@@ -149,27 +163,23 @@ function Inspect(props) {
                     })}
                 </div>
             </div>
-            <div className={classes.AvailabilitiesBox}>
-                {availableTimes ?
-                    <>
-                        <Availabilities 
-                        date={props.survey.date}
-                        timeframes={availableTimes}/>
-
-                        <Select
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
-                        value={numAvailable}
-                        onChange={event => setNumAvailable(event.target.value)}
-                        >
-                            {numAvailableSelectOptions.map(option => {
-                                return <MenuItem value={option.value}>{option.display}</MenuItem>
-                            })}
-                        </Select>
-                    </>
-                : null}
-
-            </div>
+            
+            
+            {availableTimes && numSubmitions > 1 ?
+                <div className={classes.InputsBox}>
+                    <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={numAvailable}
+                    onChange={event => setNumAvailable(event.target.value)}
+                    className={classes.NumAvailableSelect}
+                    >
+                        {numAvailableSelectOptions.map(option => {
+                            return <MenuItem value={option.value}>{option.display}</MenuItem>
+                        })}
+                    </Select>
+                </div>
+            : null}
         </div>
     </div>
 }

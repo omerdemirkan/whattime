@@ -1,9 +1,11 @@
 .Person {
     display: inline-block;
-    padding: 3px 80px 3px 30px;
+    padding: 8px 70px 8px 20px;
+    margin: 5px 0;
     position: relative;
     box-sizing: border-box;
     width: 100%;
+    background-color: rgba(0, 0, 0, 0.05);
 }
 
 .Main {
@@ -20,8 +22,8 @@
 
 .DeleteButton {
     position: absolute;
-    right: 5px;
-    bottom: 5px;
+    right: 15px;
+    bottom: 10px;
     background: none;
     border: none;
     outline: none;
@@ -29,11 +31,7 @@
     font-size: .8rem;
     cursor: pointer;
     padding: 0;
-    opacity: 0;
-}
-
-.Person:hover .DeleteButton {
-    opacity: .8;
+    opacity: .6;
 }
 
 .DeleteButton:hover  {

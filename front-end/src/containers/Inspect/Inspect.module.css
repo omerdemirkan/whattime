@@ -5,7 +5,7 @@
 
 .EventHeader {
     text-align: center;
-    margin: 6vh 0 4vh;
+    margin: 6vh 0 3vh;
 }
 
 .ShareBox {
@@ -51,14 +51,33 @@
 }
 
 .AvailabilitiesBox {
-    width: 90vw;
+    width: 100%;
     max-width: 800px;
-    padding: 80px 0;
+    padding: 20px 0;
+    margin: auto;
+}
+
+.AvailabilitiesHeader {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.InputsBox {
+    margin: 30px 0;
+    width: 90vw;
+    max-width: 600px;
+}
+
+.NumAvailableSelect {
+    width: 30%;
 }
 
 @media (max-width: 1300px) {
     .SubmitionsBox {
         width: 90vw;
         max-width: 800px;
+    }
+    .SubmitionsBox:nth-child(1) {
+        order: 2;
     }
 }

@@ -5,6 +5,12 @@
   color: #73708F;
 }
 
+p::selection, h1::selection, h2::selection, h3::selection, span::selection {
+  
+  background-color: rgb(83, 80, 107);
+  color: white;
+}
+
 /* main {
   padding-top: 80px;
   
