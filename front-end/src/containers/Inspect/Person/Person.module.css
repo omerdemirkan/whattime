@@ -2,6 +2,8 @@
     display: inline-block;
     padding: 3px 80px 3px 30px;
     position: relative;
+    box-sizing: border-box;
+    width: 100%;
 }
 
 .Main {
@@ -27,10 +29,19 @@
     font-size: .8rem;
     cursor: pointer;
     padding: 0;
+    opacity: 0;
 }
 
-@media (min-width: 1301px) {
+.Person:hover .DeleteButton {
+    opacity: .8;
+}
+
+.DeleteButton:hover  {
+    opacity: 1;
+}
+
+@media (max-width: 1300px) and (min-width: 769px) {
     .Person {
-        width: 100%;
+        width: 45%;
     }
 }

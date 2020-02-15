@@ -4,6 +4,7 @@ import classes from './Inspect.module.css';
 import { connect } from 'react-redux';
 import * as actionTypes from '../../store/actions/actionTypes';
 import axios from '../../axios';
+import loadInspectSurveyAsync from '../../store/actions/loadInspectSurvey';
 
 import Person from './Person/Person';
 import Availabilities from '../../components/Availabilities/Availabilities';
@@ -13,19 +14,19 @@ import FileCopyIcon from '@material-ui/icons/FileCopy';
 function Inspect(props) {
 
     const fullPath = props.history.location.pathname;
-    const id = fullPath.slice(fullPath.lastIndexOf('/') + 1, fullPath.length);
+    const surveyId = fullPath.slice(fullPath.lastIndexOf('/') + 1, fullPath.length);
 
     const [availableTimes, setAvailableTimes] = useState(null);
 
     useEffect(() => {
-        const survey = props.loadedSurveys.filter(survey => survey._id === id)[0] || false;
+        const survey = props.loadedSurveys.filter(survey => survey._id === surveyId)[0] || false;
 
-        if (!survey) {
-            props.history.push('/my-surveys');
-        } else {
+        if (survey) {
             props.onSetSurvey(survey);
+        } else if (props.accessToken) {
+            props.onLoadInspectSurvey(props.accessToken, surveyId);
         }
-    }, [props.loadedSurveys]);
+    }, [props.loadedSurveys, props.accessToken]);
 
     useEffect(() => {
         if (props.survey) {
@@ -88,7 +89,6 @@ function Inspect(props) {
             } else {
                 props.onSetSurvey(newSurvey)
             }
-            
         })
         .catch(err => {
             console.log(err);
@@ -99,7 +99,7 @@ function Inspect(props) {
         return null;
     }
 
-    const shareURL = window.location.protocol + "//" + window.location.host + '/submit/' + id;
+    const shareURL = window.location.protocol + "//" + window.location.host + '/submit/' + surveyId;
     const numSubmitions = props.survey.submitions.length;
 
     return <div className={classes.Inspect}>
@@ -150,7 +150,8 @@ const mapDispatchToProps = dispatch => {
     return {
         onSetSurvey: survey => dispatch({type: actionTypes.SET_INSPECT_SURVEY, survey: survey}),
         onCopyToClipboard: () => dispatch({type: actionTypes.OPEN_SNACKBAR, message: 'Link Copied to Clipboard'}),
-        onSetSurveys: surveys => dispatch({type: actionTypes.SET_SURVEYS, surveys: surveys})
+        onSetSurveys: surveys => dispatch({type: actionTypes.SET_SURVEYS, surveys: surveys}),
+        onLoadInspectSurvey: (accessToken, surveyId) => dispatch(loadInspectSurveyAsync(accessToken, surveyId))
     }
 }
 
