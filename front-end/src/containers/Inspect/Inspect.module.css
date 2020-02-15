@@ -33,7 +33,8 @@
     display: flex;
     justify-content: space-evenly;
     flex-wrap: wrap;
-    margin-top: 4vh;
+    max-width: 1600px;
+    margin: auto;
 }
 
 .SubmitionsBox {
@@ -52,7 +53,7 @@
 
 .AvailabilitiesBox {
     width: 100%;
-    max-width: 800px;
+    max-width: 1000px;
     padding: 20px 0;
     margin: auto;
 }
@@ -75,17 +76,30 @@
 .InputsBox {
     margin: 30px 0;
     width: 90vw;
-    max-width: 600px;
+    max-width: 350px;
+    box-sizing: border-box;
 }
 
 .NumAvailableSelect {
-    width: 30%;
+    width: 100%;
+}
+
+.SelectLabel {
+    margin-bottom: 40px;
 }
 
 @media (max-width: 1300px) {
     .SubmitionsBox {
-        width: 90vw;
+        width: 100%;
         max-width: 800px;
+    }
+    .InputsBox {
+        width: 100%;
+        max-width: 800px;
+        padding-left: 3%;
+    }
+    .NumAvailableSelect {
+        width: 200px;
     }
     .SubmitionsBox:nth-child(1) {
         order: 2;

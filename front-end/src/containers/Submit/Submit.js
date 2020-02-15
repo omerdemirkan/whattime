@@ -167,7 +167,7 @@ function Submit(props) {
                 </div>
                 <Button
                 buttonClasses='Large Center'
-                style={{position: 'absolute', bottom: '0'}}
+                style={{position: 'absolute'}}
                 onClick={() => setStage(1)}>BACK</Button>
             </>
         : null}

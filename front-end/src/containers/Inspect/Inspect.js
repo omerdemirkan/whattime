@@ -30,9 +30,7 @@ function Inspect(props) {
     const [numAvailable, setNumAvailable] =  useState(null);
     const [userHasSubmitted, setUserHasSubmitted] = useState(null);
 
-
-    // Searches for whether or not the survey inspected is already loaded, 
-    // if it isn't, it is manually loaded with an async action creator.
+    // Loads inspected survey on load
     useEffect(() => {
 
         if (props.accessToken) {
@@ -40,7 +38,7 @@ function Inspect(props) {
         }
     }, [props.accessToken]);
 
-    
+
     // Functions to update survey after deleting a submition.
     useEffect(() => {
         const loadedSurvey = props.loadedSurveys.filter(survey => survey._id === surveyId)[0] || false;
@@ -54,7 +52,7 @@ function Inspect(props) {
     // Sets initial value of numAvailable to the total number of submitions on load.
     // Searches whether or not the user has already submitted.
     useEffect(() => {
-        if (props.survey && !numAvailable) {
+        if (props.survey && props.survey._id === surveyId && !numAvailable) {
             const storedSubmitionIds = JSON.parse(localStorage.getItem("submitionIds")) || [];
             const surveySubmitionsIds = props.survey.submitions.map(submition => submition._id);
 
@@ -166,7 +164,7 @@ function Inspect(props) {
 
         {availableTimes && numSubmitions > 0 ?
             <div className={classes.AvailabilitiesBox}>
-                <h1 className={classes.AvailabilitiesHeader}>What time {numAvailable === numSubmitions ? 'is Everyone' : (numAvailable === 1 ? 'is ' : 'are ') + getDisplayPeople(numAvailable)} available?</h1>
+                <h1 className={classes.AvailabilitiesHeader}>Times {numAvailable === numSubmitions ? 'Everyone is' : getDisplayPeople(numAvailable) + (numAvailable === 1 ? ' is ' : ' are ')} Available:</h1>
                 <Availabilities 
                 date={props.survey.date}
                 timeframes={availableTimes}/>
@@ -199,6 +197,7 @@ function Inspect(props) {
             
             {availableTimes && numSubmitions > 1 ?
                 <div className={classes.InputsBox}>
+                    <h2 className={classes.SelectLabel}>How many people are needed?</h2>
                     <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
