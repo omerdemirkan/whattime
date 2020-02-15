@@ -1,5 +1,5 @@
 .HomePage {
-    
+    padding: 0 5%;
 }
 
 .Shapes {
@@ -7,4 +7,64 @@
     top: 0;
     min-height: 100%;
     min-width: 100%;
+    z-index: 0;
+
+    -khtml-user-select: none;
+    -o-user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.Hero {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    padding: 15vh 0;
+    overflow: auto;
+}
+
+.HeroTextArea {
+    z-index: 1;
+    max-width: 600px;
+    margin-bottom: 100px;
+}
+
+.MainHeroHeader {
+    z-index: 1;
+    font-size: 4rem;
+
+}
+
+.SecondaryHeroHeader {
+    font-size: 1.6rem;
+    font-weight: 500;
+    color: #6C63FF;
+}
+
+.ButtonsBox {
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.Clock {
+    width: 80vw;
+    max-width: 600px;
+    z-index: 1;
+}
+
+@media (max-width: 768px) {
+    
+    .MainHeroHeader {
+        z-index: 1;
+
+    }
+
+    .SecondaryHeroHeader {
+        font-size: 1.6rem;
+        font-weight: 500;
+        color: #6C63FF;
+    }
 }

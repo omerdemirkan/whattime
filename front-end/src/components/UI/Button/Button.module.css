@@ -1,14 +1,16 @@
 .Default {
     border: none;
-    background-color: rgba(0, 0, 0, 0);
+    background-color: transparent;
     opacity: .9;
     outline: none;
+    color: #6C63FF;
     font-family: 'Montserrat', sans-serif;
+    box-sizing: border-box;
 }
 
 .Default:hover {
     opacity: 1;
-    background-color: rgba(0, 0, 0, .1);
+    background-color: rgba(108, 99, 255, 0.1);
     transition: 0.1s ease;
 }
 
@@ -17,18 +19,18 @@
 }
 
 .Small {
-    padding: 4px 10px;
+    padding: 6px 10px;
     font-size: .9rem;
 }
 
 .Medium {
-    padding: 8px 20px;
+    padding: 9px 20px;
     font-size: 1rem;
     font-weight: 600;
 }
 
 .Large {
-    padding: 10px 40px;
+    padding: 12px 40px;
     font-size: 1.1rem;
     font-weight: 700;
 }
@@ -36,4 +38,22 @@
 .Center {
     transform: translate(-50%);
     margin-left: 50%;
+}
+
+.Fill {
+    background-color: #6C63FF;
+    color: white;
+}
+
+.Fill:hover {
+    background-color: #6C63FF;
+}
+
+.Border {
+    border: 2px solid #6C63FF;
+    background-color: transparent;
+}
+
+.Border:hover {
+    background-color: transparent;
 }
