@@ -5,11 +5,15 @@ import { connect } from 'react-redux';
 import * as actionTypes from '../../store/actions/actionTypes';
 import axios from '../../axios';
 import loadInspectSurveyAsync from '../../store/actions/loadInspectSurvey';
+import getDisplayDate from '../../helper/getDisplayDate';
 
 import Person from './Person/Person';
 import Availabilities from '../../components/Availabilities/Availabilities';
 import {CopyToClipboard} from 'react-copy-to-clipboard';
+
 import FileCopyIcon from '@material-ui/icons/FileCopy';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
 
 function Inspect(props) {
 
@@ -17,7 +21,11 @@ function Inspect(props) {
     const surveyId = fullPath.slice(fullPath.lastIndexOf('/') + 1, fullPath.length);
 
     const [availableTimes, setAvailableTimes] = useState(null);
+    const [numAvailable, setNumAvailable] =  useState(null);
 
+    // Searches for whether or not the survey inspected is already loaded, 
+    // if it isn't it is manually loaded with an async action creator.
+    // Also functions to update survey after deleting a submition.
     useEffect(() => {
         const survey = props.loadedSurveys.filter(survey => survey._id === surveyId)[0] || false;
 
@@ -29,10 +37,16 @@ function Inspect(props) {
     }, [props.loadedSurveys, props.accessToken]);
 
     useEffect(() => {
+        if (props.survey && !numAvailable) {
+            setNumAvailable(props.survey.submitions.length)
+        }
+    }, [props.survey]);
+
+    useEffect(() => {
         if (props.survey) {
             let cumulativeTimes = [];
             props.survey.submitions.forEach(submition => {
-                let formattedTimes = []
+                let formattedTimes = [];
                 for (let i = 0; i < submition.available.length; i += 2) {
                     formattedTimes.push({
                         name: submition.name,
@@ -49,19 +63,18 @@ function Inspect(props) {
             });
             cumulativeTimes.sort((a, b) => a.time - b.time);
             
-            const numSubmitions = props.survey.submitions.length;
             let availableCounter = 0;
             let allAvailableTimeFrames = [];
             cumulativeTimes.forEach(time => {
                 if (time.isStart) {
                     availableCounter++;
-                    if (availableCounter === numSubmitions) {
+                    if (availableCounter === numAvailable) {
                         allAvailableTimeFrames.push({
                             start: time.time
                         });
                     }
                 } else {
-                    if (availableCounter === numSubmitions) {
+                    if (availableCounter === numAvailable) {
                         allAvailableTimeFrames[allAvailableTimeFrames.length - 1].end = time.time;
                     }
                     availableCounter--;
@@ -69,7 +82,7 @@ function Inspect(props) {
             });
             setAvailableTimes(allAvailableTimeFrames);
         }
-    }, [props.survey]);
+    }, [numAvailable]);
 
     function deleteSubmitionHandler(id) {
         axios.delete('/user/surveys/' + props.survey._id + '/' + id, {
@@ -102,8 +115,17 @@ function Inspect(props) {
     const shareURL = window.location.protocol + "//" + window.location.host + '/submit/' + surveyId;
     const numSubmitions = props.survey.submitions.length;
 
+    // Determines the options to choose numAvailable
+    let numAvailableSelectOptions = [];
+    for(let i = numSubmitions; i > 0; i--) {
+        numAvailableSelectOptions.push({
+            value: i,
+            display: i === numSubmitions ? 'All' : i
+        });
+    }
+
     return <div className={classes.Inspect}>
-        <h1 className={classes.EventHeader}>{props.survey.event}</h1>
+        <h1 className={classes.EventHeader}>{props.survey.event}, {getDisplayDate(props.survey.date)}</h1>
         <div className={classes.ShareBox}>
             <CopyToClipboard text={shareURL}
             onCopy={props.onCopyToClipboard}>
@@ -129,10 +151,24 @@ function Inspect(props) {
             </div>
             <div className={classes.AvailabilitiesBox}>
                 {availableTimes ?
-                    <Availabilities 
-                    date={props.survey.date}
-                    timeframes={availableTimes}/>
+                    <>
+                        <Availabilities 
+                        date={props.survey.date}
+                        timeframes={availableTimes}/>
+
+                        <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={numAvailable}
+                        onChange={event => setNumAvailable(event.target.value)}
+                        >
+                            {numAvailableSelectOptions.map(option => {
+                                return <MenuItem value={option.value}>{option.display}</MenuItem>
+                            })}
+                        </Select>
+                    </>
                 : null}
+
             </div>
         </div>
     </div>

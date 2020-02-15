@@ -11,7 +11,6 @@ const loadInspectSurveyAsync = (accessToken, surveyId) => {
             }
         })
         .then(res => {
-            console.log(res.data);
             dispatch(loadInspectSurveySuccess(res.data));
         })
         .catch(err => {
