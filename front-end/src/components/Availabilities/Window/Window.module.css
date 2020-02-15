@@ -73,3 +73,10 @@
 .Window:hover .Delete {
     display: inline-block;
 }
+
+.HoverArea {
+    width: 100%;
+    position: absolute;
+    height: 400%;
+    bottom: -133%;
+}

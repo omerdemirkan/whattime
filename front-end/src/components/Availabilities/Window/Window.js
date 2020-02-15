@@ -22,6 +22,8 @@ export default function Window(props) {
                 className={classes.Delete}
                 onClick={() => props.deleteByStartTime(props.timeframe.start)}>DELETE</span>
             </div>
-        : null}
+        : 
+            <div className={classes.HoverArea}></div>
+        }
     </div>
 }
