@@ -3,7 +3,10 @@ import classes from './HomePage.module.css';
 
 // SVG images
 import shapes from '../../images/shapes.svg';
-import clock from '../../images/clock.svg'
+import clock from '../../images/clock.svg';
+import timeline from '../../images/timeline.svg';
+import mail from '../../images/mail.svg';
+import calendar from '../../images/calendar.svg';
 
 import Button from '../UI/Button/Button';
 import { Link } from 'react-router-dom'
@@ -45,7 +48,19 @@ export default function HomePage() {
             className={classes.Clock}/>
         </div>
         <div className={classes.SecondaryBox}>
-
+            <div className={classes.Pair}>
+                <img src={mail} className={classes.PairImage}/>
+                <p className={classes.PairText}>No more frantic back-and-forth emails and messages to organize one event.</p>
+            </div>
+            <div className={classes.Pair}>
+                <img src={timeline} className={classes.PairImage}/>
+                <p className={classes.PairText}>No more juggling availabilities to find out what times people will be available.</p>
+                
+            </div>
+            <div className={classes.Pair}>
+                <img src={calendar} className={classes.PairImage}/>
+                <p className={classes.PairText}>No more calculating time zones for your international online group.</p>
+            </div>
         </div>
     </div>
 }

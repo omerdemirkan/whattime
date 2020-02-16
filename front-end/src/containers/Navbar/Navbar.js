@@ -26,7 +26,7 @@ function Navbar(props) {
 
 
     // Navbar is empty until authentication is determined.
-    return <div className={classes.Navbar} style={navBackground ? {backgroundColor: 'grey'} : null}>
+    return <div className={classes.Navbar} style={navBackground ? {backgroundColor: 'rgb(222, 222, 236)'} : null}>
         {!props.authLoading ? 
         <h2 className={classes.Logo}><Link className={classes.Link} to='/'>whattime.app</Link></h2>
         : null}

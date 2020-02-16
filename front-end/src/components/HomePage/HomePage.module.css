@@ -20,7 +20,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-wrap: wrap;
+    flex-wrap: wrap-reverse;
     overflow: auto;
     padding: 2vw 5% 100px;
     box-sizing: border-box;
@@ -54,16 +54,53 @@
 }
 
 .Clock {
-    width: 90vw;
+    width: 70vw;
     max-width: 700px;
     z-index: 1;
 }
 
 .SecondaryBox {
     min-height: 400px;
+    box-sizing: border-box;
     background-color: #6C63FF;
     z-index: 1;
     position: relative;
+    display: flex;
+    justify-content: space-evenly;
+    padding: 5vh 5%;
+    flex-wrap: wrap;
+}
+
+.Pair {
+    width: 30vw;
+    max-width: 400px;
+    /* height: 400px; */
+    text-align: center;
+    margin: 30px 0;
+}
+
+.PairImage {
+    height: 60%;
+    max-width: 100%;
+}
+
+.PairText {
+    color: #F1F1FF;
+    font-size: 1.3rem;
+}
+
+@media (max-width: 900px) {
+
+    .Pair {
+        width: 100%;
+        max-width: none;
+        margin: 50px 0;
+    }
+
+    .PairText {
+        padding: 0 10vw;
+    }
+
 }
 
 @media (max-width: 768px) {
@@ -83,4 +120,7 @@
         max-width: none;
         width: 100%;
     }
+    /* .Clock {
+        display: none;
+    } */
 }
