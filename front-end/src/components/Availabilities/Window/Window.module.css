@@ -1,9 +1,11 @@
 .Window {
     position: absolute;
     height: 100%;
-    background-color: orange;
+    background-color: #6C63FF;
     border-radius: .2rem;
-
+    animation: FadeIn 0.1s ease forwards;
+    margin-top: 10px;
+    transform: translateY(-50%);
 }
 
 .Start {
@@ -79,4 +81,15 @@
     position: absolute;
     height: 400%;
     bottom: -150%;
+}
+
+@keyframes FadeIn {
+    from {
+        opacity: 0;
+        height: 0;
+    }
+    to {
+        opacity: 1;
+        height: 100%;
+    }
 }

@@ -1,5 +1,6 @@
 .MySurveys {
-    padding: 0 5%;
+    padding: 5vh 5%;
+    box-sizing: border-box;
     overflow: auto;
     min-height: calc(100vh - 80px);
 }

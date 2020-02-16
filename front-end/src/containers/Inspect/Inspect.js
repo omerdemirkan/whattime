@@ -7,6 +7,7 @@ import axios from '../../axios';
 import loadInspectSurveyAsync from '../../store/actions/loadInspectSurvey';
 import getDisplayDate from '../../helper/getDisplayDate';
 import ScrollUpOnLoad from '../../components/ScrollUpOnLoad/ScrollUpOnLoad';
+import AuthRequired from '../Auth/AuthRequired';
 
 import Person from './Person/Person';
 import Availabilities from '../../components/Availabilities/Availabilities';
@@ -56,7 +57,6 @@ function Inspect(props) {
         if (props.survey && props.survey._id === surveyId && !numAvailable) {
             const storedSubmitionIds = JSON.parse(localStorage.getItem("submitionIds")) || [];
             const surveySubmitionsIds = props.survey.submitions.map(submition => submition._id);
-            console.log(surveySubmitionsIds);
 
             let userAlreadySubmitted = false;
             for(var i = 0; i < storedSubmitionIds.length; i++) {
@@ -155,6 +155,7 @@ function Inspect(props) {
     }
 
     return <div className={classes.Inspect}>
+        <AuthRequired/>
         <ScrollUpOnLoad/>
         <h1 className={classes.EventHeader}>{props.survey.event}, {getDisplayDate(props.survey.date)}</h1>
         <div className={classes.ShareBox}>

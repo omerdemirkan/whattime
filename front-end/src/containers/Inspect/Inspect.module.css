@@ -1,5 +1,6 @@
 .Inspect {
-    padding: 0 5%;
+    padding: 5vh 5%;
+    box-sizing: border-box;
     overflow: auto;
     min-height: calc(100vh - 80px);
 }
@@ -7,6 +8,7 @@
 .EventHeader {
     text-align: center;
     margin: 6vh 0 3vh;
+    color: #6C63FF;
 }
 
 .ShareBox {
@@ -49,7 +51,7 @@
 .PersonsBox {
     display: flex;
     justify-content: space-evenly;
-    align-: center;
+    align-items: center;
     flex-wrap: wrap;
 }
 

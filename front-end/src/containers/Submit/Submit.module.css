@@ -1,6 +1,7 @@
 .Submit {
     position: relative;
-    padding: 0 5%;
+    padding: 5vh 5%;
+    box-sizing: border-box;
     min-height: calc(100vh - 80px);
     overflow: auto;
 }
@@ -8,6 +9,7 @@
 .EventHeader {
     text-align: center;
     font-size: 2.5rem;
+    color: #6C63FF;
 }
 
 .PromptHeader {
