@@ -15,3 +15,21 @@
     max-width: 600px;
     margin: auto;
 }
+
+.NoSurveysBox {
+    width: 85vw;
+    max-width: 800px;
+    margin: auto;
+    text-align: center;
+}
+
+.NoSurveysHeader {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.NoSurveysImage {
+    width: 80%;
+    max-width: 400px;
+    margin: auto;
+}

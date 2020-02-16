@@ -26,7 +26,7 @@ function Login(props) {
         .then(res => {
             localStorage.setItem('accessToken', res.data.accessToken);
             props.onAuthenticationSuccess(username, res.data.accessToken);
-            props.history.push('/create');
+            props.history.push('/my-surveys');
         })
         .catch(err => {
             console.log(err);

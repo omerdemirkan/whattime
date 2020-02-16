@@ -4,6 +4,10 @@ import {connect} from 'react-redux';
 import loadSurveysAsync from '../../store/actions/loadSurveys';
 import AuthRequired from '../Auth/AuthRequired';
 import ScrollUpOnLoad from '../../components/ScrollUpOnLoad/ScrollUpOnLoad';
+import { Link } from 'react-router-dom';
+import Button from '../../components/UI/Button/Button';
+
+import noData from '../../images/no-data.svg';
 
 import Survey from '../../components/Survey/Survey';
 
@@ -18,9 +22,13 @@ function MySurveys(props) {
         <AuthRequired history={props.history}/>
         <ScrollUpOnLoad/>
         <h1 className={classes.Header}>My Surveys</h1>
-        {props.surveys.length === 0 ?
+        {props.surveys.length === 0 && !props.surveysLoading ?
             <div className={classes.NoSurveysBox}>
-                
+                <img className={classes.NoSurveysImage} src={noData}/>
+                <h2 className={classes.NoSurveysHeader}>Hmm, looks a bit empty. Would you like to create a survey?</h2>
+                <Link to='/create'>
+                    <Button buttonClasses='Large'>Yes, Take Me There!</Button>
+                </Link>
             </div>
         : null}
         <div className={classes.SurveysBox}>
@@ -38,7 +46,8 @@ function MySurveys(props) {
 const mapStateToProps = state => {
     return {
         accessToken: state.auth.accessToken,
-        surveys: state.surveys.surveys
+        surveys: state.surveys.surveys,
+        surveysLoading: state.surveys.loading
     }
 }
 
