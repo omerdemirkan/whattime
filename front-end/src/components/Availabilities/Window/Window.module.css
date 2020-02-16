@@ -4,6 +4,7 @@
     background-color: #6C63FF;
     border-radius: .2rem;
     animation: FadeIn 0.1s ease forwards;
+    animation: ExpandWindow 0.1s ease forwards;
     margin-top: 10px;
     transform: translateY(-50%);
 }
@@ -17,7 +18,7 @@
     left: 0;
     bottom: calc(100% + 10px);
     font-size: .8rem;
-    background-color: black;
+    background-color: #73708F;
     opacity: .5;
     color: white;
     display: none;
@@ -25,6 +26,7 @@
 
 .Window:hover .Start {
     display: inline-block;
+    animation: FadeIn 0.1s ease forwards;
     
 }
 
@@ -37,7 +39,7 @@
     right: 0;
     bottom: calc(100% + 10px);
     font-size: .8rem;
-    background-color: black;
+    background-color: #73708F;
     opacity: .5;
     color: white;
     display: none;
@@ -45,6 +47,7 @@
 
 .Window:hover .End {
     display: inline-block;
+    animation: FadeIn 0.1s ease forwards;
     
 }
 
@@ -86,10 +89,17 @@
 @keyframes FadeIn {
     from {
         opacity: 0;
-        height: 0;
     }
     to {
         opacity: 1;
+    }
+}
+
+@keyframes ExpandWindow {
+    from {
+        height: 0;
+    }
+    to {
         height: 100%;
     }
 }

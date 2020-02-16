@@ -19,13 +19,13 @@ const strictLimiter = rateLimit({
 // Maximum of 10 /login and /verify requests in 15 mins per IP
 const mediumLimiter = rateLimit({
     windowMs: 15 * 60 * 1000,
-    max: 10
+    max: 30
 });
 
 // Maximum of 50 /is-username-unique per 15 minutes
 const laxLimiter = rateLimit({
     windowMs: 15 * 60 * 1000,
-    max: 50
+    max: 150
 });
 
 function generateTemporaryToken(payload) {
