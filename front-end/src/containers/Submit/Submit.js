@@ -30,7 +30,7 @@ function Submit(props) {
 
             let userAlreadySubmitted = false;
             for(var i = 0; i < storedSubmitionIds.length; i++) {
-                if (surveySubmitionsIds.includes(surveySubmitionsIds[i])) {
+                if (surveySubmitionsIds.includes(storedSubmitionIds[i])) {
                     userAlreadySubmitted = true;
                     break;
                 }

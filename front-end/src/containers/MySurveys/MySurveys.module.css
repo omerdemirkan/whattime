@@ -31,5 +31,7 @@
 .NoSurveysImage {
     width: 80%;
     max-width: 400px;
-    margin: auto;
+    margin-left: 50%;
+    transform: translate(-50%);
+    margin-top: 50px;
 }

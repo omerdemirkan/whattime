@@ -49,6 +49,7 @@
 .PersonsBox {
     display: flex;
     justify-content: space-evenly;
+    align-: center;
     flex-wrap: wrap;
 }
 

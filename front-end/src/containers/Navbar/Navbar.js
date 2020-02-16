@@ -78,7 +78,7 @@ function Navbar(props) {
         style={{borderRadius: '0'}}
         >
           <div className={classes.LogoutModal}>
-            <h1>Are you sure you want to log out?</h1>
+            <h1 className={classes.ModalHeader}>Are you sure you want to log out?</h1>
             <DialogActions>
                 <Button 
                 onClick={() => setLogoutModal(!logoutModal)}

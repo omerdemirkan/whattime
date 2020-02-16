@@ -24,11 +24,11 @@ function MySurveys(props) {
         <h1 className={classes.Header}>My Surveys</h1>
         {props.surveys.length === 0 && !props.surveysLoading ?
             <div className={classes.NoSurveysBox}>
-                <img className={classes.NoSurveysImage} src={noData}/>
                 <h2 className={classes.NoSurveysHeader}>Hmm, looks a bit empty. Would you like to create a survey?</h2>
                 <Link to='/create'>
                     <Button buttonClasses='Large'>Yes, Take Me There!</Button>
                 </Link>
+                <img className={classes.NoSurveysImage} src={noData}/>
             </div>
         : null}
         <div className={classes.SurveysBox}>

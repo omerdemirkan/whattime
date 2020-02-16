@@ -17,6 +17,10 @@ img {
   -moz-user-select: none;
   -webkit-user-select: none;
   user-select: none;
+  position: relative;
+  /* opacity: 0;
+  animation: FadeIn 0.2s ease forwards;
+  animation-delay: .3s; */
 }
 
 p::selection, 
@@ -33,7 +37,12 @@ mark::selection {
   color: white;
 }
 
-/* main {
-  padding-top: 80px;
-  
-} */
+@keyframes FadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+
+  }
+}

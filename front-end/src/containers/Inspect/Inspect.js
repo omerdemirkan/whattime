@@ -56,10 +56,11 @@ function Inspect(props) {
         if (props.survey && props.survey._id === surveyId && !numAvailable) {
             const storedSubmitionIds = JSON.parse(localStorage.getItem("submitionIds")) || [];
             const surveySubmitionsIds = props.survey.submitions.map(submition => submition._id);
+            console.log(surveySubmitionsIds);
 
             let userAlreadySubmitted = false;
             for(var i = 0; i < storedSubmitionIds.length; i++) {
-                if (surveySubmitionsIds.includes(surveySubmitionsIds[i])) {
+                if (surveySubmitionsIds.includes(storedSubmitionIds[i])) {
                     userAlreadySubmitted = true;
                     break;
                 }
@@ -195,7 +196,7 @@ function Inspect(props) {
                     {userHasSubmitted === false ?
                         <div className={classes.SubmitBox}>
                             <a href={shareURL} target="_blank">
-                                <Button buttonClasses='Large ' style={{width: '100%'}}>Submit your availabilities</Button>
+                                <Button buttonClasses='Large ' style={{width: '100%', margin: '0'}}>Submit your availabilities</Button>
                             </a>
                         </div>
                     : null}

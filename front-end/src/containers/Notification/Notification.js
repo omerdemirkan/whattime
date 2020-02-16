@@ -21,8 +21,8 @@ function Notification(props) {
         style={{borderRadius: '0'}}
         >
           <div className={classes.Modal}>
-            <h1>Error</h1>
-            <p>{props.modalMessage}</p>
+            <h1 className={classes.ModalHeader}>Error</h1>
+            <p className={classes.ModalMessage}>{props.modalMessage}</p>
             <DialogActions>
                 <Button 
                 onClick={props.onCloseModal}
