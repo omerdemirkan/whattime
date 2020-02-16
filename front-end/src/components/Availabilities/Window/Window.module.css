@@ -3,7 +3,7 @@
     height: 100%;
     background-color: #6C63FF;
     border-radius: .2rem;
-    animation: FadeIn 0.1s ease forwards;
+    animation: FadeIn 0.2s ease forwards;
     animation: ExpandWindow 0.1s ease forwards;
     margin-top: 10px;
     transform: translateY(-50%);
@@ -22,6 +22,7 @@
     opacity: .5;
     color: white;
     display: none;
+    line-height: 1.3rem;
 }
 
 .Window:hover .Start {
@@ -43,6 +44,7 @@
     opacity: .5;
     color: white;
     display: none;
+    line-height: 1.3rem;
 }
 
 .Window:hover .End {

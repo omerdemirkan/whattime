@@ -174,7 +174,7 @@ function Inspect(props) {
                 timeframes={availableTimes}/>
             </div>
         : null}
-        {availableTimes && availableTimes.length === 0 ? 
+        {availableTimes && availableTimes.length === 0 && !props.surveyLoading && numSubmitions !== 0 ? 
             <div className={classes.AvailabilitiesBox}>
                 <h1 className={classes.AvailabilitiesHeader}>No Availabilities Found</h1>
                 <h2 className={classes.AvailabilitiesHeader}>Try Narrowing the Number of People</h2>
@@ -229,7 +229,8 @@ const mapStateToProps = state => {
     return {
         loadedSurveys: state.surveys.surveys,
         survey: state.inspect.survey,
-        accessToken: state.auth.accessToken
+        accessToken: state.auth.accessToken,
+        surveyLoading: state.inspect.loading
     }
 }
 

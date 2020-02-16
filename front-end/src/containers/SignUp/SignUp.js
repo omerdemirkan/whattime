@@ -24,14 +24,25 @@ function SignUp(props) {
         caseIsValid: false,
         lengthIsValid: false
     });
+
+    // determines whether or not password is visible.
     const [showPassword, setShowPassword] = useState(false);
+
+    // determines whether or not to show an error message (stating that the username is not valid) or to enable sign up button.
+    // it is set by a 1 second debounced username that sends requests to check if the username is unique.
     const [usernameIsUnique, setUsernameIsUnique] = useState('unknown');
 
+    // if the username field has a length of 1-3 after being left alone for three seconds (veryDebouncedUsername),
+    // username length errors may be shown 
+    // (being true does't mean the error message is shown, it just allows it to be shown if the username field is less than 4 characters.)
+    const [showUsernameLengthError, setShowUsernameLengthError] = useState(false);
+
     const debouncedUsername = useDebounce(username, 800);
+
     const veryDebouncedUsername = useDebounce(username, 3000);
 
 
-    async function fetchUsernameIsLoading() {
+    async function fetchUsernameIsUnique() {
         setUsernameIsUnique('loading');
         axios.post('/auth/is-username-unique', {
             username: debouncedUsername
@@ -47,8 +58,14 @@ function SignUp(props) {
 
 
     useEffect(() => {
-        if (debouncedUsername.length >= 4) fetchUsernameIsLoading();
+        if (debouncedUsername.length >= 4) fetchUsernameIsUnique();
     }, [debouncedUsername]);
+
+    useEffect(() => {
+        if (veryDebouncedUsername.length < 4 && veryDebouncedUsername.length > 0) {
+            setShowUsernameLengthError(true)
+        }
+    }, [veryDebouncedUsername]);
 
     function updateFormHandler(event, input) {
         switch(input) {
@@ -98,8 +115,6 @@ function SignUp(props) {
 
     let usernameMessage = null;
 
-    const showUsernameLengthError = username === veryDebouncedUsername && username.length > 0 && username.length < 4;
-
     switch(usernameIsUnique) {
         case true:
             usernameMessage = <CheckRoundedIcon className={classes.UsernameLoader}/>;
@@ -108,7 +123,7 @@ function SignUp(props) {
             usernameMessage = <span className={classes.UsernameMessage}>username taken</span>
             break;
         case 'unknown':
-            if (showUsernameLengthError) {
+            if (showUsernameLengthError && username.length < 4) {
                 usernameMessage = <span className={classes.UsernameMessage}>username too short</span>
             }
             break;
@@ -133,7 +148,7 @@ function SignUp(props) {
                 value={username}
                 onChange={event => updateFormHandler(event, 'username')}
                 className={classes.Input}
-                error={usernameIsUnique === false || showUsernameLengthError}
+                error={usernameIsUnique === false || (showUsernameLengthError && username.length < 4)}
                 />
             </div>
 

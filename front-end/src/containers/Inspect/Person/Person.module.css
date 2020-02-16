@@ -38,6 +38,16 @@
     opacity: 1;
 }
 
+.DeleteModal {
+    padding: 10px 40px 15px;
+    font-family: 'Montserrat', sans-serif;
+    color: #73708F;
+}
+
+.DeleteModalHeader {
+
+}
+
 @media (max-width: 1300px) and (min-width: 769px) {
     .Person {
         width: 45%;
