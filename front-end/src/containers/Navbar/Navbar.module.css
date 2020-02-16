@@ -1,6 +1,6 @@
 .Navbar {
     transition: background-color 0.3s ease;
-    position: sticky;
+    position: fixed;
     width: 100%;
     height: 75px;
     top: 0;

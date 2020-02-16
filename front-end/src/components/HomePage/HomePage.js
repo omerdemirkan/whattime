@@ -39,5 +39,8 @@ export default function HomePage() {
             src={clock}
             className={classes.Clock}/>
         </div>
+        <div className={classes.SecondaryBox}>
+            
+        </div>
     </div>
 }

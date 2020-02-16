@@ -55,11 +55,14 @@
     z-index: 1;
 }
 
+.SecondaryBox {
+    min-height: 400px;
+}
+
 @media (max-width: 768px) {
     
     .MainHeroHeader {
-        z-index: 1;
-
+        font-size: 3rem;
     }
 
     .SecondaryHeroHeader {

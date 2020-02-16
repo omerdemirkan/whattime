@@ -5,6 +5,10 @@
   color: #73708F;
   font-family: 'Montserrat', sans-serif;
   background-color: #F1F1FF;
+  position: relative;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding-top: 80px;
 }
 
 p::selection, 
