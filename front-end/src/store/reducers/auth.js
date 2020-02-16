@@ -20,6 +20,12 @@ const authReducer = (state = initialState, action) => {
                 ...state,
                 loading: false
             }
+        case actionTypes.LOGOUT:
+            return {
+                username: null,
+                loading: false,
+                accessToken: null
+            }
         default:
             return state;
     }

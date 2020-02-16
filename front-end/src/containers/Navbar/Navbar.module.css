@@ -26,8 +26,8 @@
     padding-inline-start: 0;
     display: inline-block;
     position: absolute;
-    right: calc(25px + 4vw);
-    width: calc(100px + 10vw);
+    right: calc(15px + 4vw);
+    width: calc(150px + 20vw);
     display: flex;
     justify-content: space-evenly;
     margin: 0;
@@ -35,12 +35,17 @@
 
 .NavItem {
     display: inline;
-
 }
 
 .Link {
     text-decoration: none;
     color: inherit;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.LogoutModal {
+    padding: 10px 40px 15px;
 }
 
 @keyframes FadeIn {
