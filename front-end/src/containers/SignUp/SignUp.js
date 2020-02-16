@@ -3,6 +3,7 @@ import classes from './SignUp.module.css';
 import useDebounce from '../Hooks/useDebounce';
 import axios from '../../axios';
 import { Link } from 'react-router-dom'
+import ScrollUpOnLoad from '../../components/ScrollUpOnLoad/ScrollUpOnLoad';
 
 import { connect } from 'react-redux';
 import * as actionTypes from '../../store/actions/actionTypes';
@@ -117,6 +118,7 @@ function SignUp(props) {
     }
 
     return <div className={classes.SignUp}>
+        <ScrollUpOnLoad/>
         <h1 className={classes.Header}>Sign Up</h1>
         <form onSubmit={submitForm} className={classes.Form}>
             <div className={classes.InputGroup}>

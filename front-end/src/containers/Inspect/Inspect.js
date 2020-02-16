@@ -6,6 +6,7 @@ import * as actionTypes from '../../store/actions/actionTypes';
 import axios from '../../axios';
 import loadInspectSurveyAsync from '../../store/actions/loadInspectSurvey';
 import getDisplayDate from '../../helper/getDisplayDate';
+import ScrollUpOnLoad from '../../components/ScrollUpOnLoad/ScrollUpOnLoad';
 
 import Person from './Person/Person';
 import Availabilities from '../../components/Availabilities/Availabilities';
@@ -153,6 +154,7 @@ function Inspect(props) {
     }
 
     return <div className={classes.Inspect}>
+        <ScrollUpOnLoad/>
         <h1 className={classes.EventHeader}>{props.survey.event}, {getDisplayDate(props.survey.date)}</h1>
         <div className={classes.ShareBox}>
             <CopyToClipboard text={shareURL}

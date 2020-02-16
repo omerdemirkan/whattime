@@ -4,6 +4,7 @@ import classes from './Create.module.css';
 import AuthRequired from '../Auth/AuthRequired';
 import Button from '../../components/UI/Button/Button';
 import useDebounce from '../Hooks/useDebounce';
+import ScrollUpOnLoad from '../../components/ScrollUpOnLoad/ScrollUpOnLoad';
 
 import DateFnsUtils from '@date-io/date-fns';
 import {
@@ -70,6 +71,7 @@ function Create(props) {
 
     return <div className={classes.Create}>
         <AuthRequired history={props.history}/>
+        <ScrollUpOnLoad/>
         <h1 className={classes.Header}>Create a Survey</h1>
         <div className={classes.MainBox}>
             <div className={classes.InputGroup}>

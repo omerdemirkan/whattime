@@ -11,6 +11,14 @@
   padding-top: 80px;
 }
 
+img {
+  -khtml-user-select: none;
+  -o-user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
 p::selection, 
 h1::selection, 
 h2::selection, 

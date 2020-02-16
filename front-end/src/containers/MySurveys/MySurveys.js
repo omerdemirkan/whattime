@@ -3,6 +3,7 @@ import classes from './MySurveys.module.css';
 import {connect} from 'react-redux';
 import loadSurveysAsync from '../../store/actions/loadSurveys';
 import AuthRequired from '../Auth/AuthRequired';
+import ScrollUpOnLoad from '../../components/ScrollUpOnLoad/ScrollUpOnLoad';
 
 import Survey from '../../components/Survey/Survey';
 
@@ -15,6 +16,7 @@ function MySurveys(props) {
 
     return <div className={classes.MySurveys}>
         <AuthRequired history={props.history}/>
+        <ScrollUpOnLoad/>
         <h1 className={classes.Header}>My Surveys</h1>
         <div className={classes.SurveysBox}>
             {props.surveys.map(survey => {

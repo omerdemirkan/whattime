@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import classes from './Login.module.css';
 import axios from '../../axios';
 import { Link } from 'react-router-dom'
+import ScrollUpOnLoad from '../../components/ScrollUpOnLoad/ScrollUpOnLoad';
 
 
 import Input from '@material-ui/core/Input';
@@ -57,6 +58,7 @@ function Login(props) {
     }
 
     return <div className={classes.Login}>
+        <ScrollUpOnLoad/>
         <h1 className={classes.Header}>Log In</h1>
         <form onSubmit={submitForm} className={classes.Form}>
             <div className={classes.InputGroup}>

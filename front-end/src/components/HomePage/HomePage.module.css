@@ -8,12 +8,6 @@
     min-height: 100%;
     min-width: 100%;
     z-index: 0;
-
-    -khtml-user-select: none;
-    -o-user-select: none;
-    -moz-user-select: none;
-    -webkit-user-select: none;
-    user-select: none;
 }
 
 .Hero {
