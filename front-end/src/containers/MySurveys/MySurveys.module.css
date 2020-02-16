@@ -1,6 +1,7 @@
 .MySurveys {
     padding: 0 5%;
     overflow: auto;
+    min-height: calc(100vh - 80px);
 }
 
 .Header {

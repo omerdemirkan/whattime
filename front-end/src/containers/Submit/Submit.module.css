@@ -1,7 +1,8 @@
 .Submit {
-    min-height: 80vh;
     position: relative;
     padding: 0 5%;
+    min-height: calc(100vh - 80px);
+    overflow: auto;
 }
 
 .EventHeader {

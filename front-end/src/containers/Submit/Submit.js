@@ -140,7 +140,7 @@ function Submit(props) {
                 
                 <Button
                 buttonClasses='Large'
-                style={{position: 'absolute', bottom: '0', left: '50%', transform: 'translate(-50%)'}}
+                style={{position: 'absolute', bottom: '100px', left: '50%', transform: 'translate(-50%)'}}
                 onClick={() => setStage(2)}
                 disabled={props.timeframes.length === 0}>NEXT</Button>
             </>
@@ -166,7 +166,7 @@ function Submit(props) {
                     >SUBMIT</Button>
                 </div>
                 <Button
-                style={{position: 'absolute', bottom: '0', left: '50%', transform: 'translate(-50%)'}}
+                style={{position: 'absolute', bottom: '100px', left: '50%', transform: 'translate(-50%)'}}
                 buttonClasses='Large'
                 onClick={() => setStage(1)}>BACK</Button>
             </>

@@ -1,7 +1,7 @@
 .App {
   margin: 0;
   padding: 0;
-  min-height: calc(100vh + 80px);
+  min-height: 100vh;
   color: #73708F;
   font-family: 'Montserrat', sans-serif;
   background-color: #F1F1FF;
