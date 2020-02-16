@@ -18,6 +18,17 @@
     margin: 5vh 0;
 }
 
+.WrongPasswordMessage {
+    color: red;
+    width: 100%;
+    text-align: center;
+    position: absolute;
+    left: 0;
+    top: -40px;
+    animation: FadeOut .2s ease forwards;
+    animation-delay: 3s;
+}
+
 .InputGroup {
     margin: 50px 0;
 }
@@ -58,4 +69,13 @@
 
 .LinkText {
     text-align: center
+}
+
+@keyframes FadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
 }

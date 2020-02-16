@@ -18,6 +18,11 @@ function MySurveys(props) {
         <AuthRequired history={props.history}/>
         <ScrollUpOnLoad/>
         <h1 className={classes.Header}>My Surveys</h1>
+        {props.surveys.length === 0 ?
+            <div className={classes.NoSurveysBox}>
+                
+            </div>
+        : null}
         <div className={classes.SurveysBox}>
             {props.surveys.map(survey => {
                 return <Survey

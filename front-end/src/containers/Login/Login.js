@@ -15,6 +15,7 @@ function Login(props) {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [wrongPasswordMessage, setWrongPasswordMessage] = useState(false);
 
     function submitForm(event) {
         event.preventDefault();
@@ -29,6 +30,7 @@ function Login(props) {
         })
         .catch(err => {
             console.log(err);
+            setWrongPasswordMessage(true);
         });
     }
 
@@ -61,6 +63,9 @@ function Login(props) {
         <ScrollUpOnLoad/>
         <h1 className={classes.Header}>Log In</h1>
         <form onSubmit={submitForm} className={classes.Form}>
+            {wrongPasswordMessage ?
+                <p className={classes.WrongPasswordMessage}>Invalid Username or Password</p>
+            : null}
             <div className={classes.InputGroup}>
                 <div className={classes.InputHeader}>
                     <label className={classes.Label}>Username</label>
