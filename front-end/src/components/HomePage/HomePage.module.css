@@ -1,5 +1,5 @@
 .HomePage {
-    padding: 0 5%;
+
 }
 
 .Shapes {
@@ -18,21 +18,24 @@
 
 .Hero {
     display: flex;
-    justify-content: space-evenly;
+    align-items: center;
+    justify-content: center;
     flex-wrap: wrap;
-    padding: 15vh 0;
     overflow: auto;
+    padding: 2vw 5% 100px;
+    box-sizing: border-box;
+    min-height: calc(100vh - 80px);
 }
 
 .HeroTextArea {
     z-index: 1;
-    max-width: 600px;
-    margin-bottom: 100px;
+    max-width: 700px;
+    padding-bottom: 10vh;
 }
 
 .MainHeroHeader {
     z-index: 1;
-    font-size: 4rem;
+    font-size: 4.5rem;
 
 }
 
@@ -43,31 +46,41 @@
 }
 
 .ButtonsBox {
-    width: 90%;
+    width: 100%;
+    max-width: 530px;
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
 }
 
 .Clock {
-    width: 80vw;
-    max-width: 600px;
+    width: 90vw;
+    max-width: 700px;
     z-index: 1;
 }
 
 .SecondaryBox {
     min-height: 400px;
+    background-color: #6C63FF;
+    z-index: 1;
+    position: relative;
 }
 
 @media (max-width: 768px) {
     
     .MainHeroHeader {
-        font-size: 3rem;
+        font-size: 2.5rem;
     }
 
     .SecondaryHeroHeader {
-        font-size: 1.6rem;
-        font-weight: 500;
-        color: #6C63FF;
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 600px) {
+    
+    .ButtonsBox {
+        max-width: none;
+        width: 100%;
     }
 }

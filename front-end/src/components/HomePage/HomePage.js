@@ -7,8 +7,13 @@ import clock from '../../images/clock.svg'
 
 import Button from '../UI/Button/Button';
 import { Link } from 'react-router-dom'
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+
 
 export default function HomePage() {
+
+    const screenIsSmall = useMediaQuery('(max-width:600px)');
+
     return <div className={classes.HomePage}>
         
         <div className={classes.Hero}>
@@ -24,14 +29,14 @@ export default function HomePage() {
                     <Link to='/signup'>
                         <Button
                         buttonClasses='Large Fill'
-                        style={{height: '50px', width: '250px', margin: '10px 0'}}
+                        style={{height: '50px', width: screenIsSmall ? '90vw' : '250px', margin: '10px 0'}}
                         >Sign Up For Free</Button>
                     </Link>
 
                     <Link to='/login'>
                         <Button
                         buttonClasses='Large Border'
-                        style={{height: '50px', width: '250px', margin: '10px 0'}}>Log In</Button>
+                        style={{height: '50px', width: screenIsSmall ? '90vw' : '250px', margin: '10px 0'}}>Log In</Button>
                     </Link>
                 </div>
             </div>
@@ -40,7 +45,7 @@ export default function HomePage() {
             className={classes.Clock}/>
         </div>
         <div className={classes.SecondaryBox}>
-            
+
         </div>
     </div>
 }
