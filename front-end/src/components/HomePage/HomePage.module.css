@@ -89,6 +89,29 @@
     font-size: 1.3rem;
 }
 
+.TertiaryBox {
+    min-height: 250px;
+    box-sizing: border-box;
+    position: relative;
+    background-color: #F1F1FF;
+    padding: 50px 5% 80px;
+}
+
+.CtaMainHeader {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.CtaSecondaryHeader {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.Highlight {
+    color: #6C63FF;
+    background-color: inherit;
+}
+
 @media (max-width: 900px) {
 
     .Pair {

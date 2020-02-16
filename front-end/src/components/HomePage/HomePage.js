@@ -62,5 +62,24 @@ export default function HomePage() {
                 <p className={classes.PairText}>No more calculating time zones for your international online group.</p>
             </div>
         </div>
+
+        <div className={classes.TertiaryBox}>
+            <h1 className={classes.CtaMainHeader}>whattime.app is 100% <mark className={classes.Highlight}>FREE</mark></h1>
+            <h3 className={classes.CtaSecondaryHeader}>No credit cards. No emails. No funny stuff.</h3>
+            <div className={classes.ButtonsBox} style={{margin: 'auto'}}>
+                    <Link to='/signup'>
+                        <Button
+                        buttonClasses='Large Fill'
+                        style={{height: '50px', width: screenIsSmall ? '90vw' : '250px', margin: '10px 0'}}
+                        >Sign Up For Free</Button>
+                    </Link>
+
+                    <Link to='/login'>
+                        <Button
+                        buttonClasses='Large Border'
+                        style={{height: '50px', width: screenIsSmall ? '90vw' : '250px', margin: '10px 0'}}>Log In</Button>
+                    </Link>
+                </div>
+        </div>
     </div>
 }
