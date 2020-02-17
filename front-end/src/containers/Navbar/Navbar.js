@@ -7,6 +7,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import Button from '../../components/UI/Button/Button';
 import SideDrawer from '../../components/SideDrawer/SideDrawer';
 import Backdrop from '@material-ui/core/Backdrop';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 // Redux
 import {connect} from 'react-redux';
@@ -20,6 +21,8 @@ function Navbar(props) {
 
     const navRef = useRef();
     navRef.current = navBackground;
+    
+    const screenIsSmall = useMediaQuery('(max-width:768px)');
 
     useEffect(() => {
       const handleScroll = () => {
@@ -43,8 +46,11 @@ function Navbar(props) {
 
 
     // Navbar is empty until authentication is determined.
+
+    let transitionProperty = !showSideDrawer ? {transition: 'background-color 0.2s ease'} : {};
+
     return <>
-        <div className={classes.Navbar} style={navBackground || showSideDrawer ? {backgroundColor: 'rgb(222, 222, 236)'} : null}>
+        <div className={classes.Navbar} style={navBackground || (showSideDrawer && screenIsSmall) ? {backgroundColor: 'rgb(222, 222, 236)', ...transitionProperty} : transitionProperty}>
             {!props.authLoading ? 
             <h2 className={classes.Logo + ' purple'}><Link className={classes.Link} to='/'>whattime.app</Link></h2>
             : null}
@@ -106,21 +112,25 @@ function Navbar(props) {
             </Dialog>
         </div>
         
+        {screenIsSmall ?
+            <>
+                <SideDrawer 
+                auth={props.username && !props.authLoading ? true: (!props.username && !props.authLoading ? false : null)}
+                show={showSideDrawer}
+                setLogoutModal={setLogoutModal}
+                close={() => setShowSideDrawer(false)}
+                />
 
-        <SideDrawer 
-        auth={props.username && !props.authLoading ? true: (!props.username && !props.authLoading ? false : null)}
-        show={showSideDrawer}
-        setLogoutModal={setLogoutModal}
-        close={() => setShowSideDrawer(false)}
-        />
-
-        <Backdrop
-        open={showSideDrawer}
-        style={{zIndex: '-1'}}
-        onClick={() => {
-            setShowSideDrawer(false);
-        }}
-        style={{zIndex: '5'}}/>
+                <Backdrop
+                open={showSideDrawer}
+                style={{zIndex: '-1'}}
+                onClick={() => {
+                    setShowSideDrawer(false);
+                }}
+                style={{zIndex: '5'}}/>
+            </>
+        : null}
+        
     </>
 }
 

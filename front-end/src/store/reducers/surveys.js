@@ -3,7 +3,7 @@ import * as actionTypes from '../actions/actionTypes';
 const initialState = {
     surveys: [],
     hasMore: true,
-    loading: false
+    loading: true
 }
 
 const surveysReducer = (state = initialState, action) => {

@@ -6,6 +6,8 @@ import AuthRequired from '../Auth/AuthRequired';
 import ScrollUpOnLoad from '../../components/ScrollUpOnLoad/ScrollUpOnLoad';
 import { Link } from 'react-router-dom';
 import Button from '../../components/UI/Button/Button';
+import axios from '../../axios';
+import * as actionTypes from '../../store/actions/actionTypes';
 
 import noData from '../../images/no-data.svg';
 
@@ -23,6 +25,22 @@ function MySurveys(props) {
         }
     }, [props.accessToken]);
 
+    const deleteSurveyHandler = id => {
+        axios.delete('/user/surveys/' + id, {
+            headers: {
+                Authorization: 'Bearer ' + props.accessToken
+            }
+        })
+        .then(res => {
+            const newSurveys = props.surveys.filter(survey => survey._id !== id)
+            props.onSetSurveys(newSurveys);
+        })
+        .catch(err => {
+            console.log(err);
+
+        });
+    }
+    
     return <div className={classes.MySurveys}>
         <AuthRequired history={props.history}/>
         <ScrollUpOnLoad/>
@@ -41,7 +59,8 @@ function MySurveys(props) {
                 return <Survey
                 key={survey._id} 
                 survey={survey}
-                history={props.history}/>
+                history={props.history}
+                delete={() => deleteSurveyHandler(survey._id)}/>
             })}
         </div>
         
@@ -59,7 +78,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onLoadSurveys: (accessToken, currentPosts) => dispatch(loadSurveysAsync(accessToken, currentPosts))
+        onLoadSurveys: (accessToken, currentPosts) => dispatch(loadSurveysAsync(accessToken, currentPosts)),
+        onSetSurveys: surveys => dispatch({type: actionTypes.SET_SURVEYS, surveys: surveys})
     }
 }
 

@@ -1,7 +1,8 @@
 .Survey {
     padding: 5px 25px 1px;
-    margin: 10px 0;
+    margin: 15px 0;
     background-color: rgba(0, 0, 0, .05);
+    position: relative;
 }
 
 .Header {
@@ -19,4 +20,24 @@
 
 .CreatedAt {
     display: inline;
+}
+
+.DeleteButton {
+    position: absolute;
+    bottom: 16px;
+    right: 25px;
+    cursor: pointer;
+    font-size: .9rem;
+    font-weight: 700;
+    opacity: .7;
+}
+
+.DeleteModal {
+    padding: 10px 40px 15px;
+    font-family: 'Montserrat', sans-serif;
+    color: #73708F;
+}
+
+.DeleteButton:hover {
+    opacity: 1;
 }
