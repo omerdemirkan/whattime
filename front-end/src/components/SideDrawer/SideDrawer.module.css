@@ -1,7 +1,7 @@
 .SideDrawer {
     width: 60vw;
     height: 100vh;
-    position: absolute;
+    position: fixed;
     top: 80px;
     right: 0;
     background-color: rgb(222, 222, 236);
@@ -9,6 +9,7 @@
     justify-content: center;
     transition: transform .3s ease;
     transform: translate(110%);
+    z-index: 10;
 }
 
 .NavList {

@@ -9,7 +9,6 @@ export default function SideDrawer(props) {
         props.setLogoutModal(true)
     }
 
-    console.log(props.auth);
     return <div className={classes.SideDrawer} style={props.show === true ? {transform: 'translate(0)'} : null}>
         {props.auth === true ?
             <ul className={classes.NavList}>
