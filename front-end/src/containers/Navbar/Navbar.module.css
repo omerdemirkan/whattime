@@ -41,6 +41,7 @@
     color: inherit;
     font-weight: 600;
     cursor: pointer;
+    
 }
 
 .LogoutModal {
@@ -49,6 +50,53 @@
 
 .ModalHeader {
     color: #73708F;
+}
+
+.Burger {
+    display: none;
+    position: absolute;
+    top: 19px;
+    right: 10%;
+    cursor: pointer;
+    outline: none;
+    z-index: 15;
+}
+
+.Burger div {
+    width: 35px;
+    height: 4px;
+    margin: 7px 0;
+    border-radius: 0.5rem;
+    transition: 0.3s ease;
+    background-color: #73708F;
+}
+
+div.Line1 {
+    width: 18px;
+    /* transform: rotate(45deg) translate(6px, 7px); */
+    transform: translate(2px, 5px) rotate(45deg);
+}
+
+div.Line2 {
+    transform: rotate(-45deg) translate(0, 0);
+}
+
+div.Line3 {
+    width: 18px;
+    /* transform: rotate(45deg) translate(-6px, -6px); */
+    transform: translate(14px, -5px) rotate(45deg);
+}
+
+@media (max-width: 768px) {
+    .Logo {
+        left: 8%;
+    }
+    .NavList {
+        display: none;
+    }
+    .Burger {
+        display: inline-block;
+    }
 }
 
 @keyframes FadeIn {

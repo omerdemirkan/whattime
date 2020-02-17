@@ -1,0 +1,29 @@
+.SideDrawer {
+    width: 60vw;
+    height: 100vh;
+    position: absolute;
+    top: 80px;
+    right: 0;
+    background-color: rgb(222, 222, 236);
+    display: flex;
+    justify-content: center;
+    transition: transform .3s ease;
+    transform: translate(110%);
+}
+
+.NavList {
+    list-style: none;
+    margin-top: 10vh;
+    padding-inline-start: 0;
+}
+
+.NavItem {
+    margin: 5vh 0;
+}
+
+.Link {
+    text-decoration: none;
+    color: #73708F;
+    font-size: 1.3rem;
+    font-weight: 600;
+}

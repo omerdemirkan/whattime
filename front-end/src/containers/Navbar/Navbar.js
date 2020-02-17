@@ -5,6 +5,7 @@ import {NavLink, Link} from 'react-router-dom';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import Button from '../../components/UI/Button/Button';
+import SideDrawer from '../../components/SideDrawer/SideDrawer';
 
 // Redux
 import {connect} from 'react-redux';
@@ -14,6 +15,8 @@ function Navbar(props) {
 
     const [navBackground, setNavBackground] = useState(false);
     const [logoutModal, setLogoutModal] = useState(false);
+    const [showSideDrawer, setShowSideDrawer] = useState(false);
+
     const navRef = useRef();
     navRef.current = navBackground;
 
@@ -39,17 +42,17 @@ function Navbar(props) {
 
 
     // Navbar is empty until authentication is determined.
-    return <div className={classes.Navbar} style={navBackground ? {backgroundColor: 'rgb(222, 222, 236)'} : null}>
+    return <div className={classes.Navbar} style={navBackground || showSideDrawer ? {backgroundColor: 'rgb(222, 222, 236)'} : null}>
         {!props.authLoading ? 
         <h2 className={classes.Logo + ' purple'}><Link className={classes.Link} to='/'>whattime.app</Link></h2>
         : null}
         {!props.authLoading && props.username ?
             <ul className={classes.NavList}>
                 <li className={classes.NavItem}>
-                    <NavLink className={classes.Link} to='/my-surveys'>My Surveys</NavLink>
+                    <NavLink className={classes.Link} activeStyle={{color: '#6C63FF'}} to='/my-surveys'>My Surveys</NavLink>
                 </li>
                 <li className={classes.NavItem}>
-                    <NavLink className={classes.Link} to='/create'>Create</NavLink>
+                    <NavLink className={classes.Link} activeStyle={{color: '#6C63FF'}} to='/create'>Create</NavLink>
                 </li>
                 <li className={classes.NavItem}>
                     <span onClick={() => setLogoutModal(true)} className={classes.Link}>Logout</span>
@@ -59,16 +62,28 @@ function Navbar(props) {
         {!props.authLoading && !props.username ?
             <ul className={classes.NavList}>
                 <li className={classes.NavItem}>
-                    <NavLink className={classes.Link} to='/'>Home</NavLink>
+                    <NavLink exact className={classes.Link} activeStyle={{color: '#6C63FF'}} to='/'>Home</NavLink>
                 </li>
                 <li className={classes.NavItem}>
-                    <NavLink className={classes.Link} to='/login'>Login</NavLink>
+                    <NavLink className={classes.Link} activeStyle={{color: '#6C63FF'}} to='/signup'>Sign Up</NavLink>
                 </li>
                 <li className={classes.NavItem}>
-                    <NavLink className={classes.Link} to='/signup'>Sign Up</NavLink>
+                    <NavLink className={classes.Link} activeStyle={{color: '#6C63FF'}} to='/login'>Login</NavLink>
                 </li>
             </ul>
         : null}
+
+        <div className={classes.Burger} onClick={() => setShowSideDrawer(!showSideDrawer)}>
+            <div className={showSideDrawer ? classes.Line1 : null}></div>
+            <div className={showSideDrawer ? classes.Line2 : null}></div>
+            <div className={showSideDrawer ? classes.Line3 : null}></div>
+        </div>
+
+        <SideDrawer 
+        auth={props.username && !props.authLoading ? true: (!props.username && !props.authLoading ? false : null)}
+        show={showSideDrawer}
+        setLogoutModal={setLogoutModal}
+        />
 
         <Dialog
         open={logoutModal}
