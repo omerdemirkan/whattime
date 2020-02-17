@@ -23,6 +23,11 @@ img {
   animation-delay: .3s; */
 }
 
+.purple {
+  color: #6C63FF;
+
+}
+
 p::selection, 
 h1::selection, 
 h2::selection, 

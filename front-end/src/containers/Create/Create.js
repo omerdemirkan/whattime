@@ -88,6 +88,7 @@ function Create(props) {
                 onChange={setEventNameHandler}
                 className={classes.Input}
                 autoComplete='off'
+                autoFocus={true}
                 error={showEventNameAlert}/>
             </div>
             

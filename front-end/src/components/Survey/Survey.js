@@ -15,7 +15,7 @@ function Survey(props) {
 
     return <div className={classes.Survey}>
         <div className={classes.Header}>
-            <h2 className={classes.EventName} onClick={inspectRedirect}>{props.survey.event}</h2>
+            <h2 className={classes.EventName + ' purple'} onClick={inspectRedirect}>{props.survey.event}</h2>
             <p className={classes.CreatedAt}>
                 created <TimeAgo
                 datetime={props.survey.createdAt} 

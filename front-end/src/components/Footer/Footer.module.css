@@ -24,3 +24,11 @@
 .Link {
     color: inherit;
 }
+
+.Icon {
+    opacity: .8;
+}
+
+.Icon:hover {
+    opacity: 1;
+}

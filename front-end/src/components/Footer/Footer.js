@@ -13,17 +13,17 @@ export default function Footer() {
             <div className={classes.LinksBox}>
                 <a className={classes.Link} 
                 href="https://www.linkedin.com/in/omer-demirkan" target="_blank">
-                    <LinkedInIcon/>
+                    <LinkedInIcon className={classes.Icon}/>
                 </a>
 
                 <a className={classes.Link} 
                 href="https://github.com/omerdemirkan" target="_blank">
-                    <GitHubIcon/>
+                    <GitHubIcon className={classes.Icon}/>
                 </a>
 
                 <a className={classes.Link} 
                 href="mailto:omerfarukpiano@gmail.com">
-                    <MailOutlineRoundedIcon/>
+                    <MailOutlineRoundedIcon className={classes.Icon}/>
                 </a>
             </div>
         </div>

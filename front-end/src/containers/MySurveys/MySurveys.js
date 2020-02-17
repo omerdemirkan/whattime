@@ -11,6 +11,11 @@ import noData from '../../images/no-data.svg';
 
 import Survey from '../../components/Survey/Survey';
 
+const capitalize = (s) => {
+    if (typeof s !== 'string') return ''
+    return s.charAt(0).toUpperCase() + s.slice(1)
+}
+
 function MySurveys(props) {
     useEffect(() => {
         if (props.accessToken && props.surveys.length === 0) {
@@ -21,7 +26,7 @@ function MySurveys(props) {
     return <div className={classes.MySurveys}>
         <AuthRequired history={props.history}/>
         <ScrollUpOnLoad/>
-        <h1 className={classes.Header}>My Surveys</h1>
+        {props.username ? <h1 className={classes.Header}>{capitalize(props.username)}'s Surveys</h1>: null}
         {props.surveys.length === 0 && !props.surveysLoading ?
             <div className={classes.NoSurveysBox}>
                 <h2 className={classes.NoSurveysHeader}>Hmm, looks a bit empty. Would you like to create a survey?</h2>
@@ -47,7 +52,8 @@ const mapStateToProps = state => {
     return {
         accessToken: state.auth.accessToken,
         surveys: state.surveys.surveys,
-        surveysLoading: state.surveys.loading
+        surveysLoading: state.surveys.loading,
+        username: state.auth.username
     }
 }
 

@@ -145,6 +145,7 @@ function SignUp(props) {
                 <Input 
                 type='text'
                 label="Username"
+                autoFocus={true}
                 value={username}
                 onChange={event => updateFormHandler(event, 'username')}
                 className={classes.Input}

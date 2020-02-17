@@ -55,10 +55,10 @@ router.post('/:id', limiter, (req, res) => {
 
         survey.submitions.push(submition);
 
-        survey.save((saveSurveyError, newSurvey) => {
+        survey.save(saveSurveyError => {
             if (saveSurveyError) return res.status(400).json(`Invalid submition: ${saveSurveyError}`);
-
-            res.json(newSurvey._id);
+            const submitionId = survey.submitions[survey.submitions.length - 1]._id;
+            res.json(submitionId);
         });
     });
 });

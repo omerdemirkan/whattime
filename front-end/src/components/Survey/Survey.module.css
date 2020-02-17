@@ -1,9 +1,12 @@
 .Survey {
-    
+    padding: 5px 25px 1px;
+    margin: 10px 0;
+    background-color: rgba(0, 0, 0, .05);
 }
 
 .Header {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
 }
 

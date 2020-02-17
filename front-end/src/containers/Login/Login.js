@@ -75,6 +75,7 @@ function Login(props) {
                 type='text'
                 label="Username"
                 value={username}
+                autoFocus={true}
                 onChange={event => updateFormHandler(event, 'username')}
                 className={classes.Input}
                 />
