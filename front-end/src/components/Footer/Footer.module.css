@@ -3,6 +3,7 @@
     background-color: rgb(222, 222, 236);
     display: flex;
     flex-direction: column;
+    z-index: 1;
 }
 
 .InfoBox {
@@ -23,10 +24,12 @@
 
 .Link {
     color: inherit;
+    z-index: 1;
 }
 
 .Icon {
     opacity: .8;
+    z-index: 1;
 }
 
 .Icon:hover {
