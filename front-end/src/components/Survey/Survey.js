@@ -13,9 +13,11 @@ function Survey(props) {
         props.history.push('/my-surveys/' + props.survey._id);
     }
 
+    const numSubmitions = props.survey.submitions.length;
+
     return <div className={classes.Survey}>
         <div className={classes.Header}>
-            <h2 className={classes.EventName + ' purple'} onClick={inspectRedirect}>{props.survey.event}</h2>
+            <h3 className={classes.EventName + ' purple'} onClick={inspectRedirect}>{props.survey.event}</h3>
             <p className={classes.CreatedAt}>
                 created <TimeAgo
                 datetime={props.survey.createdAt} 
@@ -23,7 +25,7 @@ function Survey(props) {
             </p>
         </div>
         
-        <p>{props.survey.submitions.length} submitions</p>
+        <p>{numSubmitions} submition{numSubmitions === 1 ? null : 's'}</p>
         <p>Date: {getDisplayDate(props.survey.date)}</p>
         
     </div>

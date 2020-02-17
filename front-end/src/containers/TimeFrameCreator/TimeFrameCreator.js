@@ -46,7 +46,7 @@ export default function TimeFrameCreator(props) {
 
         <Button
         onClick={submitHandler}
-        buttonClasses="Large Border"
+        buttonClasses="Large"
         style={{width: '100%'}}
         >ADD AVAILABILITY</Button>
     </div>

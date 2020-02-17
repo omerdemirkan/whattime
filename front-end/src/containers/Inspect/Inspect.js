@@ -168,7 +168,7 @@ function Inspect(props) {
 
         {availableTimes && availableTimes.length > 0 ?
             <div className={classes.AvailabilitiesBox}>
-                <h1 className={classes.AvailabilitiesHeader}>Times {numAvailable === numSubmitions ? 'Everyone is' : getDisplayPeople(numAvailable) + (numAvailable === 1 ? ' is ' : ' are ')} Available:</h1>
+                <h2 className={classes.AvailabilitiesHeader}>Times {numAvailable === numSubmitions ? 'Everyone is' : getDisplayPeople(numAvailable) + (numAvailable === 1 ? ' is ' : ' are ')} Available:</h2>
                 <Availabilities 
                 date={props.survey.date}
                 timeframes={availableTimes}/>

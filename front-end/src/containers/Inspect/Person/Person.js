@@ -11,7 +11,7 @@ export default function Person(props) {
     return <>
         <span className={classes.Person}>
             <div className={classes.Main}>
-                <h3 className={classes.Name}>{props.name}</h3>
+                <h4 className={classes.Name}>{props.name}</h4>
                 <TimeAgo
                 className={classes.TimeAgo}
                 datetime={props.createdAt} 
@@ -29,7 +29,7 @@ export default function Person(props) {
         style={{borderRadius: '0'}}
         >
           <div className={classes.DeleteModal}>
-            <h2 className={classes.ModalHeader}>Are you sure you want to delete {props.name}'s submition?</h2>
+            <h3 className={classes.ModalHeader}>Are you sure you want to delete {props.name}'s submition?</h3>
             <DialogActions>
                 <Button 
                 onClick={() => setDeleteSubmitionModal(false)}
