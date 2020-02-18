@@ -39,21 +39,21 @@ function Survey(props) {
         aria-describedby="alert-dialog-description"
         style={{borderRadius: '0'}}
         >
-          <div className={classes.DeleteModal}>
-            <h3 className={classes.ModalHeader}>Are you sure you want to delete {props.name}'s submition?</h3>
-            <DialogActions>
-                <Button 
-                onClick={() => setDeleteSurveyModal(false)}
-                buttonClasses='Large'>
-                    NO
-                </Button>
-                <Button 
-                onClick={props.delete}
-                buttonClasses='Large'>
-                    YES
-                </Button>
-            </DialogActions>
-          </div>
+            <div className={classes.DeleteModal}>
+                <h3 className={classes.ModalHeader}>Are you sure you want to delete {props.name}'s submition?</h3>
+                <DialogActions>
+                    <Button 
+                    onClick={() => setDeleteSurveyModal(false)}
+                    buttonClasses='Large'>
+                        NO
+                    </Button>
+                    <Button 
+                    onClick={props.delete}
+                    buttonClasses='Large'>
+                        YES
+                    </Button>
+                </DialogActions>
+            </div>
         </Dialog>
     </div>
 }

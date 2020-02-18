@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import classes from './Inspect.module.css';
 
 import { connect } from 'react-redux';
@@ -32,47 +32,7 @@ function Inspect(props) {
     const [numAvailable, setNumAvailable] =  useState(null);
     const [userHasSubmitted, setUserHasSubmitted] = useState(null);
 
-    // Loads inspected survey on load
-    useEffect(() => {
-
-        if (props.accessToken) {
-            props.onLoadInspectSurvey(props.accessToken, surveyId);
-        }
-    }, [props.accessToken]);
-
-
-    // Functions to update survey after deleting a submition.
-    useEffect(() => {
-        const loadedSurvey = props.loadedSurveys.filter(survey => survey._id === surveyId)[0] || false;
-
-        if (loadedSurvey) {
-            props.onSetSurvey(loadedSurvey);
-        }
-    }, [props.loadedSurveys]);
-
-
-    // Sets initial value of numAvailable to the total number of submitions on load.
-    // Searches whether or not the user has already submitted.
-    useEffect(() => {
-        if (props.survey && props.survey._id === surveyId && !numAvailable) {
-            const storedSubmitionIds = JSON.parse(localStorage.getItem("submitionIds")) || [];
-            const surveySubmitionsIds = props.survey.submitions.map(submition => submition._id);
-
-            let userAlreadySubmitted = false;
-            for(var i = 0; i < storedSubmitionIds.length; i++) {
-                if (surveySubmitionsIds.includes(storedSubmitionIds[i])) {
-                    userAlreadySubmitted = true;
-                    break;
-                }
-            }
-            setUserHasSubmitted(userAlreadySubmitted);
-            setNumAvailable(props.survey.submitions.length)
-        }
-    }, [props.survey]);
-
-
-    // Searches available times on survey load and when the user changes the number of availabilities searched for.
-    useEffect(() => {
+    function calculateAvailableTimes() {
         if (props.survey) {
             let cumulativeTimes = [];
             props.survey.submitions.forEach(submition => {
@@ -111,7 +71,57 @@ function Inspect(props) {
                 }
             });
             setAvailableTimes(allAvailableTimeFrames);
+            setNumAvailable(props.survey.submitions.length);
         }
+    }
+
+    // Loads inspected survey on mount
+    useEffect(() => {
+
+        if (props.accessToken) {
+            props.onLoadInspectSurvey(props.accessToken, surveyId);
+        }
+    }, [props.accessToken]);
+
+
+    // Functions to update survey after deleting a submition.
+    useEffect(() => {
+        const loadedSurvey = props.loadedSurveys.filter(survey => survey._id === surveyId)[0] || false;
+
+        if (loadedSurvey) {
+            props.onSetSurvey(loadedSurvey);
+        }
+    }, [props.loadedSurveys]);
+
+
+    // Sets initial value of numAvailable to the total number of submitions on load.
+    // Searches whether or not the user has already submitted.
+    useEffect(() => {
+        // checking for id serves to avoid executing on previously loaded inspect survey
+        if (props.survey && props.survey._id === surveyId) {
+            calculateAvailableTimes()
+            if (userHasSubmitted == null) {
+                const storedSubmitionIds = JSON.parse(localStorage.getItem("submitionIds")) || [];
+                const surveySubmitionsIds = props.survey.submitions.map(submition => submition._id);
+    
+                let userAlreadySubmitted = false;
+                for(var i = 0; i < storedSubmitionIds.length; i++) {
+                    if (surveySubmitionsIds.includes(storedSubmitionIds[i])) {
+                        userAlreadySubmitted = true;
+                        break;
+                    }
+                }
+                setUserHasSubmitted(userAlreadySubmitted);
+            }
+        }
+    }, [props.survey]);
+
+
+    // Searches available times on survey load and when the user changes the number of availabilities searched for.
+    useEffect(() => {
+        
+        calculateAvailableTimes();
+        
     }, [numAvailable]);
 
     function deleteSubmitionHandler(id) {

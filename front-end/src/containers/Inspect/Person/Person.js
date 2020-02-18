@@ -29,7 +29,7 @@ export default function Person(props) {
         style={{borderRadius: '0'}}
         >
           <div className={classes.DeleteModal}>
-            <h3 className={classes.ModalHeader}>Are you sure you want to delete {props.name}'s submition?</h3>
+            <h3 className={classes.ModalHeader}>Are you sure you want to delete <span className='purple'>{props.name}</span>'s submition?</h3>
             <DialogActions>
                 <Button 
                 onClick={() => setDeleteSubmitionModal(false)}
