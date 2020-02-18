@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const submitionSchema = require('./submition');
+const submissionSchema = require('./submission');
 
 module.exports = new mongoose.Schema({
     event: {
@@ -24,8 +24,8 @@ module.exports = new mongoose.Schema({
         type: String,
         required: true
     },
-    submitions: {
-        type: [submitionSchema],
+    submissions: {
+        type: [submissionSchema],
         default: [],
         required: true
     },

@@ -28,24 +28,29 @@ function Inspect(props) {
     const surveyId = fullPath.slice(fullPath.lastIndexOf('/') + 1, fullPath.length);
     const shareURL = window.location.protocol + "//" + window.location.host + '/submit/' + surveyId;
 
+    // Available windows for a general number of people:
     const [availableTimes, setAvailableTimes] = useState(null);
+
+    // Available windows for a specific submission:
+    const [inspectedPerson, setInspectedPerson] = useState(null);
+
     const [numAvailable, setNumAvailable] =  useState(null);
     const [userHasSubmitted, setUserHasSubmitted] = useState(null);
 
-    function calculateAvailableTimes() {
+    function calculateGeneralAvailability() {
         if (props.survey) {
             let cumulativeTimes = [];
-            props.survey.submitions.forEach(submition => {
+            props.survey.submissions.forEach(submission => {
                 let formattedTimes = [];
-                for (let i = 0; i < submition.available.length; i += 2) {
+                for (let i = 0; i < submission.available.length; i += 2) {
                     formattedTimes.push({
-                        name: submition.name,
-                        time: submition.available[i],
+                        name: submission.name,
+                        time: submission.available[i],
                         isStart: true
                     });
                     formattedTimes.push({
-                        name: submition.name,
-                        time: submition.available[i + 1],
+                        name: submission.name,
+                        time: submission.available[i + 1],
                         isStart: false
                     });
                 }
@@ -71,8 +76,12 @@ function Inspect(props) {
                 }
             });
             setAvailableTimes(allAvailableTimeFrames);
-            setNumAvailable(props.survey.submitions.length);
+            setNumAvailable(props.survey.submissions.length);
         }
+    }
+
+    function calculateIndividualAvailability(id) {
+        
     }
 
     // Loads inspected survey on mount
@@ -84,7 +93,7 @@ function Inspect(props) {
     }, [props.accessToken]);
 
 
-    // Functions to update survey after deleting a submition.
+    // Functions to update survey after deleting a submission.
     useEffect(() => {
         const loadedSurvey = props.loadedSurveys.filter(survey => survey._id === surveyId)[0] || false;
 
@@ -94,19 +103,19 @@ function Inspect(props) {
     }, [props.loadedSurveys]);
 
 
-    // Sets initial value of numAvailable to the total number of submitions on load.
+    // Sets initial value of numAvailable to the total number of submissions on load.
     // Searches whether or not the user has already submitted.
     useEffect(() => {
         // checking for id serves to avoid executing on previously loaded inspect survey
         if (props.survey && props.survey._id === surveyId) {
-            calculateAvailableTimes()
+            calculateGeneralAvailability()
             if (userHasSubmitted == null) {
-                const storedSubmitionIds = JSON.parse(localStorage.getItem("submitionIds")) || [];
-                const surveySubmitionsIds = props.survey.submitions.map(submition => submition._id);
+                const storedSubmissionIds = JSON.parse(localStorage.getItem("submissionIds")) || [];
+                const surveySubmissionsIds = props.survey.submissions.map(submission => submission._id);
     
                 let userAlreadySubmitted = false;
-                for(var i = 0; i < storedSubmitionIds.length; i++) {
-                    if (surveySubmitionsIds.includes(storedSubmitionIds[i])) {
+                for(var i = 0; i < storedSubmissionIds.length; i++) {
+                    if (surveySubmissionsIds.includes(storedSubmissionIds[i])) {
                         userAlreadySubmitted = true;
                         break;
                     }
@@ -120,11 +129,11 @@ function Inspect(props) {
     // Searches available times on survey load and when the user changes the number of availabilities searched for.
     useEffect(() => {
         
-        calculateAvailableTimes();
+        calculateGeneralAvailability();
         
     }, [numAvailable]);
 
-    function deleteSubmitionHandler(id) {
+    function deleteSubmissionHandler(id) {
         axios.delete('/user/surveys/' + props.survey._id + '/' + id, {
             headers: {
                 Authorization: 'Bearer ' + props.accessToken,
@@ -132,7 +141,7 @@ function Inspect(props) {
         })
         .then(res => {
             let newSurvey = {...props.survey};
-            newSurvey.submitions = newSurvey.submitions.filter(submition => submition._id !== id);
+            newSurvey.submissions = newSurvey.submissions.filter(submission => submission._id !== id);
             let surveyIndex = props.loadedSurveys.map(survey => survey._id).indexOf(newSurvey._id);
 
             if (surveyIndex >= 0) {
@@ -149,18 +158,18 @@ function Inspect(props) {
     }
 
     if (!props.survey) {
-        return null;
+        return <div className={classes.Inspect}></div>;
     }
 
-    const numSubmitions = props.survey.submitions.length;
+    const numSubmissions = props.survey.submissions.length;
 
     // Determines the select options to choose numAvailable
     let numAvailableSelectOptions = [];
-    for(let i = numSubmitions; i > 0; i--) {
+    for(let i = numSubmissions; i > 0; i--) {
         const defaultDisplay = getDisplayPeople(i)
         numAvailableSelectOptions.push({
             value: i,
-            display: i === numSubmitions ? 'Everyone' : defaultDisplay
+            display: i === numSubmissions ? 'Everyone' : defaultDisplay
         });
     }
 
@@ -178,13 +187,13 @@ function Inspect(props) {
 
         {availableTimes && availableTimes.length > 0 ?
             <div className={classes.AvailabilitiesBox}>
-                <h2 className={classes.AvailabilitiesHeader}>Times {numAvailable === numSubmitions ? 'Everyone is' : getDisplayPeople(numAvailable) + (numAvailable === 1 ? ' is ' : ' are ')} Available:</h2>
+                <h2 className={classes.AvailabilitiesHeader}>Times {numAvailable === numSubmissions ? 'Everyone is' : getDisplayPeople(numAvailable) + (numAvailable === 1 ? ' is ' : ' are ')} Available:</h2>
                 <Availabilities 
                 date={props.survey.date}
                 timeframes={availableTimes}/>
             </div>
         : null}
-        {availableTimes && availableTimes.length === 0 && !props.surveyLoading && numSubmitions !== 0 ? 
+        {availableTimes && availableTimes.length === 0 && !props.surveyLoading && numSubmissions !== 0 ? 
             <div className={classes.AvailabilitiesBox}>
                 <h1 className={classes.AvailabilitiesHeader}>No Availabilities Found</h1>
                 <h2 className={classes.AvailabilitiesHeader}>Try Narrowing the Number of People</h2>
@@ -193,15 +202,15 @@ function Inspect(props) {
 
         <div className={classes.Main}>
             
-            <div className={classes.SubmitionsBox}>
-                <h2 className={classes.SubmitionsHeader}>{numSubmitions} submition{numSubmitions === 1 ? '' : 's'}</h2>
+            <div className={classes.SubmissionsBox}>
+                <h2 className={classes.SubmissionsHeader}>{numSubmissions} submission{numSubmissions === 1 ? '' : 's'}</h2>
                 <div className={classes.PersonsBox}>
-                    {props.survey.submitions.map(submition => {
+                    {props.survey.submissions.map(submission => {
                         return <Person 
-                        name={submition.name}
-                        createdAt={submition.createdAt}
-                        key={submition._id}
-                        delete={() => deleteSubmitionHandler(submition._id)}
+                        name={submission.name}
+                        createdAt={submission.createdAt}
+                        key={submission._id}
+                        delete={() => deleteSubmissionHandler(submission._id)}
                         />
                     })}
                     {userHasSubmitted === false ?
@@ -215,9 +224,9 @@ function Inspect(props) {
             </div>
             
             
-            {availableTimes && numSubmitions > 1 ?
+            {availableTimes && numSubmissions > 1 ?
                 <div className={classes.InputsBox}>
-                    <h2 className={classes.SelectLabel}>How many people are needed?</h2>
+                    <h3 className={classes.SelectLabel}>How many people are needed?</h3>
                     <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"

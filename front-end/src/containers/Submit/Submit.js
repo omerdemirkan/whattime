@@ -25,12 +25,12 @@ function Submit(props) {
         axios.get('/submit/' + id)
         .then(res => {
             // Making sure that the user hasn't already submitted
-            const storedSubmitionIds = JSON.parse(localStorage.getItem("submitionIds")) || [];
-            const surveySubmitionsIds = res.data.submitionIds;
+            const storedSubmissionIds = JSON.parse(localStorage.getItem("submissionIds")) || [];
+            const surveySubmissionsIds = res.data.submissionIds;
 
             let userAlreadySubmitted = false;
-            for(var i = 0; i < storedSubmitionIds.length; i++) {
-                if (surveySubmitionsIds.includes(storedSubmitionIds[i])) {
+            for(var i = 0; i < storedSubmissionIds.length; i++) {
+                if (surveySubmissionsIds.includes(storedSubmissionIds[i])) {
                     userAlreadySubmitted = true;
                     break;
                 }
@@ -94,15 +94,15 @@ function Submit(props) {
         });
 
         axios.post('/submit/' + id, {
-            submition: {
+            submission: {
                 available: allTimes,
                 name: name
             }
         })
         .then(res => {
-            let storedSubmitionIds = JSON.parse(localStorage.getItem("submitionIds")) || [];
-            storedSubmitionIds.push(res.data);
-            localStorage.setItem("submitionIds", JSON.stringify(storedSubmitionIds));
+            let storedSubmissionIds = JSON.parse(localStorage.getItem("submissionIds")) || [];
+            storedSubmissionIds.push(res.data);
+            localStorage.setItem("submissionIds", JSON.stringify(storedSubmissionIds));
             
             setStage(3);
         })
@@ -174,7 +174,7 @@ function Submit(props) {
 
         {stage === 3 ?
             <div>
-                <h2 className={classes.StageThreeHeader}>Thanks for the submition!</h2>
+                <h2 className={classes.StageThreeHeader}>Thanks for the submission!</h2>
             </div>
         : null}
     </div>

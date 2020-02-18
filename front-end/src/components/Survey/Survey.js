@@ -16,7 +16,7 @@ function Survey(props) {
         props.history.push('/my-surveys/' + props.survey._id);
     }
 
-    const numSubmitions = props.survey.submitions.length;
+    const numSubmissions = props.survey.submissions.length;
 
     return <div className={classes.Survey}>
         <div className={classes.Header}>
@@ -28,7 +28,7 @@ function Survey(props) {
             </p>
         </div>
         
-        <p>{numSubmitions} submition{numSubmitions === 1 ? null : 's'}</p>
+        <p>{numSubmissions} submission{numSubmissions === 1 ? null : 's'}</p>
         <p>Date: {getDisplayDate(props.survey.date)}</p>
         <span onClick={() => setDeleteSurveyModal(true)} className={classes.DeleteButton}>DELETE</span>
 
@@ -40,7 +40,7 @@ function Survey(props) {
         style={{borderRadius: '0'}}
         >
             <div className={classes.DeleteModal}>
-                <h3 className={classes.ModalHeader}>Are you sure you want to delete {props.name}'s submition?</h3>
+                <h3 className={classes.ModalHeader}>Are you sure you want to delete {props.name}'s submission?</h3>
                 <DialogActions>
                     <Button 
                     onClick={() => setDeleteSurveyModal(false)}

@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const Survey = require('../models/survey');
-const submitionIsValid = require('../helper/submitionIsValid');
+const submissionIsValid = require('../helper/submissionIsValid');
 
 const rateLimit = require("express-rate-limit");
 
@@ -26,18 +26,18 @@ router.get('/:id', limiter, (req, res) => {
             date: survey.date,
             creator: survey.creator,
             nameType: survey.nameType,
-            submitionIds: survey.submitions.map(submition => submition._id)
+            submissionIds: survey.submissions.map(submission => submission._id)
         });
     });
 });
 
 router.post('/:id', limiter, (req, res) => {
     const surveyId = req.params.id;
-    const submition = req.body.submition;
+    const submission = req.body.submission;
 
-    if (!submition) {
-        console.log('Submition required in request body.');
-        return res.status(400).json('Submition required in request body.')
+    if (!submission) {
+        console.log('Submission required in request body.');
+        return res.status(400).json('Submission required in request body.')
     }
 
     Survey.findById(surveyId, (findSurveyError, survey) => {
@@ -48,17 +48,17 @@ router.post('/:id', limiter, (req, res) => {
             return res.status(400).json({errors: ['The event date has passed.']})
         }
 
-        if (!submitionIsValid(submition, survey.date)) {
-            console.log('submition not valid');
-            return res.status(400).json('Invalid submition (failed submitionIsValid).');
+        if (!submissionIsValid(submission, survey.date)) {
+            console.log('submission not valid');
+            return res.status(400).json('Invalid submission (failed submissionIsValid).');
         }
 
-        survey.submitions.push(submition);
+        survey.submissions.push(submission);
 
         survey.save(saveSurveyError => {
-            if (saveSurveyError) return res.status(400).json(`Invalid submition: ${saveSurveyError}`);
-            const submitionId = survey.submitions[survey.submitions.length - 1]._id;
-            res.json(submitionId);
+            if (saveSurveyError) return res.status(400).json(`Invalid submission: ${saveSurveyError}`);
+            const submissionId = survey.submissions[survey.submissions.length - 1]._id;
+            res.json(submissionId);
         });
     });
 });

@@ -88,7 +88,7 @@ router.post('/surveys', strictLimiter, (req, res) => {
         creatorID: req.user._id,
         creator: req.user.username,
         nameType: nameType,
-        submitions: []
+        submissions: []
     });
 
     newSurvey.save((saveError, savedSurvey) => {
@@ -145,8 +145,8 @@ router.patch('/surveys/:id', mediumLimiter, (req, res) => {
             survey.date = date;
         }
 
-        if (date && survey.submitions.length !== 0) {
-            survey.submitions = []
+        if (date && survey.submissions.length !== 0) {
+            survey.submissions = []
         }
 
         survey.save(saveSurveyError => {
@@ -167,22 +167,22 @@ router.delete('/surveys/:id', mediumLimiter, (req, res) => {
     });
 });
 
-router.delete('/surveys/:surveyId/:submitionId', mediumLimiter, (req, res) => {
+router.delete('/surveys/:surveyId/:submissionId', mediumLimiter, (req, res) => {
     const surveyId = req.params.surveyId;
-    const submitionId = req.params.submitionId;
+    const submissionId = req.params.submissionId;
 
     Survey.findById(surveyId, (findSurveyError, survey) => {
         if (findSurveyError || !survey) return res.status(400).json('Survey not found.');
 
         try {
-            const initialNumSubmitions = survey.submitions.length;
+            const initialNumSubmissions = survey.submissions.length;
 
-            survey.submitions = survey.submitions.filter(submition => {
-                return submition._id.toString() !== submitionId;
+            survey.submissions = survey.submissions.filter(submission => {
+                return submission._id.toString() !== submissionId;
             })
 
-            if (initialNumSubmitions === survey.submitions.length) {
-                return res.status(400).json('Submition not found.');
+            if (initialNumSubmissions === survey.submissions.length) {
+                return res.status(400).json('Submission not found.');
             }
 
             survey.save(saveError => {

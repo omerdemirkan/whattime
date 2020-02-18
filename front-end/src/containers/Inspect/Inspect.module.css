@@ -40,11 +40,11 @@
     margin: auto;
 }
 
-.SubmitionsBox {
+.SubmissionsBox {
     width: 350px;
 }
 
-.SubmitionsHeader {
+.SubmissionsHeader {
     text-align: center;
 }
 
@@ -95,7 +95,7 @@
 }
 
 @media (max-width: 1300px) {
-    .SubmitionsBox {
+    .SubmissionsBox {
         width: 100%;
         max-width: 800px;
     }
@@ -107,7 +107,7 @@
     .NumAvailableSelect {
         width: 200px;
     }
-    .SubmitionsBox:nth-child(1) {
+    .SubmissionsBox:nth-child(1) {
         order: 2;
     }
 }

@@ -6,7 +6,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import Button from '../../../components/UI/Button/Button';
 
 export default function Person(props) {
-    const [deleteSubmitionModal, setDeleteSubmitionModal] = useState(false);
+    const [deleteSubmissionModal, setDeleteSubmissionModal] = useState(false);
 
     return <>
         <span className={classes.Person}>
@@ -17,22 +17,22 @@ export default function Person(props) {
                 datetime={props.createdAt} 
                 />
             </div>
-            <button onClick={() => setDeleteSubmitionModal(true)} className={classes.DeleteButton}>DELETE</button>
+            <button onClick={() => setDeleteSubmissionModal(true)} className={classes.DeleteButton}>DELETE</button>
         </span>
         
         
         <Dialog
-        open={deleteSubmitionModal}
-        onClose={() => setDeleteSubmitionModal(false)}
+        open={deleteSubmissionModal}
+        onClose={() => setDeleteSubmissionModal(false)}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
         style={{borderRadius: '0'}}
         >
           <div className={classes.DeleteModal}>
-            <h3 className={classes.ModalHeader}>Are you sure you want to delete <span className='purple'>{props.name}</span>'s submition?</h3>
+            <h3 className={classes.ModalHeader}>Are you sure you want to delete <span className='purple'>{props.name}</span>'s submission?</h3>
             <DialogActions>
                 <Button 
-                onClick={() => setDeleteSubmitionModal(false)}
+                onClick={() => setDeleteSubmissionModal(false)}
                 buttonClasses='Large'>
                     NO
                 </Button>
