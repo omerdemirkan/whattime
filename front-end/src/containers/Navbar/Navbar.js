@@ -26,7 +26,7 @@ function Navbar(props) {
 
     useEffect(() => {
       const handleScroll = () => {
-        const show = window.scrollY > 80
+        const show = window.scrollY > 60
         if (navRef.current !== show) {
           setNavBackground(show)
         }

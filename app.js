@@ -6,16 +6,16 @@ const app = express();
 const cors = require('cors');
 const mongoose = require('mongoose');
 
-// Routes
-const userRouter = require('./routes/user');
-const surveyRouter = require('./routes/submit');
-const authRouter = require('./routes/auth');
-
 app.use(cors());
 app.use(express.json());
 
 // For express rate limiter:
 app.set('trust proxy', 1);
+
+// Routes
+const userRouter = require('./routes/user');
+const surveyRouter = require('./routes/submit');
+const authRouter = require('./routes/auth');
 
 app.use('/api/user', userRouter);
 app.use('/api/submit', surveyRouter);
