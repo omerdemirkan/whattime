@@ -15,6 +15,7 @@ import {
 import Input from '@material-ui/core/Input';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
+import Purple from '../../components/ThemeProviders/Purple';
 
 import axios from '../../axios';
 
@@ -74,63 +75,66 @@ function Create(props) {
         <ScrollUpOnLoad/>
         <h1 className={classes.Header}>Create a Survey</h1>
         <div className={classes.MainBox}>
-            <div className={classes.InputGroup}>
-                <div className={classes.InputHeader}>
-                    <label className={classes.Label}>Event</label>
-                    {showEventNameAlert ?
-                        <span className={classes.EventNameMessage}>too short!</span>
-                    : null}
-                </div>
+            <Purple>
+                <div className={classes.InputGroup}>
+                    <div className={classes.InputHeader}>
+                        <label className={classes.Label}>Event</label>
+                        {showEventNameAlert ?
+                            <span className={classes.EventNameMessage}>too short!</span>
+                        : null}
+                    </div>
 
-                <Input 
-                id="standard-basic" 
-                value={props.eventName}
-                onChange={setEventNameHandler}
-                className={classes.Input}
-                autoComplete='off'
-                autoFocus={true}
-                error={showEventNameAlert}/>
-            </div>
-            
-            {/* Special styling for following divs due to Icon button in KeyboardDatePicker */}
-            <div className={classes.InputGroup} style={{marginTop: '-16px'}}>
-                <div style={{position: 'relative', top: '16px'}} className={classes.InputHeader}>
-                    <label className={classes.Label}>Date</label>
+                    <Input 
+                    id="standard-basic" 
+                    value={props.eventName}
+                    onChange={setEventNameHandler}
+                    className={classes.Input}
+                    autoComplete='off'
+                    autoFocus={true}
+                    error={showEventNameAlert}/>
                 </div>
                 
-                <MuiPickersUtilsProvider utils={DateFnsUtils} style={{margin: '0'}}>
-                    <KeyboardDatePicker
-                    disableToolbar
-                    variant="inline"
-                    format="MM/dd/yyyy"
-                    margin="normal"
-                    id="date-picker-inline"
-                    minDate={new Date()}
-                    value={props.selectedDate}
-                    onChange={setDateHandler}
-                    KeyboardButtonProps={{
-                        'aria-label': 'change date',
-                    }}
-                    className={classes.Input}
-                    />
-                </MuiPickersUtilsProvider>
-            </div>
-
-            <div className={classes.InputGroup}>
-                <div className={classes.InputHeader}>
-                    <label className={classes.Label}>Identifier</label>
+                {/* Special styling for following divs due to Icon button in KeyboardDatePicker */}
+                <div className={classes.InputGroup} style={{marginTop: '-16px'}}>
+                    <div style={{position: 'relative', top: '16px'}} className={classes.InputHeader}>
+                        <label className={classes.Label}>Date</label>
+                    </div>
+                    
+                    <MuiPickersUtilsProvider utils={DateFnsUtils} style={{margin: '0'}}>
+                        <KeyboardDatePicker
+                        disableToolbar
+                        variant="inline"
+                        format="MM/dd/yyyy"
+                        margin="normal"
+                        id="date-picker-inline"
+                        minDate={new Date()}
+                        value={props.selectedDate}
+                        onChange={setDateHandler}
+                        KeyboardButtonProps={{
+                            'aria-label': 'change date',
+                        }}
+                        className={classes.Input}
+                        />
+                    </MuiPickersUtilsProvider>
                 </div>
-                <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={props.nameType}
-                onChange={setNameTypeHandler}
-                className={classes.Input}>
-                    <MenuItem value={'First Name'}>First Name</MenuItem>
-                    <MenuItem value={'Full Name'}>Full Name</MenuItem>
-                    <MenuItem value={'Alias'}>Alias</MenuItem>
-                </Select>
-            </div>
+
+                <div className={classes.InputGroup}>
+                    <div className={classes.InputHeader}>
+                        <label className={classes.Label}>Identifier</label>
+                    </div>
+                    <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={props.nameType}
+                    onChange={setNameTypeHandler}
+                    className={classes.Input}>
+                        <MenuItem value={'First Name'}>First Name</MenuItem>
+                        <MenuItem value={'Full Name'}>Full Name</MenuItem>
+                        <MenuItem value={'Alias'}>Alias</MenuItem>
+                    </Select>
+                </div>
+            </Purple>
+            
 
             
             <Button 

@@ -17,6 +17,7 @@ import FileCopyIcon from '@material-ui/icons/FileCopy';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import Button from '../../components/UI/Button/Button';
+import Purple from '../../components/ThemeProviders/Purple';
 
 function getDisplayPeople(numPeople) {
     return numPeople + (numPeople === 1 ? ' Person' : ' People');
@@ -227,17 +228,20 @@ function Inspect(props) {
             {availableTimes && numSubmissions > 1 ?
                 <div className={classes.InputsBox}>
                     <h3 className={classes.SelectLabel}>How many people are needed?</h3>
-                    <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={numAvailable}
-                    onChange={event => setNumAvailable(event.target.value)}
-                    className={classes.NumAvailableSelect}
-                    >
-                        {numAvailableSelectOptions.map(option => {
-                            return <MenuItem value={option.value}>{option.display}</MenuItem>
-                        })}
-                    </Select>
+                    <Purple>
+                        <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={numAvailable}
+                        onChange={event => setNumAvailable(event.target.value)}
+                        className={classes.NumAvailableSelect}
+                        >
+                            {numAvailableSelectOptions.map(option => {
+                                return <MenuItem value={option.value}>{option.display}</MenuItem>
+                            })}
+                        </Select>
+                    </Purple>
+                    
                 </div>
             : null}
         </div>

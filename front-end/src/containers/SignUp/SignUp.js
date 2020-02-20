@@ -4,6 +4,7 @@ import useDebounce from '../Hooks/useDebounce';
 import axios from '../../axios';
 import { Link } from 'react-router-dom'
 import ScrollUpOnLoad from '../../components/ScrollUpOnLoad/ScrollUpOnLoad';
+import Purple from '../../components/ThemeProviders/Purple';
 
 import { connect } from 'react-redux';
 import * as actionTypes from '../../store/actions/actionTypes';
@@ -136,58 +137,61 @@ function SignUp(props) {
         <ScrollUpOnLoad/>
         <h1 className={classes.Header}>Sign Up</h1>
         <form onSubmit={submitForm} className={classes.Form}>
-            <div className={classes.InputGroup}>
-                <div className={classes.InputHeader}>
-                    <label className={classes.Label}>Username</label>
-                    {usernameMessage}
-                </div>
-                
-                <Input 
-                type='text'
-                label="Username"
-                autoFocus={true}
-                value={username}
-                onChange={event => updateFormHandler(event, 'username')}
-                className={classes.Input}
-                error={usernameIsUnique === false || (showUsernameLengthError && username.length < 4)}
-                />
-            </div>
-
-            <div className={classes.InputGroup}>
-                <div className={classes.InputHeader}>
-                    <label className={classes.Label}>Password</label>
-                    <IconButton
-                    size="small"
-                    className={classes.IconButton}>
-                        {showPassword ? 
-                            <VisibilityOffRoundedIcon onClick={() => setShowPassword(false)}/>
-                        : 
-                            <VisibilityRoundedIcon onClick={() => setShowPassword(true)}/>
-                        }
-                    </IconButton>
-                </div>
-                
-                <Input 
-                id="filled-password-input"
-                type={showPassword ? 'text' : 'password'}
-                label='Password'
-                value={password.text}
-                onChange={event => updateFormHandler(event, 'password')}
-                className={classes.Input}
-                />
-
-                <div className={classes.PasswordFeedbackBox}>
-                    <div className={classes.PasswordFeedback}>
-                        <span style={password.lengthIsValid ? {backgroundColor: 'green'}: {backgroundColor: 'grey'}} className={classes.Dot}></span>
-                        <span className={classes.PasswordFeedbackText}>Minimum of 8 characters</span>
+            
+            <Purple>
+                <div className={classes.InputGroup}>
+                    <div className={classes.InputHeader}>
+                        <label className={classes.Label}>Username</label>
+                        {usernameMessage}
                     </div>
-                    <div className={classes.PasswordFeedback}>
-                        <span style={password.caseIsValid ? {backgroundColor: 'green'}: {backgroundColor: 'grey'}} className={classes.Dot}></span>
-                        <span className={classes.PasswordFeedbackText}>Capital and Lowercase letters</span>
-                    </div>
+                    
+                    <Input 
+                    type='text'
+                    label="Username"
+                    autoFocus={true}
+                    value={username}
+                    onChange={event => updateFormHandler(event, 'username')}
+                    className={classes.Input}
+                    error={usernameIsUnique === false || (showUsernameLengthError && username.length < 4)}
+                    />
                 </div>
 
-            </div>
+                <div className={classes.InputGroup}>
+                    <div className={classes.InputHeader}>
+                        <label className={classes.Label}>Password</label>
+                        <IconButton
+                        size="small"
+                        className={classes.IconButton}>
+                            {showPassword ? 
+                                <VisibilityOffRoundedIcon onClick={() => setShowPassword(false)}/>
+                            : 
+                                <VisibilityRoundedIcon onClick={() => setShowPassword(true)}/>
+                            }
+                        </IconButton>
+                    </div>
+                    
+                    <Input 
+                    id="filled-password-input"
+                    type={showPassword ? 'text' : 'password'}
+                    label='Password'
+                    value={password.text}
+                    onChange={event => updateFormHandler(event, 'password')}
+                    className={classes.Input}
+                    />
+
+                    <div className={classes.PasswordFeedbackBox}>
+                        <div className={classes.PasswordFeedback}>
+                            <span style={password.lengthIsValid ? {backgroundColor: 'green'}: {backgroundColor: 'grey'}} className={classes.Dot}></span>
+                            <span className={classes.PasswordFeedbackText}>Minimum of 8 characters</span>
+                        </div>
+                        <div className={classes.PasswordFeedback}>
+                            <span style={password.caseIsValid ? {backgroundColor: 'green'}: {backgroundColor: 'grey'}} className={classes.Dot}></span>
+                            <span className={classes.PasswordFeedbackText}>Capital and Lowercase letters</span>
+                        </div>
+                    </div>
+
+                </div>
+            </Purple>
             
             <Button
             disabled={usernameIsUnique !== true || !password.lengthIsValid || !password.caseIsValid} 

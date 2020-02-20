@@ -10,6 +10,7 @@ import TimeFrameCreator from '../TimeFrameCreator/TimeFrameCreator';
 import TextField from '@material-ui/core/TextField';
 import Button from '../../components/UI/Button/Button';
 import Availabilities from '../../components/Availabilities/Availabilities';
+import Purple from '../../components/ThemeProviders/Purple';
 
 function Submit(props) {
     const fullPath = props.history.location.pathname;
@@ -120,7 +121,7 @@ function Submit(props) {
         
         {/* display is dependent on stage and is defined earlier */}
         {stage === 1 ? 
-            <>
+            <Purple>
                 <h2 className={classes.PromptHeader}>What times will you be available?</h2>
                 <div className={classes.TimeFrameCreatorBox}>
 
@@ -143,21 +144,24 @@ function Submit(props) {
                 style={{position: 'absolute', bottom: '100px', left: '50%', transform: 'translate(-50%)'}}
                 onClick={() => setStage(2)}
                 disabled={props.timeframes.length === 0}>NEXT</Button>
-            </>
+            </Purple>
         : null}
 
         {stage === 2 ? 
             <>
                 <h2 className={classes.PromptHeader}>What times will you be available?</h2>
                 <div className={classes.SubmitBox}>
-                    <TextField 
-                    id="standard-basic" label={'Your ' + props.survey.nameType}
-                    value={name}
-                    onChange={updateNameHandler}
-                    className={classes.NameField}
-                    autoComplete='off'
-                    style={{marginBottom: '30px'}}
-                    />
+                    <Purple>
+                        <TextField 
+                        id="standard-basic" label={'Your ' + props.survey.nameType}
+                        value={name}
+                        onChange={updateNameHandler}
+                        className={classes.NameField}
+                        autoComplete='off'
+                        style={{marginBottom: '30px'}}
+                        />
+                    </Purple>
+                    
                     <Button 
                     onClick={submitHandler}
                     buttonClasses='Large Border'

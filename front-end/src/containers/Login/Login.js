@@ -3,6 +3,7 @@ import classes from './Login.module.css';
 import axios from '../../axios';
 import { Link } from 'react-router-dom'
 import ScrollUpOnLoad from '../../components/ScrollUpOnLoad/ScrollUpOnLoad';
+import Purple from '../../components/ThemeProviders/Purple';
 
 
 import Input from '@material-ui/core/Input';
@@ -66,33 +67,35 @@ function Login(props) {
             {wrongPasswordMessage ?
                 <p className={classes.WrongPasswordMessage}>Invalid Username or Password</p>
             : null}
-            <div className={classes.InputGroup}>
+            <Purple>
+                <div className={classes.InputGroup}>
+                    <div className={classes.InputHeader}>
+                        <label className={classes.Label}>Username</label>
+                    </div>
+                    
+                    <Input 
+                    type='text'
+                    label="Username"
+                    value={username}
+                    autoFocus={true}
+                    onChange={event => updateFormHandler(event, 'username')}
+                    className={classes.Input}
+                    />
+                </div>
+                <div className={classes.InputGroup}>
                 <div className={classes.InputHeader}>
-                    <label className={classes.Label}>Username</label>
+                        <label className={classes.Label}>Password</label>
+                    </div>
+                    <Input 
+                    id="filled-password-input"
+                    type='password'
+                    label='Password'
+                    value={password}
+                    onChange={event => updateFormHandler(event, 'password')}
+                    className={classes.Input}
+                    />
                 </div>
-                
-                <Input 
-                type='text'
-                label="Username"
-                value={username}
-                autoFocus={true}
-                onChange={event => updateFormHandler(event, 'username')}
-                className={classes.Input}
-                />
-            </div>
-            <div className={classes.InputGroup}>
-            <div className={classes.InputHeader}>
-                    <label className={classes.Label}>Password</label>
-                </div>
-                <Input 
-                id="filled-password-input"
-                type='password'
-                label='Password'
-                value={password}
-                onChange={event => updateFormHandler(event, 'password')}
-                className={classes.Input}
-                />
-            </div>
+            </Purple>
 
             <Button
             disabled={password.length < 8} 
