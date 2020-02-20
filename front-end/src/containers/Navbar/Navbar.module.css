@@ -10,7 +10,7 @@
     z-index: 11;
 }
 
-.Logo {
+.LogoText {
     margin: 0;
     padding: 0;
     display: inline-block;
@@ -19,6 +19,12 @@
     animation: FadeIn 0.5s ease forwards;
     line-height: 1;
     font-size: 1.4rem;
+}
+
+.Logo {
+    position: absolute;
+    right: -55px;
+    top: -18px;
 }
 
 .NavList {
@@ -45,7 +51,7 @@
     
 }
 
-.LogoutModal {
+.LogoTextutModal {
     padding: 10px 40px 15px;
 }
 
@@ -89,7 +95,7 @@ div.Line3 {
 }
 
 @media (max-width: 768px) {
-    .Logo {
+    .LogoText {
         left: 8%;
     }
     .NavList {

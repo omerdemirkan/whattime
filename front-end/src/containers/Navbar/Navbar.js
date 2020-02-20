@@ -9,6 +9,8 @@ import SideDrawer from '../../components/SideDrawer/SideDrawer';
 import Backdrop from '@material-ui/core/Backdrop';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 
+import logo from '../../images/whattime-logo.svg';
+
 // Redux
 import {connect} from 'react-redux';
 import * as actionTypes from '../../store/actions/actionTypes';
@@ -52,7 +54,10 @@ function Navbar(props) {
     return <>
         <div className={classes.Navbar} style={navBackground || (showSideDrawer && screenIsSmall) ? {backgroundColor: 'rgb(222, 222, 236)', ...transitionProperty} : transitionProperty}>
             {!props.authLoading ? 
-            <h2 className={classes.Logo + ' purple'}><Link className={classes.Link} to='/'>whattime.app</Link></h2>
+            <h2 className={classes.LogoText + ' purple'}>
+                <Link className={classes.Link} to='/'>whattime.app</Link>
+                <img src={logo} className={classes.Logo}/>
+            </h2>
             : null}
             {!props.authLoading && props.username ?
                 <ul className={classes.NavList}>
