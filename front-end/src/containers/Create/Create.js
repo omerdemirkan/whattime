@@ -1,10 +1,11 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import classes from './Create.module.css';
 
 import AuthRequired from '../Auth/AuthRequired';
 import Button from '../../components/UI/Button/Button';
 import useDebounce from '../Hooks/useDebounce';
 import ScrollUpOnLoad from '../../components/ScrollUpOnLoad/ScrollUpOnLoad';
+import loadSurveysAsync from '../../store/actions/loadSurveys';
 
 import DateFnsUtils from '@date-io/date-fns';
 import {
@@ -56,8 +57,9 @@ function Create(props) {
             }
         })
         .then(res => {
-            console.log(res.data);
             props.onResetCreate();
+            props.onResetSurveys();
+            props.onLoadSurveys(props.accessToken, 0);
             props.history.push('/my-surveys/' + res.data.surveyId);
         })
         .catch(err => {
@@ -158,7 +160,9 @@ const mapDispatchToProps = dispatch => {
         onUpdateNameType: nameType => dispatch({type: actionTypes.UPDATE_NAME_TYPE, nameType: nameType}),
         onUpdateEventName: eventName => dispatch({type: actionTypes.UPDATE_EVENT_NAME, eventName: eventName}),
         onUpdateSelectedDate: selectedDate => dispatch({type: actionTypes.UPDATE_SELECTED_DATE, selectedDate: selectedDate}),
-        onResetCreate: () => dispatch({type: actionTypes.RESET_CREATE})
+        onResetCreate: () => dispatch({type: actionTypes.RESET_CREATE}),
+        onResetSurveys: () => dispatch({type: actionTypes.SET_SURVEYS, surveys: []}),
+        onLoadSurveys: (accessToken, currentPosts) => dispatch(loadSurveysAsync(accessToken, currentPosts))
     }
 }
 
