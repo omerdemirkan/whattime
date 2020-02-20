@@ -27,7 +27,8 @@ module.exports = new mongoose.Schema({
     submissions: {
         type: [submissionSchema],
         default: [],
-        required: true
+        required: true,
+        maxLength: 20
     },
     createdAt: {
         type: Date,

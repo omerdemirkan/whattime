@@ -33,7 +33,7 @@ function Inspect(props) {
     const [availableTimes, setAvailableTimes] = useState(null);
 
     // Available windows for a specific submission:
-    const [inspectedPerson, setInspectedPerson] = useState(null);
+    // const [inspectedPerson, setInspectedPerson] = useState(null);
 
     const [numAvailable, setNumAvailable] =  useState(null);
     const [userHasSubmitted, setUserHasSubmitted] = useState(null);
@@ -81,9 +81,9 @@ function Inspect(props) {
         }
     }
 
-    function calculateIndividualAvailability(id) {
+    // function calculateIndividualAvailability(id) {
         
-    }
+    // }
 
     // Loads inspected survey on mount
     useEffect(() => {

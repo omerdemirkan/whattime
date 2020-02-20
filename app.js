@@ -1,4 +1,5 @@
 require('dotenv').config();
+const path = require('path');
 
 const express = require('express');
 const app = express();
@@ -21,13 +22,22 @@ app.use('/api/user', userRouter);
 app.use('/api/submit', surveyRouter);
 app.use('/api/auth', authRouter);
 
-mongoose.connect(process.env.LOCAL_URI, {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true})
+// process.env.LOCAL_URI
+mongoose.connect(process.env.ATLAS_URI, {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true})
 .then(() => {
     console.log('Connected to MongoDB Shell');
 })
 .catch(() => {
     console.log('eRROR: could not connect to mongoDB');
 });
+
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static( path.join(__dirname, 'front-end', 'build') ));
+
+    app.get('/*', (req, res) => {
+        res.sendFile(path.join(__dirname, 'front-end', 'build', 'index.html'));
+    });
+}
 
 const port = process.env.PORT || 5000;
 
