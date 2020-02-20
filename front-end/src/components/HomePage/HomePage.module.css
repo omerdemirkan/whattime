@@ -14,9 +14,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-wrap: wrap-reverse;
     overflow: auto;
-    padding: 2vw 5% 100px;
+    padding: 3vh 5% 10vh;
     box-sizing: border-box;
     min-height: calc(100vh - 80px);
 }
@@ -25,6 +24,7 @@
     z-index: 1;
     max-width: 700px;
     padding-bottom: 10vh;
+    transform: translate(10%);
 }
 
 .MainHeroHeader {
@@ -51,6 +51,7 @@
     width: 70vw;
     max-width: 700px;
     z-index: 1;
+    /* transform: translate(-5%); */
 }
 
 .SecondaryBox {
@@ -61,26 +62,28 @@
     position: relative;
     display: flex;
     justify-content: space-evenly;
-    padding: 5vh 5%;
+    align-content: center;
+    padding: 7vh 5% 5vh;
     flex-wrap: wrap;
 }
 
 .Pair {
     width: 30vw;
-    max-width: 400px;
+    max-width: 300px;
     /* height: 400px; */
     text-align: center;
     margin: 30px 0;
+    padding: 0 30px;
 }
 
 .PairImage {
-    height: 60%;
+    height: 160px;
     max-width: 100%;
 }
 
 .PairText {
     color: #F1F1FF;
-    font-size: 1.3rem;
+    font-size: 1.2rem;
 }
 
 .TertiaryBox {
@@ -106,16 +109,37 @@
     background-color: inherit;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1400px) {
+    .ButtonsBox {
+        margin: auto;
+    }
+    .Hero {
+        flex-direction: column;
+        padding: 3vh 5% 0px;
+        justify-content: space-evenly;
+    }
+    .Hero :nth-child(2) {
+        order: 1;
+    }
+    .HeroTextArea {
+        text-align: center;
+        transform: translate(0%);
+    }
+
+    /* .Clock {
+        transform: translate(0%);
+    } */
+
+}
+
+@media (max-width: 1200px) {
+    .SecondaryBox {
+        flex-direction: column;
+    }
 
     .Pair {
         width: 100%;
-        max-width: none;
-        margin: 50px 0;
-    }
-
-    .PairText {
-        padding: 0 10vw;
+        max-width: 500px;
     }
 
 }
