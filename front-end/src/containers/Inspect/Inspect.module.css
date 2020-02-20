@@ -17,6 +17,7 @@
     align-items: center;
     width: 120px;
     margin: auto;
+    margin-bottom: 30px;
 }
 
 .ShareIcon {
@@ -58,7 +59,7 @@
 .AvailabilitiesBox {
     width: 100%;
     max-width: 1000px;
-    padding: 50px 0;
+    padding: 20px 0;
     margin: auto;
 }
 

@@ -20,7 +20,8 @@ const capitalize = (s) => {
 
 function MySurveys(props) {
     useEffect(() => {
-        if (props.accessToken && props.surveys.length === 0) {
+        if (props.accessToken) {
+            props.onSetSurveys([]);
             props.onLoadSurveys(props.accessToken, 0)
         }
     }, [props.accessToken]);
