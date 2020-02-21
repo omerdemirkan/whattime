@@ -77,7 +77,7 @@ function Inspect(props) {
                 }
             });
             setAvailableTimes(allAvailableTimeFrames);
-            setNumAvailable(props.survey.submissions.length);
+            setNumAvailable(numAvailable ? numAvailable : props.survey.submissions.length);
         }
     }
 
@@ -174,6 +174,7 @@ function Inspect(props) {
         });
     }
 
+    console.log(numAvailable);
     return <div className={classes.Inspect}>
         <AuthRequired/>
         <ScrollUpOnLoad/>
