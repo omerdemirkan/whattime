@@ -16,29 +16,44 @@ export default function TimeFrameCreator(props) {
     const [startTime, setStartTime] = useState(minDate);
     const [endTime, setEndTime] = useState(minDate);
 
+    const setTimeHandler = (date, type) => {
+
+        if (date < minDate) {
+            date.setDate(date.getDate() + 1);
+        } else if (date > maxDate) {
+            date.setDate(date.getDate() - 1);
+        }
+
+        if (type === 'start') {
+            setStartTime(date);
+        } else {
+            setEndTime(date);
+        }
+    }
+
     const submitHandler = () => {
         props.add({
             start: startTime.getTime(), 
             end: endTime.getTime()
-        })
+        });
     }
 
     return <div className={classes.TimeFrameCreator}>
         <div className={classes.TimePickerBox}>
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <TimePicker 
-                label="Start" 
+                label="Start"
                 minDate={minDate}
                 maxDate={maxDate}
                 value={startTime} 
-                onChange={setStartTime}
+                onChange={date => setTimeHandler(date, 'start')}
                 className={classes.TimePicker}/>
                 <TimePicker 
                 label="End" 
                 minDate={minDate}
                 maxDate={maxDate}
                 value={endTime} 
-                onChange={setEndTime}
+                onChange={date => setTimeHandler(date, 'end')}
                 className={classes.TimePicker}/>
 
             </MuiPickersUtilsProvider>

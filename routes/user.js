@@ -27,10 +27,10 @@ const verify = (req, res, next) => {
     const authHeader = req.headers['authorization'];
     const token = authHeader ? authHeader.split(' ')[1] : null;
 
-    if (token == null) return res.status(401).json('Token not found in request header');
+    if (token == null) return res.status(401).send('Token not found in request header');
 
     jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (tokenError, user) => {
-        if (tokenError) return res.status(403).json('Token unauthorized');
+        if (tokenError) return res.status(403).send('Token unauthorized');
 
         req.user = user;
         next();
@@ -45,7 +45,7 @@ router.get('/surveys', mediumLimiter, (req, res) => {
     const userId = req.user._id;
     const skip = Number(req.headers['currentposts']);
     
-    if (typeof skip !== 'number' || typeof skip !== 'number') return res.status(400).json('currentPosts number required')
+    if (typeof skip !== 'number' || typeof skip !== 'number') return res.status(400).send('currentPosts number required')
 
     Survey.find({creatorID: userId})
     .sort({createdAt: -1})
@@ -69,17 +69,17 @@ router.post('/surveys', strictLimiter, (req, res) => {
 
     if (!event || !date || !nameType) {
         console.log('event, date, and nameType are required in the body of the request.');
-        return res.status(400).json('event, date, and nameType are required in the body of the request.'); 
+        return res.status(400).send('event, date, and nameType are required in the body of the request.'); 
     }
     
     if (!nameTypeIsValid(nameType)) {
         console.log('Invalid nameType');
-        return res.status(400).json('Invalid nameType')
+        return res.status(400).send('Invalid nameType')
     }
     
     if(!dateIsValid(date) || date <= new Date()) {
         console.log('Invalid date.');
-        return res.status(400).json('Invalid date.')
+        return res.status(400).send('Invalid date.')
     }
 
     const newSurvey = new Survey({
@@ -92,7 +92,7 @@ router.post('/surveys', strictLimiter, (req, res) => {
     });
 
     newSurvey.save((saveError, savedSurvey) => {
-        if (saveError) return res.status(400).json({errors: ['Error in saving survey.']});
+        if (saveError) return res.status(400).send({errors: ['Error in saving survey.']});
 
         res.json({surveyId: savedSurvey._id});
     });
@@ -102,7 +102,7 @@ router.delete('/surveys', strictLimiter, (req, res) => {
     const userId = req.user._id;
 
     Survey.deleteMany({creatorID: userId}, err => {
-        if (err) return res.status(400).json('No surveys to be deleted.');
+        if (err) return res.status(400).send('No surveys to be deleted.');
 
         res.json('Surveys successfully deleted.');
     });
@@ -112,9 +112,9 @@ router.get('/surveys/:id', mediumLimiter, (req, res) => {
     const surveyId = req.params.id
 
     Survey.findById(surveyId, (findSurveyError, survey) => {
-        if (findSurveyError) return res.status(400).json({errors: ['No survey with this id found']});
+        if (findSurveyError) return res.status(400).send({errors: ['No survey with this id found']});
 
-        if (survey.creatorID !== req.user._id) return res.status(403).json({errors: ['Unauthorized']});
+        if (survey.creatorID !== req.user._id) return res.status(403).send({errors: ['Unauthorized']});
 
         res.json(survey);
     });
@@ -127,11 +127,11 @@ router.patch('/surveys/:id', mediumLimiter, (req, res) => {
     const date = new Date(req.body.date);
 
     if (!event && !nameType && !date) {
-        res.status(400).json('No attribute to change.')
+        res.status(400).send('No attribute to change.')
     }
 
     Survey.findById(surveyId, (findSurveyError, survey) => {
-        if (findSurveyError || !survey) return res.status(400).json('Survey not found');
+        if (findSurveyError || !survey) return res.status(400).send('Survey not found');
 
         if (nameType && nameTypeIsValid(nameType)) {
             survey.nameType = nameType;
@@ -150,7 +150,7 @@ router.patch('/surveys/:id', mediumLimiter, (req, res) => {
         }
 
         survey.save(saveSurveyError => {
-            if (saveSurveyError) return res.status(400).json('Invalid request');
+            if (saveSurveyError) return res.status(400).send('Invalid request');
 
             res.json('Survey successfully updated');
         });
@@ -161,7 +161,7 @@ router.delete('/surveys/:id', mediumLimiter, (req, res) => {
     const surveyId = req.params.id;
 
     Survey.deleteOne({_id: surveyId}, (findSurveyError) => {
-        if (findSurveyError) return res.status(400).json('Survey not found.')
+        if (findSurveyError) return res.status(400).send('Survey not found.')
 
         res.json('Survey successfully deleted.');
     });
@@ -172,7 +172,7 @@ router.delete('/surveys/:surveyId/:submissionId', mediumLimiter, (req, res) => {
     const submissionId = req.params.submissionId;
 
     Survey.findById(surveyId, (findSurveyError, survey) => {
-        if (findSurveyError || !survey) return res.status(400).json('Survey not found.');
+        if (findSurveyError || !survey) return res.status(400).send('Survey not found.');
 
         try {
             const initialNumSubmissions = survey.submissions.length;
@@ -186,13 +186,13 @@ router.delete('/surveys/:surveyId/:submissionId', mediumLimiter, (req, res) => {
             }
 
             survey.save(saveError => {
-                if (saveError) return res.status(500).json('Error in saving survey.');
+                if (saveError) return res.status(500).send('Error in saving survey.');
 
                 return res.json('Successfully deleted');
             });
         }
         catch(err) {
-            res.status(500).json('Network error')
+            res.status(500).send('Network error')
         }
     });
 });
