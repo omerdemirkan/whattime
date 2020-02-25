@@ -1,7 +1,7 @@
 import * as actionTypes from './actionTypes';
 import axios from '../../axios';
 
-const loadSurveysAsync = (accessToken, currentPosts) => {
+const loadSurveysAsync = (accessToken, currentPosts, reset) => {
     return dispatch => {
         dispatch(loadSurveysStart());
 
@@ -12,6 +12,9 @@ const loadSurveysAsync = (accessToken, currentPosts) => {
             }
         })
         .then(res => {
+            if (reset) {
+                dispatch({type: actionTypes.SET_SURVEYS, surveys: []})
+            }
             dispatch(loadSurveysSuccess(res.data.surveys, res.data.hasMore));
         })
         .catch(err => {

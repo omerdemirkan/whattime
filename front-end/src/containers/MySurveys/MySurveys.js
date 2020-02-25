@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import classes from './MySurveys.module.css';
 import {connect} from 'react-redux';
 import loadSurveysAsync from '../../store/actions/loadSurveys';
@@ -8,6 +8,11 @@ import { Link } from 'react-router-dom';
 import Button from '../../components/UI/Button/Button';
 import axios from '../../axios';
 import * as actionTypes from '../../store/actions/actionTypes';
+
+// Refresh
+import RefreshIcon from '@material-ui/icons/Refresh';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Purple from '../../components/ThemeProviders/Purple';
 
 import noData from '../../images/no-data.svg';
 
@@ -19,10 +24,19 @@ const capitalize = (s) => {
 }
 
 function MySurveys(props) {
+
+    const [ showRefreshButton, setShowRefreshButton ] = useState(false);
+
+    async function refreshButtonClickedHandler() {
+        setShowRefreshButton(false);
+        props.onLoadSurveys(props.accessToken, 0, true);
+    }
+
     useEffect(() => {
-        if (props.accessToken) {
-            props.onSetSurveys([]);
-            props.onLoadSurveys(props.accessToken, 0)
+        if (props.accessToken && props.surveys.length === 0) {
+            props.onLoadSurveys(props.accessToken, 0, true)
+        } else if (props.accessToken) {
+            setShowRefreshButton(true);
         }
     }, [props.accessToken]);
 
@@ -41,10 +55,31 @@ function MySurveys(props) {
 
         });
     }
+
+    let refreshBox = null;
+
+    if (showRefreshButton && !props.surveysLoading) {
+        refreshBox = <div className={classes.RefreshBox}>
+            <p style={{margin: '0'}}>Refresh</p>
+            <RefreshIcon
+            onClick={refreshButtonClickedHandler}
+            fontSize='large'
+            className={classes.RefreshButton}/>
+        </div>
+    } else if (!showRefreshButton && props.surveysLoading) {
+        refreshBox = <div className={classes.RefreshBox}>
+            <Purple>
+                <CircularProgress/>
+            </Purple>
+        </div>
+    }
     
     return <div className={classes.MySurveys}>
         <AuthRequired history={props.history}/>
         <ScrollUpOnLoad/>
+
+        {refreshBox}
+        
         {props.username ? <h1 className={classes.Header}>{capitalize(props.username)}'s Surveys</h1>: null}
         {props.surveys.length === 0 && !props.surveysLoading ?
             <div className={classes.NoSurveysBox}>
@@ -79,7 +114,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onLoadSurveys: (accessToken, currentPosts) => dispatch(loadSurveysAsync(accessToken, currentPosts)),
+        onLoadSurveys: (accessToken, currentPosts, reset) => dispatch(loadSurveysAsync(accessToken, currentPosts, reset)),
         onSetSurveys: surveys => dispatch({type: actionTypes.SET_SURVEYS, surveys: surveys})
     }
 }

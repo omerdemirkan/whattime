@@ -16,6 +16,29 @@
     margin: auto;
 }
 
+.RefreshBox {
+    text-align: center;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%);
+    top: 90px;
+}
+
+.RefreshBox p {
+    font-weight: 500;
+    font-size: .9rem;
+    opacity: .5;
+}
+
+.RefreshButton {
+    cursor: pointer;
+    opacity: .5;
+}
+
+.RefreshButton:hover {
+    opacity: 1;
+}
+
 .NoSurveysBox {
     width: 85vw;
     max-width: 800px;
