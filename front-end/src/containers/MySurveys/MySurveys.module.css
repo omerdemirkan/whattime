@@ -24,12 +24,6 @@
     top: 90px;
 }
 
-.RefreshBox p {
-    font-weight: 500;
-    font-size: .9rem;
-    opacity: .5;
-}
-
 .RefreshButton {
     cursor: pointer;
     opacity: .5;

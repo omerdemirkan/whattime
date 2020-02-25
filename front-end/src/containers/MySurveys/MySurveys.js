@@ -56,11 +56,12 @@ function MySurveys(props) {
         });
     }
 
+
+
     let refreshBox = null;
 
     if (showRefreshButton && !props.surveysLoading) {
         refreshBox = <div className={classes.RefreshBox}>
-            <p style={{margin: '0'}}>Refresh</p>
             <RefreshIcon
             onClick={refreshButtonClickedHandler}
             fontSize='large'
@@ -73,6 +74,8 @@ function MySurveys(props) {
             </Purple>
         </div>
     }
+
+
     
     return <div className={classes.MySurveys}>
         <AuthRequired history={props.history}/>
@@ -90,9 +93,11 @@ function MySurveys(props) {
                 <img className={classes.NoSurveysImage} src={noData}/>
             </div>
         : null}
+
         <div className={classes.SurveysBox}>
-            {props.surveys.map(survey => {
+            {props.surveys.map((survey, index) => {
                 return <Survey
+                delay={(index * .1) + 's'}
                 key={survey._id} 
                 survey={survey}
                 history={props.history}

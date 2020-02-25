@@ -18,7 +18,7 @@ function Survey(props) {
 
     const numSubmissions = props.survey.submissions.length;
 
-    return <div className={classes.Survey}>
+    return <div className={classes.Survey} style={props.delay ? {animationDelay: props.delay} : null}>
         <div className={classes.Header}>
             <h3 className={classes.EventName + ' purple'} onClick={inspectRedirect}>{props.survey.event}</h3>
             <p className={classes.CreatedAt}>
