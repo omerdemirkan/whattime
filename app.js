@@ -22,8 +22,8 @@ app.use('/api/user', userRouter);
 app.use('/api/submit', surveyRouter);
 app.use('/api/auth', authRouter);
 
-// process.env.ATLAS_URI
-mongoose.connect(process.env.LOCAL_URI, {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true})
+// process.env.LOCAL_URI
+mongoose.connect(process.env.ATLAS_URI, {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true})
 .then(() => {
     console.log('Connected to MongoDB Shell');
 })

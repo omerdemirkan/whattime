@@ -113,7 +113,8 @@ const mapStateToProps = state => {
         accessToken: state.auth.accessToken,
         surveys: state.surveys.surveys,
         surveysLoading: state.surveys.loading,
-        username: state.auth.username
+        username: state.auth.username,
+        hasMore: state.surveys.hasMore
     }
 }
 
