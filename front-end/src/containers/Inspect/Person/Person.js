@@ -4,6 +4,7 @@ import TimeAgo from 'timeago-react';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import Button from '../../../components/UI/Button/Button';
+import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 
 export default function Person(props) {
     const [deleteSubmissionModal, setDeleteSubmissionModal] = useState(false);
@@ -11,7 +12,9 @@ export default function Person(props) {
     return <>
         <span className={classes.Person}>
             <div className={classes.Main}>
-                <h4 className={classes.Name}>{props.name}</h4>
+                <ClickAwayListener onClickAway={props.clickAway} mouseEvent={props.isInspected ? 'onClick' : false}>
+                    <h4 className={classes.Name} onClick={props.inspect}>{props.name}</h4>
+                </ClickAwayListener>
                 <TimeAgo
                 className={classes.TimeAgo}
                 datetime={props.createdAt} 

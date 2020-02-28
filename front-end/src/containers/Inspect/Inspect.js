@@ -33,7 +33,7 @@ function Inspect(props) {
     const [availableTimes, setAvailableTimes] = useState(null);
 
     // Available windows for a specific submission:
-    // const [inspectedPerson, setInspectedPerson] = useState(null);
+    const [inspectedSubmission, setInspectedSubmission] = useState(null);
 
     const [numAvailable, setNumAvailable] =  useState(null);
     const [userHasSubmitted, setUserHasSubmitted] = useState(null);
@@ -81,9 +81,33 @@ function Inspect(props) {
         }
     }
 
-    // function calculateIndividualAvailability(id) {
-        
-    // }
+    function inspectedSubmissionHandler(id) {
+        const submissionIndex = props.survey.submissions.map(submission => {
+            return submission._id;
+        }).indexOf(id);
+
+        const submission = props.survey.submissions[submissionIndex];
+
+        setInspectedSubmission(submission);
+        calculateIndividualAvailability(submission.available);
+    }
+
+    function calculateIndividualAvailability() {
+
+        if (inspectedSubmission) {
+            const timeframes = [];
+
+            for (let i = 0; i < inspectedSubmission.available.length; i += 2) {
+                timeframes.push({
+                    start: inspectedSubmission.available[i],
+                    end: inspectedSubmission.available[i + 1]
+                });
+            }
+    
+            setAvailableTimes(timeframes);
+
+        }
+    }
 
     // Loads inspected survey on mount
     useEffect(() => {
@@ -134,6 +158,14 @@ function Inspect(props) {
         
     }, [numAvailable]);
 
+    useEffect(() => {
+        if (inspectedSubmission == null) {
+            calculateGeneralAvailability();
+        } else {
+            calculateIndividualAvailability();
+        }
+    }, [inspectedSubmission]);
+
     function deleteSubmissionHandler(id) {
         axios.delete('/user/surveys/' + props.survey._id + '/' + id, {
             headers: {
@@ -174,7 +206,8 @@ function Inspect(props) {
         });
     }
 
-    console.log(numAvailable);
+    const numPeoplePrompt = numAvailable === numSubmissions ? 'Everyone is' : getDisplayPeople(numAvailable) + (numAvailable === 1 ? ' is ' : ' are ');
+
     return <div className={classes.Inspect}>
         <AuthRequired/>
         <ScrollUpOnLoad/>
@@ -189,7 +222,7 @@ function Inspect(props) {
 
         {availableTimes && availableTimes.length > 0 ?
             <div className={classes.AvailabilitiesBox}>
-                <h2 className={classes.AvailabilitiesHeader}>Times {numAvailable === numSubmissions ? 'Everyone is' : getDisplayPeople(numAvailable) + (numAvailable === 1 ? ' is ' : ' are ')} Available:</h2>
+                <h2 className={classes.AvailabilitiesHeader}>Times {inspectedSubmission ? inspectedSubmission.name + ' is' :  numPeoplePrompt} Available:</h2>
                 <Availabilities 
                 date={props.survey.date}
                 timeframes={availableTimes}/>
@@ -212,7 +245,10 @@ function Inspect(props) {
                         name={submission.name}
                         createdAt={submission.createdAt}
                         key={submission._id}
+                        inspect={() => inspectedSubmissionHandler(submission._id)}
                         delete={() => deleteSubmissionHandler(submission._id)}
+                        clickAway={() => setInspectedSubmission(null)}
+                        isInspected={inspectedSubmission ? inspectedSubmission._id === submission._id : false}
                         />
                     })}
                     {userHasSubmitted === false ?
