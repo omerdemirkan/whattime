@@ -26,10 +26,18 @@ const capitalize = (s) => {
 function MySurveys(props) {
 
     const [ showRefreshButton, setShowRefreshButton ] = useState(false);
+    const [ numSurveys, setNumSurveys ] = useState({
+        current: 0,
+        previous: 0
+    });
 
     async function refreshButtonClickedHandler() {
         setShowRefreshButton(false);
         props.onLoadSurveys(props.accessToken, 0, true);
+        setNumSurveys({
+            current: 0,
+            previous: 0
+        });
     }
 
     useEffect(() => {
@@ -39,6 +47,16 @@ function MySurveys(props) {
             setShowRefreshButton(true);
         }
     }, [props.accessToken]);
+
+    useEffect(() => {
+        if (props.surveys.length !== numSurveys.current) {
+            const prevNumSurveys = numSurveys.current;
+            setNumSurveys({
+                current: props.surveys.length,
+                prevNumSurveys
+            });
+        }
+    }, [props.surveys]);
 
     const deleteSurveyHandler = id => {
         axios.delete('/user/surveys/' + id, {
@@ -56,12 +74,13 @@ function MySurveys(props) {
         });
     }
 
-
-
     let refreshBox = null;
 
-    if (showRefreshButton && !props.surveysLoading) {
+    const showRefreshBox = showRefreshButton && !props.surveysLoading;
+
+    if (showRefreshBox) {
         refreshBox = <div className={classes.RefreshBox}>
+            <p style={{margin: '0'}}>Refresh</p>
             <RefreshIcon
             onClick={refreshButtonClickedHandler}
             fontSize='large'
@@ -75,7 +94,7 @@ function MySurveys(props) {
         </div>
     }
 
-
+    console.log(numSurveys);
     
     return <div className={classes.MySurveys}>
         <AuthRequired history={props.history}/>
@@ -97,14 +116,23 @@ function MySurveys(props) {
         <div className={classes.SurveysBox}>
             {props.surveys.map((survey, index) => {
                 return <Survey
-                delay={(index * .1) + 's'}
-                key={survey._id} 
+                delay={((index - numSurveys.previous) * .1) + 's'}
+                key={survey._id}
                 survey={survey}
                 history={props.history}
                 delete={() => deleteSurveyHandler(survey._id)}/>
             })}
         </div>
-        
+
+        {props.surveys.length > 0 && props.hasMore && !showRefreshBox ?
+            <>
+                <p className={classes.LoadMorePrompt}>Load More</p>
+                <RefreshIcon 
+                className={classes.LoadMoreIcon}
+                fontSize='Large'
+                onClick={() => props.onLoadSurveys(props.accessToken, props.surveys.length)}/>
+            </>
+        : null}
     </div>
 }
 

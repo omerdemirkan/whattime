@@ -37,6 +37,7 @@ function Inspect(props) {
 
     const [numAvailable, setNumAvailable] =  useState(null);
     const [userHasSubmitted, setUserHasSubmitted] = useState(null);
+    const [submissionHover, setSubmissionHover] = useState(false);
 
     function calculateGeneralAvailability() {
         if (props.survey) {
@@ -249,6 +250,8 @@ function Inspect(props) {
                         delete={() => deleteSubmissionHandler(submission._id)}
                         clickAway={() => setInspectedSubmission(null)}
                         isInspected={inspectedSubmission ? inspectedSubmission._id === submission._id : false}
+                        setHover={setSubmissionHover}
+                        submissionHover={submissionHover}
                         />
                     })}
                     {userHasSubmitted === false ?

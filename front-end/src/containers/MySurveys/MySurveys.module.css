@@ -52,3 +52,19 @@
     transform: translate(-50%);
     margin-top: 50px;
 }
+
+.LoadMorePrompt {
+    text-align: center;
+    margin: 40px 0 0;
+}
+
+.LoadMoreIcon {
+    margin-left: 50%;
+    transform: translate(-50%);
+    cursor: pointer;
+    opacity: .8;
+}
+
+.LoadMoreIcon:hover {
+    opacity: 1;
+}

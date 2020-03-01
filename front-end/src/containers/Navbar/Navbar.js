@@ -59,10 +59,11 @@ function Navbar(props) {
                 <img src={logo} className={classes.Logo}/>
             </h2>
             : null}
+
             {!props.authLoading && props.username ?
                 <ul className={classes.NavList}>
                     <li className={classes.NavItem}>
-                        <NavLink className={classes.Link} activeStyle={{color: '#6C63FF'}} to='/my-surveys'>My Surveys</NavLink>
+                        <NavLink exact className={classes.Link} activeStyle={{color: '#6C63FF'}} to='/my-surveys'>My Surveys</NavLink>
                     </li>
                     <li className={classes.NavItem}>
                         <NavLink className={classes.Link} activeStyle={{color: '#6C63FF'}} to='/create'>Create</NavLink>

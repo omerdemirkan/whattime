@@ -12,8 +12,12 @@ export default function Person(props) {
     return <>
         <span className={classes.Person}>
             <div className={classes.Main}>
-                <ClickAwayListener onClickAway={props.clickAway} mouseEvent={props.isInspected ? 'onClick' : false}>
-                    <h4 className={classes.Name} onClick={props.inspect}>{props.name}</h4>
+                <ClickAwayListener onClickAway={props.clickAway} mouseEvent={props.isInspected && !props.submissionHover ? 'onClick' : false}>
+                    <h4 
+                    onMouseEnter={() => props.setHover(true)} 
+                    onMouseLeave={() => props.setHover(false)}
+                    className={classes.Name} 
+                    onClick={props.inspect}>{props.name}</h4>
                 </ClickAwayListener>
                 <TimeAgo
                 className={classes.TimeAgo}
