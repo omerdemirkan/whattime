@@ -2,7 +2,11 @@
 A productivity tool that helps an event organizer find times that every member is available, regardless of time zone. 
 [See it live!](https://what-time.herokuapp.com/) 
 
-![Alt Text](https://media.giphy.com/media/SvEa9s3azWS6xTt1mS/giphy.gif)
+### Submitting Availabilities
+![gif 2](https://media.giphy.com/media/S9QywDh7D20lo46ziy/giphy.gif)
+
+### User dashboard
+![gif 1](https://media.giphy.com/media/SvEa9s3azWS6xTt1mS/giphy.gif)
 
 ## How does it work?
 
